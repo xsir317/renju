@@ -13,5 +13,5 @@ use frontend\components\Controller;
 
 class TournamentsController extends Controller
 {
-
+    
 }
