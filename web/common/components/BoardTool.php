@@ -60,8 +60,9 @@ class BoardTool
 	/**
 	 * 
 	 * 如果有对称打点，返回true，否则返回false
-	 * @param unknown_type $board
-	 * @param unknown_type $a5
+	 * @param string $board
+	 * @param string $a5
+     * @return bool 是否有对称
 	 */
 	public static function a5_symmetry($board,$a5)
 	{
