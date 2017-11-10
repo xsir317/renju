@@ -1,53 +1,52 @@
 <?php
-
-/* @var $this yii\web\View */
-
-$this->title = 'My Yii Application';
+$this->title = '首页';
+$this->registerJSFile('/js/index.js');
 ?>
-<div class="site-index">
-
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
+<div class="wrapper" style="overflow:hidden">
+    <div id="intro" class="greybox">
+        <div id="intro_img">
+            <a href="/images/atsuhime.jpg" target="_blank">
+                <img src="/images/index.jpg" alt="笃姬剧照-五子棋对弈" />
+            </a>
         </div>
-
+        <div id="intro_txt">
+            <p class="switch">本系统是一个基于workerman和Yii2的Web五子棋系统，目前支持山口规则和RIF规则。</p>
+        </div>
+    </div>
+    <div id="login_reg">
+        <?php if(Yii::$app->user->isGuest):?>
+            <div id="cont_login" class="greybox">
+                <div id="login">
+                    <h3 class="switch" alt="Login">用户登录</h3>
+                    <form action="/site/login" method="post" onsubmit="return false;">
+                        <ul>
+                            <li><label>Email</label><input type="text" name="email" class="input" id="loginfocus" /></li>
+                            <li><label class="switch">密码</label><input type="password" name="passwd" class="input" /></li>
+                            <li><input type="submit" id="loginsubmit" value="登录submit" class="button" /></li>
+                        </ul>
+                    </form>
+                </div>
+                <div id="reg2">还没有帐号？请注册！</div>
+            </div>
+            <div id="cont_reg" style="display:none;" class="greybox">
+                <div id="login2">已经注册过了？请登录！</div>
+                <div id="reg">
+                    <h3 class="switch" alt="Register">用户注册</h3>
+                    <form action="/site/reg" method="post" onsubmit="return false;">
+                        <ul>
+                            <li><label>Email</label><input type="text" name="email" class="input" id="email" /><span id="emailchk"></span></li>
+                            <li><label class="switch" alt="Nickname">昵称</label><input type="text" name="nickname" class="input" /><span id="nicknamechk"></span></li>
+                            <li><label class="switch" alt="Password">密码</label><input type="password" name="passwd" class="input" /></li>
+                            <li><label class="switch" alt="Password Repeat">确认密码</label><input type="password" name="passwd2" class="input" /></li>
+                            <li><input type="submit" id="regsubmit" value="注册submit" class="button" /></li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        <?php else:?>
+            <div class="greybox" style="padding:10px;">
+                <p>您好，<?= Yii::$app->user->nickname ?></p>
+            </div>
+        <?php endif;?>
     </div>
 </div>

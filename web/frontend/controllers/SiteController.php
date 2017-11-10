@@ -10,13 +10,17 @@ class SiteController extends Controller
 {
     public function actionIndex()
     {
-        return "hello world";
+        return $this->render('index');
     }
 
     //TODO  geetest
     public function actionLogin()
     {
-
+        $req = \Yii::$app->request;
+        if($req->isPost)
+        {
+            return $this->renderJSON(['redirect' => 'http://www.163.com/']);
+        }
     }
 
     public function actionReg()
