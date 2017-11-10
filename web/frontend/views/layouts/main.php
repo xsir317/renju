@@ -26,7 +26,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
         <div class="wrapper">
             <div id="toolbar">
                 <ul>
-                    <?php if(!Yii::$app->user->isGuest):?><li>亲爱的<?php echo Html::encode(Yii::$app->user->nickname);?>。</li><?php endif;?>
+                    <?php if(!Yii::$app->user->isGuest):?><li>亲爱的<?php echo Html::encode(Yii::$app->user->identity->nickname);?>。</li><?php endif;?>
                     <li>|<a class="switch" href="/">首页</a></li>
                     <li>|<a href="mailto:xsir317@gmail.com" class="switch">联系我们</a></li>
                 </ul>

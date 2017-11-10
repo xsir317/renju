@@ -11,9 +11,6 @@ namespace frontend\components;
 
 class Controller extends \yii\web\Controller
 {
-    public $enableCsrfValidation = false;
-
-
     protected function renderJSON($data=[], $msg ="ok", $code = 200)
     {
         header('Content-type: application/json');
