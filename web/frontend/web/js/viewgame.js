@@ -43,31 +43,6 @@
 		}
 	};
 
-	iwzq = function(){
-		if(currgame == '')
-		{
-			alert("盘面无棋子");
-		}
-		else
-		{
-			iwzq_str = '';
-			currlength = currgame.length;
-			for(i=0;i<currlength;i++)
-			{
-				mychar = currgame.charAt(i);
-				if(i%2 == 0)
-				{
-					y_val = parseInt(mychar,16).toString();
-				}
-				else
-				{
-					iwzq_str += String.fromCharCode(parseInt(mychar,16)+'a'.charCodeAt()-1);
-					iwzq_str += y_val;
-				}
-			}
-			prompt('请复制下面的iwzq代码',iwzq_str);
-		}
-	};
 	//前一手
 	move_pre = function(){
 		if(currgame != '')
@@ -128,16 +103,17 @@
 		$(".a5stone").removeClass('black a5stone').addClass('blank').html('');
 	}
 	//生成棋盘
-	for(i=1;i<=15;i++)
+	for(var i=1;i<=15;i++)
 	{
+		console.log(i);
 		//insert a row
-		newrow = $(document.createElement("div"));
+		var newrow = $(document.createElement("div"));
 		newrow.addClass('row');
 		boardobj.append(newrow);
-		for(j=1;j<=15;j++)
+		for(var j=1;j<=15;j++)
 		{
 			//insert a cross point
-			newcell = $(document.createElement("div"));
+			var newcell = $(document.createElement("div"));
 			newcell.addClass(i.toString(16) + j.toString(16));
 			newcell.attr('alt',i.toString(16) + j.toString(16));
 			newcell.addClass('blank');
@@ -153,13 +129,11 @@
 	end = $(document.createElement("input"));
 	init = $(document.createElement("input"));
 	first = $(document.createElement("input"));
-	iwzqbtn = $(document.createElement("input"));
 	pre.attr('type','button').addClass('button').val('前一手').click(move_pre).appendTo(controlbar);
 	nextbtn.attr('type','button').addClass('button').val('后一手').click(move_next).appendTo(controlbar);
 	first.attr('type','button').addClass('button').val('第一手').click(board_clean).appendTo(controlbar);
 	end.attr('type','button').addClass('button').val('最后一手').click(board_end).appendTo(controlbar);
 	init.attr('type','button').addClass('button').val('恢复').click(board_init).appendTo(controlbar);
-	iwzqbtn.attr('type','button').addClass('button').val('iwzq').click(iwzq).appendTo(controlbar);
 	boardobj.find('.row div').click(function(){
 		//落子
 		if(!$(this).hasClass('blank'))
@@ -180,18 +154,6 @@
 		endgame = currgame;
 		return true;
 	});
-	chkupd = function(){
-		$.getJSON("/site/gameupd",{id:game_id,_rand:Math.random()},function(data){
-			if(data.msg)
-			{
-				if(data.msg != game_upd)
-				{
-					window.location.reload();
-				}
-			}
-		});
-	}
-	setInterval(chkupd,5000);
 	//恢复棋盘。
 	board_init();
 	if(top.location != self.location){
