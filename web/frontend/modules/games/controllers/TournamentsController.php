@@ -3,15 +3,15 @@
  * Created by PhpStorm.
  * User: user
  * Date: 11/8/2017
- * Time: 17:51
+ * Time: 17:52
  */
 
-namespace frontend\modulles\games\controllers;
+namespace frontend\modules\games\controllers;
 
 
 use frontend\components\Controller;
 
-class GamesController extends Controller
+class TournamentsController extends Controller
 {
 
 }

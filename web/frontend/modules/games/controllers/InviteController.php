@@ -6,7 +6,7 @@
  * Time: 17:43
  */
 
-namespace frontend\modulles\games\controllers;
+namespace frontend\modules\games\controllers;
 
 
 use frontend\components\Controller;
