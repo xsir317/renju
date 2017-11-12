@@ -1,0 +1,520 @@
+2017-11-12 22:47:50 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 22:51:54 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 22:51:55 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:51:55 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:51:56 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:51:56 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:51:57 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:51:57 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:51:58 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:51:58 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:51:59 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:51:59 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:00 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:00 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:01 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:01 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:02 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:02 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:03 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:03 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:04 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:04 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:05 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:05 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:07 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:07 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:08 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:08 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:10 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:10 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:12 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:12 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:16 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:16 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:20 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:20 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:24 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:24 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:30 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:30 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:34 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:34 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:36 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:36 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:39 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:39 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:45 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:45 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:47 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:47 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:53 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:59 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:52:59 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:53:03 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:53:03 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:53:07 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:53:07 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:53:10 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:53:10 SendBufferToWorker fail. The connections between Gateway and BusinessWorker are not ready. See http://wiki.workerman.net/Error3 for detail
+2017-11-12 22:53:21 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 22:57:25 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 22:57:55 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 22:58:18 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 22:58:27 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 22:58:43 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 22:58:56 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:00:02 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:01:23 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:03:04 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:03:51 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:05:54 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:204
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:05:55 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:05:56 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:05:57 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:05:58 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:05:59 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:00 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:01 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:02 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:03 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:04 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:05 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:06 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:08 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:10 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:13 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:18 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:23 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:28 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}
+2017-11-12 23:06:32 Error: Call to undefined method GatewayWorker\Lib\Gateway::disconnect() in D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php:205
+Stack trace:
+#0 [internal function]: Events::onClose('7f0000010b54000...')
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#7 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#11 {main}

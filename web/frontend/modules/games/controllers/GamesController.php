@@ -19,6 +19,10 @@ class GamesController extends Controller
     {
         $game_id = intval($this->get('id'));
         $game = Games::findOne($game_id);
-        return $this->render('game',['game' => GameService::renderGame($game)]);
+        return $this->render('game',[
+            'game' => GameService::renderGame($game),
+            'ws_token' => GameService::newToken(),
+            'userinfo' => $this->_user() ? GameService::renderUser($this->_user()->id ) : 0
+        ]);
     }
 }

@@ -1,5 +1,8 @@
 <?php
 $this->title = '对局';
+$this->registerJSFile('/js/md5.min.js');
+$this->registerJSFile('/js/swfobject.js');
+$this->registerJSFile('/js/web_socket.js');
 $this->registerJSFile('/js/viewgame.js');
 ?>
 <div class="container">
@@ -70,4 +73,10 @@ $this->registerJSFile('/js/viewgame.js');
     var a5_numbers = <?php echo $game['a5_numbers']?>;
     var turn = '<?php echo $game['turn'] ?'black' : 'white' ?>';
     var game_upd = '<?php echo $game['movetime']?>';
+
+
+    var gameObj = '<?php echo json_encode($game);?>';
+    var ws_token = '<?php echo json_encode($ws_token);?>';
+    var userinfo = '<?php echo json_encode($userinfo);?>' ;
+    var ts_delta = <?php echo time() ?> - Math.round(new Date().getTime()/1000);
 </script>

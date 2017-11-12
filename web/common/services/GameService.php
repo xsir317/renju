@@ -20,26 +20,6 @@ class GameService extends BaseService
      */
     public static function renderGame($game)
     {
-        /*
-         * id
-            black_id
-            white_id
-            status
-            offer_draw
-            rule
-            free_opening
-            game_record
-            black_time
-            white_time
-            totaltime
-            swap
-            a5_pos
-            a5_numbers
-            updtime
-            movetime
-            comment
-            tid
-            create_time*/
         $return  = $game->toArray();
         $return['bplayer'] = self::renderUser($game->black_id);
         $return['wplayer'] = self::renderUser($game->white_id);
@@ -60,7 +40,7 @@ class GameService extends BaseService
         return $return;
     }
 
-    private static function renderUser($uid)
+    public static function renderUser($uid)
     {
         $user = $uid ? Player::findOne($uid) : null;
         return $user ? [
@@ -70,5 +50,15 @@ class GameService extends BaseService
             'score' => $user->score,
             'intro' => $user->intro,
         ] : null;
+    }
+
+    public static function newToken()
+    {
+        $return = [];
+        $return['token'] = \Yii::$app->security->generateRandomString();
+        $return['secret'] = \Yii::$app->security->generateRandomString();
+        \Yii::$app->redis->setEx($return['token'],600,$return['secret']);
+        \Yii::$app->session['chat_token'] = $return['token'];
+        return $return;
     }
 }

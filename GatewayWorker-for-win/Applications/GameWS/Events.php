@@ -36,6 +36,7 @@ class Events
      */
     public static function onConnect($client_id)
     {
+        //Gateway::sendToClient($client_id, "Hello $client_id\r\n");
         echo "{$client_id} has a connection in\n";
     }
     
@@ -47,10 +48,10 @@ class Events
    public static function onMessage($client_id, $message)
    {
        // debug
-       echo "client:{$_SERVER['REMOTE_ADDR']}:{$_SERVER['REMOTE_PORT']} gateway:{$_SERVER['GATEWAY_ADDR']}:{$_SERVER['GATEWAY_PORT']}  client_id:$client_id session:".json_encode($_SESSION)." onMessage:".$message."\n";
+       echo "client:{$_SERVER['REMOTE_ADDR']}:{$_SERVER['REMOTE_PORT']} gateway:{$_SERVER['GATEWAY_ADDR']}:{$_SERVER['GATEWAY_PORT']}  client_id:$client_id session:".json_encode($_SESSION)." onMessage: ***".$message."***\n";
 
        // 客户端传递的是json数据
-       $message_data = json_decode($message, true);
+       $message_data = @json_decode($message, true);
        if(!$message_data)
        {
            return ;
@@ -60,6 +61,7 @@ class Events
            echo "message type not set,abort\n";
            return;
        }
+       return;
        //进行安全性检查
        $security = new Security($message_data);
        if(!$security->verifyRequest())
@@ -94,6 +96,8 @@ class Events
 
     public static function actionLogin($client_id,$msg)
     {
+        var_dump($msg);
+        return;
         // 判断是否有房间号
         if(!isset($msg['room_id']))
         {
@@ -103,7 +107,6 @@ class Events
         //默认
         $uid = 0;
         $client_name = '游客';
-        $car = 0;
         if(isset($msg['uid']))
         {
             $uid = intval($msg['uid']);
@@ -127,20 +130,6 @@ class Events
             Gateway::bindUid($client_id,$uid);
             $user = UsersService::getBasic($uid,1);
             $client_name = $user['nickname'];
-            //car
-            $active_car = Db::instance('db')->select('car_id')
-                ->from('user_cars')
-                ->where('valid_until>:until')
-                ->where('uid=:uid')
-                ->where('is_active=1 and status=1')
-                ->bindValues(['until' => date('Y-m-d H:i:s'),'uid' => $uid])
-                ->limit(1)
-                ->query();
-
-            if(!empty($active_car))
-            {
-                $car = $active_car[0]['car_id'];
-            }
         }
         if(empty($user))
         {
@@ -213,6 +202,6 @@ class Events
            RoomService::send_client_list($room_id,1);
            self::update_user_count($room_id);
        }
-       Gateway::disconnect($client_id);
+       //Gateway::disconnect($client_id);
    }
 }

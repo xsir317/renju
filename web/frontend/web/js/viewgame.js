@@ -105,7 +105,6 @@
 	//生成棋盘
 	for(var i=1;i<=15;i++)
 	{
-		console.log(i);
 		//insert a row
 		var newrow = $(document.createElement("div"));
 		newrow.addClass('row');
@@ -183,9 +182,7 @@ function object_md5(obj) {
         if(stringfy != '') stringfy += '&';
         stringfy += (prop + '=' + obj[prop]);
     }
-    console.log("stringfy: " + stringfy);
     var _return =  md5(stringfy);
-    console.log("md5: " + _return);
     return _return;
 }
 
@@ -195,7 +192,7 @@ var chat = function (){
     // 连接服务端
     this.connect = function () {
         // 创建websocket
-        ws = new WebSocket("ws://"+document.domain+":7272");
+        ws = new WebSocket("ws://"+document.domain+":8282");
         // 当socket连接打开时，输入用户名
         ws.onopen = that.onopen;
         // 当有消息时根据消息类型显示不同信息
@@ -207,6 +204,7 @@ var chat = function (){
         ws.onerror = function(e) {
             console.log(e);
         };
+        //ws.onopen();
     }
 
     //TODO  游客模式，只能看，不能发消息
@@ -214,7 +212,8 @@ var chat = function (){
     // 连接建立时发送WEBSOCKET登录信息
     this.onopen = function ()
     {
-        var login_data = {"type":"login","room_id":room_id,'uid':uid,'device_id':init_page.device_id};
+        console.log("open!");
+        var login_data = {"type":"login","game_id":gameObj.id,'uid':userinfo ?　userinfo.id : 0};
         that.dosend(login_data);
     }
 
@@ -237,10 +236,10 @@ var chat = function (){
                 string_data = data;
                 break;
             case 'object':
-                data['_token'] = chat_token['token'];
+                data['_token'] = ws_token['token'];
                 data['_timestamp'] = ts_delta + Math.round(new Date().getTime()/1000);
                 var full_data_obj = JSON.parse(JSON.stringify(data));//copy
-                full_data_obj['_secret'] = chat_token['secret'];//secret 不会打包进数据
+                full_data_obj['_secret'] = ws_token['secret'];//secret 不会打包进数据
                 data['_checksum'] = object_md5(full_data_obj);
                 string_data = JSON.stringify(data);
                 break;
@@ -344,3 +343,12 @@ var chat = function (){
         ws.close();
     }
 };
+
+var  _chat={
+    chatObj:null,
+    getChat:function(){
+        if(this.chatObj==null)this.chatObj = new chat();
+        return this.chatObj;
+    }
+};
+_chat.getChat().connect();
