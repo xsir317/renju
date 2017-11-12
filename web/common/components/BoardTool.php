@@ -1,6 +1,8 @@
 <?php
 namespace common\components;
 
+use common\models\Games;
+
 class BoardTool
 {
 

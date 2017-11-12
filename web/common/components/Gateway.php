@@ -1,5 +1,7 @@
 <?php
+
 namespace common\components;
+
 use \Exception;
 /**
  * This file is part of workerman.
