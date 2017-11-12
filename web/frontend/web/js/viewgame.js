@@ -72,11 +72,11 @@
 	};
 	//回到第一手
 	board_clean = function(){
-		while(move_pre());
+		while(move_pre()){}
 	};
 	//到最后一手
 	board_end = function(){
-		while(move_next());
+		while(move_next()){}
 	};
 	//根据gameinit显示整盘棋
 	board_init = function(){
@@ -98,10 +98,10 @@
 		}
 		arr_a5 = $(a5_points);
 		arr_a5.removeClass('blank').addClass('black a5stone').html('▲');
-	}
+	};
 	hide_a5 = function(){
 		$(".a5stone").removeClass('black a5stone').addClass('blank').html('');
-	}
+	};
 	//生成棋盘
 	for(var i=1;i<=15;i++)
 	{
@@ -161,7 +161,6 @@
 
 
 	//websocket
-;
 if (typeof console == "undefined") {    this.console = { log: function (msg) {  } };}
 Object.keys = Object.keys || function(obj){/**兼容IE**/
     var result = [];
@@ -182,8 +181,7 @@ function object_md5(obj) {
         if(stringfy != '') stringfy += '&';
         stringfy += (prop + '=' + obj[prop]);
     }
-    var _return =  md5(stringfy);
-    return _return;
+    return md5(stringfy);
 }
 
 var global_current_client_id = '';
@@ -205,7 +203,7 @@ var chat = function (){
             console.log(e);
         };
         //ws.onopen();
-    }
+    };
 
     //TODO  游客模式，只能看，不能发消息
 
@@ -215,18 +213,20 @@ var chat = function (){
         console.log("open!");
         var login_data = {"type":"login","game_id":gameObj.id,'uid':userinfo ?　userinfo.id : 0};
         that.dosend(login_data);
-    }
+    };
 
 // 服务端发来消息时
     this.onmessage = function (e)
     {
-        //console.log("resultData="+e.data);
+        console.log("resultData="+e.data);
         var data = JSON.parse(e.data);
         that.agentDistribute(data);
-    }
+    };
+
     this.sendMsg = function(_data){
         that.dosend(_data);
-    }
+    };
+
     this.dosend = function(data){
         console.log("sendData=="+JSON.stringify(data));
         var string_data = '';
@@ -248,7 +248,7 @@ var chat = function (){
         }
         console.log("sendData_trans=="+string_data);
         ws.send(string_data);
-    }
+    };
 
     //消息代理分发
     this.agentDistribute = function(data){
@@ -262,22 +262,25 @@ var chat = function (){
             return that[function_name](data);
         }
         return;
-    }
+    };
+
     //页面渲染代理接口
     this.agentReader = function (data)
     {
         page.render("room",data["type"],data,"websocket");
-        return;
-    }
+    };
+
     // 服务端ping客户端
     this.actionPing = function(_data){
         that.dosend({type:"pong"});
-    }
+    };
+
 
     // 登录 更新用户列表
     this.actionLogin = function(_data){
         that.agentReader(_data);
-    }
+    };
+
 
     //进入房间之后会接收到自己的client_id 和一些历史消息
     this.actionEnter = function(_data)
@@ -289,56 +292,66 @@ var chat = function (){
                 that.agentDistribute(_data['history_msg'][i]);
             }
         }
-    }
+    };
+
 
     this.actionClient_list = function(_data){
         that.agentReader(_data);
     }
     this.actionRoom_info = function(_data){
         that.agentReader(_data);
-    }
+    };
+
     // 接收发言消息
     this.actionSay = function(_data){
         that.agentReader(_data);
-    }
+    };
+
     // 接收送礼消息
     this.actionGift = function(_data){
         that.agentReader(_data);
-    }
+    };
+
     //系统公告
     this.actionGlobal_announce = function(_data){
         that.agentReader(_data);
-    }
+    };
+
     //房间公告
     this.actionRoom_announce = function(_data){
         that.agentReader(_data);
-    }
+    };
+
     this.actionBroadcast = function(_data){
         that.agentReader(_data);
-    }
+    };
+
     //彩条
     this.actionGift_banner = function(_data){
         that.agentReader(_data);
-    }
+    };
+
     // 用户退出 更新用户列表
     this.actionLogout = function(_data){
         that.agentReader(_data);
         //page.render("room","userList",_data['client_list']);//这里不直接带用户列表数据了，而是额外发一个用户列表消息。
-    }
+    };
+
     this.actionNotice = function(_data){
         //系统提示，显示提示文字。
         if(_data.content)
         {
             alertMsg(_data.content);
         }
-    }
+    };
+
     this.actionShutdown = function(_data)
     {
         //正常业务结束，服务器端要求关闭并且不再重连
         if(typeof shutdownCallback == 'function')shutdownCallback(_data);
         ws.onclose = function () {
             return false;
-        }
+        };
         global_current_client_id = '';
         ws.close();
     }
