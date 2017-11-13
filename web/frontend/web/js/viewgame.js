@@ -13,15 +13,44 @@ var boardObj = function()
     //字符串，当前局面记录。
     _obj.currgame = '';
 
+    //字符串，记录终局状态。
+    _obj.endgame = '';
+
     // 当前颜色，在初始化时会初始化为黑色
     _obj.curr_color = 'black';
-    
+
     //当前手数，会被初始化为1
     _obj.curr_step = 1;
 
     _obj.load = function( game_data ){
         _obj.gameData = game_data;
         _obj.board_load();
+    };
+
+    _obj.play_stone = function( coordinate )
+    {
+        if(endgame != currgame)
+        {
+            //插入打点逻辑：如果是第四手，根据a5字段来设置盘面上的打点
+            if(currstepnumber == 4)
+            {
+                show_a5();
+            }
+            else if(currstepnumber == 5)
+            {
+                hide_a5();
+            }
+            //逻辑结束
+            var target_cell = boardobj.find('.'+coordinate);
+            target_cell.removeClass('blank').addClass(currcolor).html(currstepnumber++);
+            currcolor = (currcolor == 'black' ? 'white':'black');
+            currgame += nextstep;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     };
 
     _obj.move_pre = function(){};
@@ -31,7 +60,11 @@ var boardObj = function()
     _obj.board_load = function(){};
 
     _obj.init_board = function(){
+        _obj.currgame = '';
+        _obj.curr_color = 'black';
+        _obj.curr_step = 1;
         board.html('');
+
         board.mousedown(function(e){
             if(e.which == 3)
             {
