@@ -35,15 +35,14 @@ $gateway->startPort = 2900;
 $gateway->registerAddress = '127.0.0.1:1238';
 
 // 心跳间隔
-//$gateway->pingInterval = 10;
+$gateway->pingInterval = 10;
 // 心跳数据
-//$gateway->pingData = '{"type":"ping"}';
+$gateway->pingData = '{"type":"ping"}';
 
 $gateway->onConnect = function($connection)
 {
     $connection->onWebSocketConnect = function($connection , $http_header)
     {
-        var_dump($http_header);
         // 可以在这里判断连接来源是否合法，不合法就关掉连接
         // $_SERVER['HTTP_ORIGIN']标识来自哪个站点的页面发起的websocket链接
         /*

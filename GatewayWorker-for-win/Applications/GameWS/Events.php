@@ -48,7 +48,7 @@ class Events
    public static function onMessage($client_id, $message)
    {
        // debug
-       echo "client:{$_SERVER['REMOTE_ADDR']}:{$_SERVER['REMOTE_PORT']} gateway:{$_SERVER['GATEWAY_ADDR']}:{$_SERVER['GATEWAY_PORT']}  client_id:$client_id session:".json_encode($_SESSION)." onMessage: ***".$message."***\n";
+       echo date('Y-m-d H:i:s')."\t client:{$_SERVER['REMOTE_ADDR']}:{$_SERVER['REMOTE_PORT']} gateway:{$_SERVER['GATEWAY_ADDR']}:{$_SERVER['GATEWAY_PORT']}  client_id:$client_id session:".json_encode($_SESSION)." onMessage: \n".$message."\n";
 
        // 客户端传递的是json数据
        $message_data = @json_decode($message, true);
