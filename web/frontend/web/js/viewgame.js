@@ -27,30 +27,30 @@ var boardObj = function()
         _obj.board_load();
     };
 
+    //gameData不动，如果当前落子和endgame的前N手不一致，则覆盖掉endgame。如果一致就不改动endgame。
     _obj.play_stone = function( coordinate )
     {
-        if(endgame != currgame)
-        {
-            //插入打点逻辑：如果是第四手，根据a5字段来设置盘面上的打点
-            if(currstepnumber == 4)
-            {
-                show_a5();
-            }
-            else if(currstepnumber == 5)
-            {
-                hide_a5();
-            }
-            //逻辑结束
-            var target_cell = boardobj.find('.'+coordinate);
-            target_cell.removeClass('blank').addClass(currcolor).html(currstepnumber++);
-            currcolor = (currcolor == 'black' ? 'white':'black');
-            currgame += nextstep;
-            return true;
-        }
-        else
+        var target_cell = board.find('.'+coordinate);
+        if(!target_cell.hasClass('blank'))
         {
             return false;
         }
+        if(_obj.curr_step == 4 && _obj.endgame == _obj.gameData.game_record)
+        {
+            _obj.show_a5();
+        }
+        else if(_obj.curr_step == 5)
+        {
+            _obj.hide_a5();
+        }
+        target_cell.removeClass('blank').addClass(_obj.curr_color).html(_obj.curr_step ++);
+        _obj.curr_color = (_obj.curr_color == 'black' ? 'white':'black');
+        _obj.currgame += coordinate;
+        if(_obj.currgame != _obj.endgame.substr(0,currgame.length))
+        {
+            _obj.endgame = _obj.currgame;
+        }
+        return true;
     };
 
     _obj.move_pre = function(){};
@@ -58,6 +58,21 @@ var boardObj = function()
     _obj.board_clean = function(){};
     _obj.board_end = function(){};
     _obj.board_load = function(){};
+    _obj.show_a5 = function(){
+        if(_obj.gameData.a5_pos == '')
+            return false;
+        var a5_points = '.' + _obj.gameData.a5_pos.substr(0,2);
+        for(var sub = 2;sub<_obj.gameData.a5_pos.length;sub += 2)
+        {
+            a5_points += ',.';
+            a5_points += _obj.gameData.a5_pos.substr(sub,2);
+        }
+        $(a5_points).addClass('black a5stone').html('▲');
+    };
+    _obj.hide_a5 = function(){
+        $(".a5stone").removeClass('black a5stone').html('');
+    };
+
 
     _obj.init_board = function(){
         _obj.currgame = '';
@@ -68,7 +83,7 @@ var boardObj = function()
         board.mousedown(function(e){
             if(e.which == 3)
             {
-                move_pre();
+                _obj.move_pre();
                 return false;
             }
         });
@@ -89,6 +104,10 @@ var boardObj = function()
             }
             board.append(newrow);
         }
+        board.find('.row div').click(function(){
+            _obj.play_stone($(this).attr('alt'));
+            return true;
+        });
         //生成控制按钮
         var controlbar = $(document.createElement("div"));
         controlbar.addClass('controlbar');
