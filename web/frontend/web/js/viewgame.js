@@ -43,6 +43,7 @@ var boardObj = function()
         {
             _obj.hide_a5();
         }
+        //TODO 对正在落子的玩家进行限制，不能用这个棋盘来拆棋。
         target_cell.removeClass('blank').addClass(_obj.curr_color).html(_obj.curr_step ++);
         _obj.curr_color = (_obj.curr_color == 'black' ? 'white':'black');
         _obj.currgame += coordinate;
