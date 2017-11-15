@@ -36,7 +36,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
     <?php echo $content?>
     <div class="footer">
         <div class="wrapper greybox">
-            <p>请使用Chrome或Firefox访问。</p>
+            <p>请使用Chrome或Firefox访问。项目代码地址：<a href="https://github.com/xsir317/renju" target="_blank">https://github.com/xsir317/renju</a></p>
         </div>
     </div>
 </div>

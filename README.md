@@ -24,13 +24,14 @@
 # 安装/配置
 -----
 
-本项目运行在PHP和Mysql下，另需要Redis作为缓存和队列。由于Windows下Workerman官方不建议承载较大压力，故建议线上环境只部署在Linux。
+[本项目](https://github.com/xsir317/renju)运行在PHP和Mysql下，另需要Redis作为缓存和队列。由于Windows下Workerman官方不建议承载较大压力，故建议线上环境只部署在Linux。
 
 基于[Gateway-worker](http://www.workerman.net/gatewaydoc/)的websocket服务端有2个目录，Windows下请运行GatewayWorker-for-win\start_for_win.bat，Linux下请在D:\WebRenju\GatewayWorker-master目录下运行 `php start.php start -d`
 
 ## 系统需求
   * PHP7.0+
   * Mysql 5.6+
+  * Redis
   * PHP的[redis扩展](https://github.com/phpredis/phpredis)
 
 ## 安装

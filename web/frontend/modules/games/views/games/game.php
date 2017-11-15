@@ -75,8 +75,8 @@ $this->registerJSFile('/js/viewgame.js');
     var game_upd = '<?php echo $game['movetime']?>';
 
 
-    var gameObj = '<?php echo json_encode($game);?>';
-    var ws_token = '<?php echo json_encode($ws_token);?>';
-    var userinfo = '<?php echo json_encode($userinfo);?>' ;
+    var gameObj = <?php echo json_encode($game);?>;
+    var ws_token = <?php echo json_encode($ws_token);?>;
+    var userinfo = <?php echo json_encode($userinfo);?>;
     var ts_delta = <?php echo time() ?> - Math.round(new Date().getTime()/1000);
 </script>

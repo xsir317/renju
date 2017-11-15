@@ -22,6 +22,7 @@ var boardObj = function()
     //当前手数，会被初始化为1
     _obj.curr_step = 1;
 
+    //load 一个游戏数据。
     _obj.load = function( game_data ){
         _obj.gameData = game_data;
         _obj.board_load();
@@ -47,18 +48,62 @@ var boardObj = function()
         target_cell.removeClass('blank').addClass(_obj.curr_color).html(_obj.curr_step ++);
         _obj.curr_color = (_obj.curr_color == 'black' ? 'white':'black');
         _obj.currgame += coordinate;
-        if(_obj.currgame != _obj.endgame.substr(0,currgame.length))
+        if(_obj.currgame != _obj.endgame.substr(0,_obj.currgame.length))
         {
             _obj.endgame = _obj.currgame;
         }
         return true;
     };
 
-    _obj.move_pre = function(){};
-    _obj.move_next = function(){};
-    _obj.board_clean = function(){};
-    _obj.board_end = function(){};
-    _obj.board_load = function(){};
+    _obj.move_pre = function(){
+        if(_obj.currgame)
+        {
+            var last_move = _obj.currgame.substr(_obj.currgame.length-2,2);
+            //这个棋子拿起来。。。
+            var target_cell = board.find('.'+last_move);
+            target_cell.removeClass('black white').addClass('blank').html('');
+            _obj.curr_step --;
+            _obj.curr_color = (_obj.curr_color == 'black' ? 'white':'black');
+            _obj.currgame = _obj.currgame.substr(0,_obj.currgame.length-2);
+            //打点显示
+            if(_obj.curr_step == 5 && _obj.endgame == _obj.gameData.game_record)
+            {
+                _obj.show_a5();
+            }
+            else if(_obj.curr_step == 4)
+            {
+                _obj.hide_a5();
+            }
+            return true;
+        }
+        return false;
+    };
+
+    _obj.move_next = function(){
+        //根据endgame，一步一步走下去
+        if(_obj.currgame != _obj.endgame)
+        {
+            var nextstep = _obj.endgame.substr(_obj.currgame.length,2);
+            _obj.play_stone(nextstep);
+            return true;
+        }
+        return false;
+    };
+    _obj.board_clean = function(){
+        while (_obj.move_pre()) {}
+    };
+
+    _obj.board_end = function(){
+        while(_obj.move_next()) {}
+    };
+
+    //根据gameData 初始化棋盘的文字信息和棋盘Game信息
+    _obj.board_load = function(){
+        _obj.board_clean();
+        _obj.endgame = _obj.gameData.game_record;
+        _obj.board_end();
+    };
+
     _obj.show_a5 = function(){
         if(_obj.gameData.a5_pos == '')
             return false;
@@ -75,6 +120,7 @@ var boardObj = function()
     };
 
 
+    // 画棋盘和按钮。
     _obj.init_board = function(){
         _obj.currgame = '';
         _obj.curr_color = 'black';
