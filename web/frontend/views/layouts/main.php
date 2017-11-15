@@ -1,16 +1,11 @@
 <?php
-
-/* @var $this \yii\web\View */
-/* @var $content string */
-
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
-use common\widgets\Alert;
 
 AppAsset::register($this);
+unset($this->assetBundles['yii\web\JqueryAsset']);
+unset($this->assetBundles['yii\web\YiiAsset']);
+unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -20,63 +15,32 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode($this->title) ?>--Web五子棋</title>
+    <link href="/css/style.css" type="text/css" media="screen" rel="stylesheet" />
     <?php $this->head() ?>
 </head>
 <body>
 <?php $this->beginBody() ?>
-
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
-
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+<div class="container">
+    <div id="page-top">
+        <div class="wrapper">
+            <div id="toolbar">
+                <ul>
+                    <?php if(!Yii::$app->user->isGuest):?><li>亲爱的<?php echo Html::encode(Yii::$app->user->identity->nickname);?>。</li><?php endif;?>
+                    <li>|<a class="switch" href="/">首页</a></li>
+                    <li>|<a href="mailto:xsir317@gmail.com" class="switch">联系我们</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <?php echo $content?>
+    <div class="footer">
+        <div class="wrapper greybox">
+            <p>请使用Chrome或Firefox访问。</p>
+        </div>
     </div>
 </div>
-
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
-
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
 <?php $this->endBody() ?>
 </body>
 </html>
