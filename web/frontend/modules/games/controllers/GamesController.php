@@ -25,4 +25,25 @@ class GamesController extends Controller
             'userinfo' => $this->_user() ? GameService::renderUser($this->_user()->id ) : 0
         ]);
     }
+
+    //TODO 研究一下怎么引入transaction，棋局的计时、计算输赢需要事务处理，冲突了就跪了
+    public function actionPlay()
+    {
+
+    }
+
+    public function actionSwap()
+    {
+
+    }
+
+    public function actionOffer_draw()
+    {
+
+    }
+
+    public function actionResgin()
+    {
+
+    }
 }
