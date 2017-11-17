@@ -12,6 +12,7 @@ namespace frontend\modules\games\controllers;
 use common\models\Games;
 use common\services\GameService;
 use frontend\components\Controller;
+use yii\web\HttpException;
 
 class GamesController extends Controller
 {
@@ -19,8 +20,13 @@ class GamesController extends Controller
     {
         $game_id = intval($this->get('id'));
         $game = Games::findOne($game_id);
+        //TODO 显示正确的错误页。
+        if(!$game)
+        {
+            throw new HttpException(404);
+        }
         return $this->render('game',[
-            'game' => GameService::renderGame($game),
+            'game' => GameService::renderGame($game_id),
             'ws_token' => GameService::newToken(),
             'userinfo' => $this->_user() ? GameService::renderUser($this->_user()->id ) : 0
         ]);
