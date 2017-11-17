@@ -28,6 +28,44 @@ var boardObj = function()
         _obj.board_load();
     };
 
+    _obj.timer_handler = 0;//setInterval就存在这里，初始化的时候clear一下:clearInterval
+    _obj.timer = function(){
+        //首先，获取当前时间，当前游戏的双方剩余时间
+        var render_time = function(seconds,player)
+        {
+            seconds = (seconds > 0) ? seconds : 0;
+            var hours = parseInt(seconds/3600).toString();
+            if(hours.length == 1) {hours = '0' + hours}
+            var minutes = parseInt( (seconds%3600) /60).toString();
+            if(minutes.length == 1) {minutes = '0' + minutes}
+            var seconds_display = parseInt(seconds % 60).toString();
+            if(seconds_display.length == 1) {seconds_display = '0' + seconds_display}
+
+            var display_obj = player ? $("#black_time_display") : $("#white_time_display");
+            display_obj.html(hours + ':' + minutes + ':' + seconds_display);
+        };
+
+        // 记录当前时间。
+        var timer_start = new Date().getTime();
+        timer_start = parseInt(timer_start/1000);
+        //先render双方时间显示
+        render_time(_obj.gameData.black_time,1);
+        render_time(_obj.gameData.white_time,0);
+        //如果对局进行中，那么 setInterval 每一秒钟，计算开始时间到当前过了多久；用行棋方时间减去已用时间，再次render。
+        //如果对局正在进行中 TODO 改状态表示。
+        if(_obj.gameData.status == '进行中')
+        {
+            _obj.timer_handler = setInterval(function(){
+                var current = new Date().getTime();
+                current = parseInt(current/1000);
+
+                var delta_time = current - timer_start;
+                var time_left = (_obj.gameData.turn ? _obj.gameData.black_time : _obj.gameData.white_time) - delta_time;
+                render_time(time_left,_obj.gameData.turn);
+            },1000);
+        }
+    };
+
     //gameData不动，如果当前落子和endgame的前N手不一致，则覆盖掉endgame。如果一致就不改动endgame。
     _obj.play_stone = function( coordinate )
     {
@@ -102,6 +140,12 @@ var boardObj = function()
         _obj.board_clean();
         _obj.endgame = _obj.gameData.game_record;
         _obj.board_end();
+        //计时
+        if(_obj.timer_handler)
+        {
+            clearInterval(_obj.timer_handler);
+        }
+        _obj.timer();
     };
 
     _obj.show_a5 = function(){

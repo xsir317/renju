@@ -39,10 +39,10 @@ $this->registerJSFile('/js/viewgame.js');
                         <span>对局时限:</span><ins><?php echo $game['totaltime']?>小时</ins>
                     </li>
                     <li>
-                        <span>黑方剩余时间:</span><ins style="width:135px;"></ins>
+                        <span>黑方剩余时间:</span><ins style="width:135px;" id="black_time_display">00:00:00</ins>
                     </li>
                     <li>
-                        <span>白方剩余时间:</span><ins style="width:135px;"></ins>
+                        <span>白方剩余时间:</span><ins style="width:135px;" id="white_time_display">00:00:00</ins>
                     </li>
                         <li>
                             <span>轮到您下第<?php echo strlen($game['game_record'])/2 +1?>手</span>
