@@ -156,6 +156,7 @@ var boardObj = function()
         }
         $(".black_name>ins").html(_obj.gameData.bplayer.nickname);
         $(".white_name>ins").html(_obj.gameData.wplayer.nickname);
+        $(".current_player_name>ins").html(_obj.gameData.turn ? _obj.gameData.bplayer.nickname : _obj.gameData.wplayer.nickname);
         $(".a5_numbers>ins").html(_obj.gameData.wplayer.a5_numbers);
         $(".is_swap>ins").html(_obj.gameData.wplayer.swap ? "是":"否");
         $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
