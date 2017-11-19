@@ -140,7 +140,53 @@ var boardObj = function()
         _obj.board_clean();
         _obj.endgame = _obj.gameData.game_record;
         _obj.board_end();
-        //填充页面
+        //填充页面 TODO 这个可能要弄出去独立开，不要都写一起。s
+        //计算当前是否是“我”落子的回合。 TODO  is_my_game is_my_turn 是不是放到初始化就去计算更好一点？
+        var current_playing = 0;
+        var is_my_turn = false;
+        var is_my_game = false;
+        if(_obj.gameData.status == 1)
+        {
+            current_playing = _obj.gameData.turn ? _obj.gameData.black_id : _obj.gameData.white_id;
+        }
+        if(typeof userinfo.id != "undefined")
+        {
+            is_my_game = (userinfo.id == _obj.gameData.black_id || userinfo.id == _obj.gameData.white_id);
+            is_my_turn = (current_playing == userinfo.id);
+        }
+        $(".black_name>ins").html(_obj.gameData.bplayer.nickname);
+        $(".white_name>ins").html(_obj.gameData.wplayer.nickname);
+        $(".a5_numbers>ins").html(_obj.gameData.wplayer.a5_numbers);
+        $(".is_swap>ins").html(_obj.gameData.wplayer.swap ? "是":"否");
+        $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
+        if(is_my_turn)
+        {
+            $(".turn_to_play_tips").show();
+        }
+        else
+        {
+            $(".turn_to_play_tips").hide();
+        }
+
+        if(is_my_game && _obj.gameData.status == 1)
+        {
+            $(".draw_button,.resign_button").show();
+        }
+        else
+        {
+            $(".draw_button,.resign_button").hide();
+        }
+
+        if(is_my_game && _obj.gameData.status == 1 && _obj.gameData.offer_draw >0 && _obj.gameData.offer_draw != userinfo.id)
+        {
+            $(".offer_draw_tips").show();
+        }
+        else
+        {
+            $(".offer_draw_tips").hide();
+        }
+
+
 
         //计时
         if(_obj.timer_handler)

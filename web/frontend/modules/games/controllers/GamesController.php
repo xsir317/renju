@@ -28,7 +28,7 @@ class GamesController extends Controller
         return $this->render('game',[
             'game' => GameService::renderGame($game_id),
             'ws_token' => GameService::newToken(),
-            'userinfo' => $this->_user() ? GameService::renderUser($this->_user()->id ) : 0
+            'userinfo' => $this->_user() ? GameService::renderUser($this->_user()->id ) : null
         ]);
     }
 

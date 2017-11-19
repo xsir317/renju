@@ -29,10 +29,10 @@ $this->registerJSFile('/js/viewgame.js');
                         <span>五手打点数:</span><ins><?php echo $game['a5_numbers']?></ins>
                     </li>
                     <li class="is_swap">
-                        <span>交换:</span><ins><?php echo $game['swap'] ?'是':'否'?></ins>
+                        <span>交换:</span><ins></ins>
                     </li>
                     <li class="game_result">
-                        <span>结果:</span><ins><strong><?php echo GameService::$status_define[$game['status']];?></strong></ins>
+                        <span>结果:</span><ins><strong></strong></ins>
                     </li>
                     <li class="current_player_name">
                         <span>轮到:</span><ins></ins>
@@ -65,7 +65,7 @@ $this->registerJSFile('/js/viewgame.js');
     var turn = '<?php echo $game['turn'] ?'black' : 'white' ?>';
     var game_upd = '<?php echo $game['movetime']?>';
 
-
+    var result_defines = <?php echo json_encode(GameService::$status_define) ?>;
     var gameObj = <?php echo json_encode($game);?>;
     var ws_token = <?php echo json_encode($ws_token);?>;
     var userinfo = <?php echo json_encode($userinfo);?>;

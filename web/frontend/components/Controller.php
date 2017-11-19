@@ -9,8 +9,11 @@
 namespace frontend\components;
 
 
+use common\models\Player;
+
 class Controller extends \yii\web\Controller
 {
+    private $user = null;
     protected function renderJSON($data=[], $msg ="ok", $code = 200)
     {
         header('Content-type: application/json');
@@ -50,6 +53,10 @@ class Controller extends \yii\web\Controller
 
     public function _user()
     {
-
+        if(!$this->user && !\Yii::$app->user->isGuest)
+        {
+            $this->user = Player::findOne(\Yii::$app->user->getId());
+        }
+        return $this->user;
     }
 }
