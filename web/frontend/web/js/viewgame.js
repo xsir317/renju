@@ -22,6 +22,9 @@ var boardObj = function()
     //当前手数，会被初始化为1
     _obj.curr_step = 1;
 
+    _obj.is_my_game = false;
+    _obj.is_my_turn = false;
+
     //load 一个游戏数据。
     _obj.load = function( game_data ){
         _obj.gameData = game_data;
@@ -67,7 +70,7 @@ var boardObj = function()
     };
 
     //gameData不动，如果当前落子和endgame的前N手不一致，则覆盖掉endgame。如果一致就不改动endgame。
-    _obj.play_stone = function( coordinate )
+    _obj.place_stone = function(coordinate )
     {
         var target_cell = board.find('.'+coordinate);
         if(!target_cell.hasClass('blank'))
@@ -83,6 +86,10 @@ var boardObj = function()
             _obj.hide_a5();
         }
         //TODO 对正在落子的玩家进行限制，不能用这个棋盘来拆棋。
+        if(_obj.is_my_turn)
+        {
+
+        }
         target_cell.removeClass('blank').addClass(_obj.curr_color).html(_obj.curr_step ++);
         _obj.curr_color = (_obj.curr_color == 'black' ? 'white':'black');
         _obj.currgame += coordinate;
@@ -122,7 +129,7 @@ var boardObj = function()
         if(_obj.currgame != _obj.endgame)
         {
             var nextstep = _obj.endgame.substr(_obj.currgame.length,2);
-            _obj.play_stone(nextstep);
+            _obj.place_stone(nextstep);
             return true;
         }
         return false;
@@ -137,22 +144,23 @@ var boardObj = function()
 
     //根据gameData 初始化棋盘的文字信息和棋盘Game信息
     _obj.board_load = function(){
+        _obj.render_game_info();
         _obj.board_clean();
         _obj.endgame = _obj.gameData.game_record;
         _obj.board_end();
-        //填充页面 TODO 这个可能要弄出去独立开，不要都写一起。s
-        //计算当前是否是“我”落子的回合。 TODO  is_my_game is_my_turn 是不是放到初始化就去计算更好一点？
+    };
+
+    _obj.render_game_info = function(){
+        //计算当前是否是“我”落子的回合。
         var current_playing = 0;
-        var is_my_turn = false;
-        var is_my_game = false;
         if(_obj.gameData.status == 1)
         {
             current_playing = _obj.gameData.turn ? _obj.gameData.black_id : _obj.gameData.white_id;
         }
         if(typeof userinfo.id != "undefined")
         {
-            is_my_game = (userinfo.id == _obj.gameData.black_id || userinfo.id == _obj.gameData.white_id);
-            is_my_turn = (current_playing == userinfo.id);
+            _obj.is_my_game = (userinfo.id == _obj.gameData.black_id || userinfo.id == _obj.gameData.white_id);
+            _obj.is_my_turn = (current_playing == userinfo.id);
         }
         $(".black_name>ins").html(_obj.gameData.bplayer.nickname);
         $(".white_name>ins").html(_obj.gameData.wplayer.nickname);
@@ -160,7 +168,7 @@ var boardObj = function()
         $(".a5_numbers>ins").html(_obj.gameData.wplayer.a5_numbers);
         $(".is_swap>ins").html(_obj.gameData.wplayer.swap ? "是":"否");
         $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
-        if(is_my_turn)
+        if(_obj.is_my_turn)
         {
             $(".turn_to_play_tips").show();
         }
@@ -169,7 +177,7 @@ var boardObj = function()
             $(".turn_to_play_tips").hide();
         }
 
-        if(is_my_game && _obj.gameData.status == 1)
+        if(_obj.is_my_game && _obj.gameData.status == 1)
         {
             $(".draw_button,.resign_button").show();
         }
@@ -178,7 +186,7 @@ var boardObj = function()
             $(".draw_button,.resign_button").hide();
         }
 
-        if(is_my_game && _obj.gameData.status == 1 && _obj.gameData.offer_draw >0 && _obj.gameData.offer_draw != userinfo.id)
+        if(_obj.is_my_game && _obj.gameData.status == 1 && _obj.gameData.offer_draw >0 && _obj.gameData.offer_draw != userinfo.id)
         {
             $(".offer_draw_tips").show();
         }
@@ -245,7 +253,7 @@ var boardObj = function()
             board.append(newrow);
         }
         board.find('.row div').click(function(){
-            _obj.play_stone($(this).attr('alt'));
+            _obj.place_stone($(this).attr('alt'));
             return true;
         });
         //生成控制按钮
