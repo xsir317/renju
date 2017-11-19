@@ -53,7 +53,7 @@ var boardObj = function()
         render_time(_obj.gameData.white_time,0);
         //如果对局进行中，那么 setInterval 每一秒钟，计算开始时间到当前过了多久；用行棋方时间减去已用时间，再次render。
         //如果对局正在进行中 TODO 改状态表示。
-        if(_obj.gameData.status == '进行中')
+        if(_obj.gameData.status == 1)
         {
             _obj.timer_handler = setInterval(function(){
                 var current = new Date().getTime();
@@ -140,6 +140,8 @@ var boardObj = function()
         _obj.board_clean();
         _obj.endgame = _obj.gameData.game_record;
         _obj.board_end();
+        //填充页面
+
         //计时
         if(_obj.timer_handler)
         {
