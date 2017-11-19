@@ -32,6 +32,10 @@ var boardObj = function()
     };
 
     _obj.timer_handler = 0;//setInterval就存在这里，初始化的时候clear一下:clearInterval
+
+    /**
+     * 用于展示时间。 如果对局正在进行，还会负责进行倒计时的显示。
+     */
     _obj.timer = function(){
         //首先，获取当前时间，当前游戏的双方剩余时间
         var render_time = function(seconds,player)
@@ -55,7 +59,11 @@ var boardObj = function()
         render_time(_obj.gameData.black_time,1);
         render_time(_obj.gameData.white_time,0);
         //如果对局进行中，那么 setInterval 每一秒钟，计算开始时间到当前过了多久；用行棋方时间减去已用时间，再次render。
-        //如果对局正在进行中 TODO 改状态表示。
+        //如果对局正在进行中
+        if(_obj.timer_handler)
+        {
+            clearInterval(_obj.timer_handler);
+        }
         if(_obj.gameData.status == 1)
         {
             _obj.timer_handler = setInterval(function(){
@@ -69,13 +77,30 @@ var boardObj = function()
         }
     };
 
-    //gameData不动，如果当前落子和endgame的前N手不一致，则覆盖掉endgame。如果一致就不改动endgame。
+    /**
+     * @description 在指定位置放置一枚棋子。当操作者是行棋一方时，会转交给make_move来处理。
+     * 当操作者是玩家之一时，不可以拿棋盘来拆棋，只能按照对局记录前进后退。
+     * @param  {string} coordinate 传入坐标。
+     * @returns {boolean}
+     */
     _obj.place_stone = function(coordinate )
     {
         var target_cell = board.find('.'+coordinate);
         if(!target_cell.hasClass('blank'))
         {
             return false;
+        }
+
+        //这里的逻辑解释一下： 如果是轮到我下，而且是完全展示棋局的状态，那么就是“落子状态”。
+        //如果是落子状态，就可以不按照之前的记录落下新的一个棋子。
+        //如果不是落子状态，则对对局双方作出限制：只能按照之前的记录去落子，不能拿这个棋盘来拆棋。
+        var playing = (_obj.is_my_turn && _obj.currgame == _obj.gameData.game_record);
+        if(_obj.is_my_game && !playing)
+        {
+            if(coordinate != _obj.endgame.substr(_obj.currgame.length,2))
+            {
+                return false;
+            }
         }
         if(_obj.curr_step == 4 && _obj.endgame == _obj.gameData.game_record)
         {
@@ -85,11 +110,6 @@ var boardObj = function()
         {
             _obj.hide_a5();
         }
-        //TODO 对正在落子的玩家进行限制，不能用这个棋盘来拆棋。
-        if(_obj.is_my_turn)
-        {
-
-        }
         target_cell.removeClass('blank').addClass(_obj.curr_color).html(_obj.curr_step ++);
         _obj.curr_color = (_obj.curr_color == 'black' ? 'white':'black');
         _obj.currgame += coordinate;
@@ -97,6 +117,27 @@ var boardObj = function()
         {
             _obj.endgame = _obj.currgame;
         }
+
+        //最后，如果是落子状态，通知一下服务器。
+        if(playing)
+        {
+            return _obj.make_move(coordinate);
+        }
+
+        return true;
+    };
+
+    /**
+     * @description
+     * @param  {string} coordinate 传入坐标。
+     * @returns {boolean}
+     */
+    _obj.make_move = function(coordinate){
+        if(!_obj.is_my_turn)
+        {
+            return false;
+        }
+        alert("call server "+coordinate);
         return true;
     };
 
@@ -153,6 +194,8 @@ var boardObj = function()
     _obj.render_game_info = function(){
         //计算当前是否是“我”落子的回合。
         var current_playing = 0;
+        _obj.is_my_game = false;
+        _obj.is_my_turn = false;
         if(_obj.gameData.status == 1)
         {
             current_playing = _obj.gameData.turn ? _obj.gameData.black_id : _obj.gameData.white_id;
@@ -198,10 +241,6 @@ var boardObj = function()
 
 
         //计时
-        if(_obj.timer_handler)
-        {
-            clearInterval(_obj.timer_handler);
-        }
         _obj.timer();
     };
 

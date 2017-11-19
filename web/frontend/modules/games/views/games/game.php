@@ -57,6 +57,7 @@ $this->registerJSFile('/js/viewgame.js');
         </div>
     </div>
 </div>
+<!-- TODO 聊天部分需要emoji 参考 https://juejin.im/entry/596dbc68f265da6c2810e6ac-->
 <script type="text/javascript">
     var game_id = <?php echo $game['id']?>;
     var gameinit = '<?php echo $game['game_record']?>';
