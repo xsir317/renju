@@ -2,12 +2,22 @@
  * @author xsir317@gmail.com
  * @license http://creativecommons.org/licenses/by-sa/3.0/deed.zh
  */
+var _debug_mode = true;
+var debug_log = function(log){
+    if (typeof console == "undefined") return false;
+    if(_debug_mode)
+    {
+        console.log(log);
+    }
+};
 var boardObj = function()
 {
+    //棋盘的DOM对象，基本上棋子、棋盘逻辑都在这里面。
     var board = $("#board_main");
+
     var _obj = this;
 
-    //整个游戏的结构体
+    //整个游戏的数据结构，包括对局进程、状态、双方等等。会通过页面变量或者Websocket推过来。
     _obj.gameData = {};
 
     //字符串，当前局面记录。
@@ -22,60 +32,68 @@ var boardObj = function()
     //当前手数，会被初始化为1
     _obj.curr_step = 1;
 
+    //以下两个变量表示“是否是我参与的游戏”、“当前是否轮到我下棋”
     _obj.is_my_game = false;
     _obj.is_my_turn = false;
 
     //load 一个游戏数据。
     _obj.load = function( game_data ){
         _obj.gameData = game_data;
-        _obj.board_load();
+        _obj.show_origin();
     };
 
-    _obj.timer_handler = 0;//setInterval就存在这里，初始化的时候clear一下:clearInterval
+    //setInterval就存在这里，初始化的时候clear一下
+    //_obj.timer_handler = 0;
 
     /**
      * 用于展示时间。 如果对局正在进行，还会负责进行倒计时的显示。
+     * 这是一个闭包结构。timer_handler在闭包里。
      */
-    _obj.timer = function(){
-        //首先，获取当前时间，当前游戏的双方剩余时间
-        var render_time = function(seconds,player)
-        {
-            seconds = (seconds > 0) ? seconds : 0;
-            var hours = parseInt(seconds/3600).toString();
-            if(hours.length == 1) {hours = '0' + hours}
-            var minutes = parseInt( (seconds%3600) /60).toString();
-            if(minutes.length == 1) {minutes = '0' + minutes}
-            var seconds_display = parseInt(seconds % 60).toString();
-            if(seconds_display.length == 1) {seconds_display = '0' + seconds_display}
+    _obj.timer = (function(){
+        var timer_handler = 0;
 
-            var display_obj = player ? $("#black_time_display") : $("#white_time_display");
-            display_obj.html(hours + ':' + minutes + ':' + seconds_display);
-        };
+        return (function(){
+            //首先，获取当前时间，当前游戏的双方剩余时间
+            var render_time = function(seconds,player)
+            {
+                debug_log(seconds);
+                seconds = (seconds > 0) ? seconds : 0;
+                var hours = parseInt(seconds/3600).toString();
+                if(hours.length == 1) {hours = '0' + hours}
+                var minutes = parseInt( (seconds%3600) /60).toString();
+                if(minutes.length == 1) {minutes = '0' + minutes}
+                var seconds_display = parseInt(seconds % 60).toString();
+                if(seconds_display.length == 1) {seconds_display = '0' + seconds_display}
 
-        // 记录当前时间。
-        var timer_start = new Date().getTime();
-        timer_start = parseInt(timer_start/1000);
-        //先render双方时间显示
-        render_time(_obj.gameData.black_time,1);
-        render_time(_obj.gameData.white_time,0);
-        //如果对局进行中，那么 setInterval 每一秒钟，计算开始时间到当前过了多久；用行棋方时间减去已用时间，再次render。
-        //如果对局正在进行中
-        if(_obj.timer_handler)
-        {
-            clearInterval(_obj.timer_handler);
-        }
-        if(_obj.gameData.status == 1)
-        {
-            _obj.timer_handler = setInterval(function(){
-                var current = new Date().getTime();
-                current = parseInt(current/1000);
+                var display_obj = player ? $("#black_time_display") : $("#white_time_display");
+                display_obj.html(hours + ':' + minutes + ':' + seconds_display);
+            };
 
-                var delta_time = current - timer_start;
-                var time_left = (_obj.gameData.turn ? _obj.gameData.black_time : _obj.gameData.white_time) - delta_time;
-                render_time(time_left,_obj.gameData.turn);
-            },1000);
-        }
-    };
+            // 记录当前时间。
+            var timer_start = new Date().getTime();
+            //先render双方时间显示
+            render_time(_obj.gameData.black_time,1);
+            render_time(_obj.gameData.white_time,0);
+            //如果对局进行中，那么 setInterval 每一秒钟，计算开始时间到当前过了多久；用行棋方时间减去已用时间，再次render。
+            //如果对局正在进行中
+            if(timer_handler)
+            {
+                debug_log("we do cleared " + timer_handler + ". we will set up new Interval if needed.");
+                clearInterval(timer_handler);
+            }
+            if(_obj.gameData.status == 1)
+            {
+                timer_handler = setInterval(function(){
+                    var current = new Date().getTime();
+
+                    var delta_time = current - timer_start;
+                    var time_left = (_obj.gameData.turn ? _obj.gameData.black_time : _obj.gameData.white_time) - parseInt(delta_time/1000);
+                    render_time(time_left,_obj.gameData.turn);
+                },1000);
+                debug_log("setInterval " + timer_handler);
+            }
+        });
+    })();
 
     /**
      * @description 在指定位置放置一枚棋子。当操作者是行棋一方时，会转交给make_move来处理。
@@ -83,8 +101,7 @@ var boardObj = function()
      * @param  {string} coordinate 传入坐标。
      * @returns {boolean}
      */
-    _obj.place_stone = function(coordinate )
-    {
+    _obj.place_stone = function(coordinate){
         var target_cell = board.find('.'+coordinate);
         if(!target_cell.hasClass('blank'))
         {
@@ -102,6 +119,7 @@ var boardObj = function()
                 return false;
             }
         }
+        //是否显示五手N打点： 第四手展示在棋盘上，并且前4手的确是符合记录的时候，显示打点。
         if(_obj.curr_step == 4 && _obj.endgame == _obj.gameData.game_record)
         {
             _obj.show_a5();
@@ -138,9 +156,14 @@ var boardObj = function()
             return false;
         }
         alert("call server "+coordinate);
+        //TODO 通知服务器。服务器返回失败原因的话，则提示之。
         return true;
     };
 
+    /**
+     * 右键和回退按钮的事件，往回退一个棋子。并不产生任何Ajax，这不是悔棋操作。
+     * @returns {boolean}
+     */
     _obj.move_pre = function(){
         if(_obj.currgame)
         {
@@ -165,8 +188,11 @@ var boardObj = function()
         return false;
     };
 
+    /**
+     * 根据endgame，一步一步走下去，把整个棋局展示出来。
+     * @returns {boolean}
+     */
     _obj.move_next = function(){
-        //根据endgame，一步一步走下去
         if(_obj.currgame != _obj.endgame)
         {
             var nextstep = _obj.endgame.substr(_obj.currgame.length,2);
@@ -175,22 +201,36 @@ var boardObj = function()
         }
         return false;
     };
+
+    /**
+     * 回退到空棋盘状态。
+     */
     _obj.board_clean = function(){
         while (_obj.move_pre()) {}
     };
 
+    /**
+     * 根据目前的棋局记录一路Next到局面结束的状态。
+     */
     _obj.board_end = function(){
         while(_obj.move_next()) {}
     };
 
-    //根据gameData 初始化棋盘的文字信息和棋盘Game信息
-    _obj.board_load = function(){
+    /**
+     * 根据gameData 初始化棋盘的文字信息和棋盘Game信息
+     */
+    _obj.show_origin = function(){
         _obj.render_game_info();
+
         _obj.board_clean();
         _obj.endgame = _obj.gameData.game_record;
         _obj.board_end();
     };
 
+    /**
+     * 展示除了棋盘之外的其他文字信息和对局相关的提示信息。
+     * 也负责计算轮到谁落子。
+     */
     _obj.render_game_info = function(){
         //计算当前是否是“我”落子的回合。
         var current_playing = 0;
@@ -244,6 +284,10 @@ var boardObj = function()
         _obj.timer();
     };
 
+    /**
+     * 显示和隐藏五手打点
+     * @returns {boolean}
+     */
     _obj.show_a5 = function(){
         if(_obj.gameData.a5_pos == '')
             return false;
@@ -260,7 +304,10 @@ var boardObj = function()
     };
 
 
-    // 画棋盘和按钮。
+    /**
+     * 画棋盘和按钮。绑定右键事件。
+     * 整个页面载入的时候会执行一次。仅此一次。
+     */
     _obj.init_board = function(){
         _obj.currgame = '';
         _obj.curr_color = 'black';
@@ -299,27 +346,24 @@ var boardObj = function()
         var controlbar = $(document.createElement("div"));
         controlbar.addClass('controlbar');
         board.after(controlbar);
-        var nextbtn = $(document.createElement("input"));
-        var pre = $(document.createElement("input"));
-        var end = $(document.createElement("input"));
-        var init = $(document.createElement("input"));
-        var first = $(document.createElement("input"));
-        pre.attr('type','button').addClass('button').val('前一手').click(_obj.move_pre).appendTo(controlbar);
-        nextbtn.attr('type','button').addClass('button').val('后一手').click(_obj.move_next).appendTo(controlbar);
-        first.attr('type','button').addClass('button').val('第一手').click(_obj.board_clean).appendTo(controlbar);
-        end.attr('type','button').addClass('button').val('最后一手').click(_obj.board_end).appendTo(controlbar);
-        init.attr('type','button').addClass('button').val('恢复').click(_obj.board_load).appendTo(controlbar);
+        //按钮
+        $(document.createElement("input")).attr('type','button').addClass('button').val('前一手')  .click(_obj.move_pre   ).appendTo(controlbar);
+        $(document.createElement("input")).attr('type','button').addClass('button').val('后一手')  .click(_obj.move_next  ).appendTo(controlbar);
+        $(document.createElement("input")).attr('type','button').addClass('button').val('第一手')  .click(_obj.board_clean).appendTo(controlbar);
+        $(document.createElement("input")).attr('type','button').addClass('button').val('最后一手').click(_obj.board_end  ).appendTo(controlbar);
+        $(document.createElement("input")).attr('type','button').addClass('button').val('恢复')    .click(_obj.show_origin).appendTo(controlbar);
     };
 };
 
-//
+//页面初始化时对棋盘的操作：
+//1.new出对象
 var board = new boardObj();
+//2.调用其init方法
 board.init_board();
+//3.把web页输出的数据结构load进来。
 board.load(gameObj);
 
-
 	//websocket
-if (typeof console == "undefined") {    this.console = { log: function (msg) {  } };}
 Object.keys = Object.keys || function(obj){/**兼容IE**/
     var result = [];
         for(var key in obj )
@@ -354,11 +398,11 @@ var chat = function (){
         // 当有消息时根据消息类型显示不同信息
         ws.onmessage = that.onmessage;
         ws.onclose = function(e) {
-            console.log("连接关闭，定时重连");
+            debug_log("连接关闭，定时重连");
             window.setTimeout(that.connect,3000);
         };
         ws.onerror = function(e) {
-            console.log(e);
+            debug_log(e);
         };
     };
 
@@ -372,7 +416,7 @@ var chat = function (){
 // 服务端发来消息时
     this.onmessage = function (e)
     {
-        console.log("resultData="+e.data);
+        debug_log("on message:"+e.data);
         var data = JSON.parse(e.data);
         that.agentDistribute(data);
     };
@@ -382,7 +426,7 @@ var chat = function (){
     };
 
     this.dosend = function(data){
-        console.log("sendData=="+JSON.stringify(data));
+        debug_log("do send 原始数据"+JSON.stringify(data));
         var string_data = '';
         switch (typeof data)
         {
@@ -400,7 +444,7 @@ var chat = function (){
             default:
                 break;
         }
-        console.log("sendData_trans=="+string_data);
+        debug_log("do send 最终发送"+string_data);
         ws.send(string_data);
     };
 
