@@ -19,7 +19,7 @@ class TestController extends Controller
 {
     public function actionMsg()
     {
-        Gateway::sendToClient('7f0000010b5400000001',MsgHelper::build('game_info',[
+        Gateway::sendToGroup(1,MsgHelper::build('game_info',[
             'game' => GameService::renderGame(1)
         ]));
     }

@@ -45,7 +45,12 @@ var chat = function (){
     // 连接建立时发送WEBSOCKET登录信息
     this.onopen = function ()
     {
-        var login_data = {"type":"login","game_id":gameObj.id,'uid':userinfo ?　userinfo.id : 0};
+        var login_data = {
+            type:"login",
+            game_id:gameObj.id,
+            uid:userinfo ?　userinfo.id : 0,
+            nickname:userinfo ? userinfo.nickname : ''//直接传给服务端，避免websocket读DB了。
+        };
         that.sendMsg(login_data);
     };
 
@@ -130,6 +135,7 @@ var chat = function (){
 
     // 用户退出 更新用户列表
     this.actionLogout = function(_data){
+        debug_log(_data);
     };
 
     this.actionNotice = function(_data){

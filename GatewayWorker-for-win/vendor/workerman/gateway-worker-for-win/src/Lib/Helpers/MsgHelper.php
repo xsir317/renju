@@ -74,7 +74,6 @@ class MsgHelper
         return [
             'type' => 'client_list',
             'client_list' => $params['client_list'],
-            'apply_list' => isset($params['apply_list']) ? $params['apply_list']:[]
         ];
     }
 
@@ -146,14 +145,14 @@ class MsgHelper
 
     private static function buildLogout($params)
     {
-        if(empty($params['client']))
+        if(empty($params['user']))
         {
-            throw new MsgException('参数不完整，缺少client');
+            throw new MsgException('参数不完整，缺少user');
         }
 
         return [
             'type' => 'logout',
-            'client' => $params['client'],
+            'user' => $params['user'],
             'time' => date('Y-m-d H:i:s')
         ];
     }

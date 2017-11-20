@@ -19,8 +19,8 @@
  */
 //declare(ticks=1);
 
-use \GatewayWorker\Lib\Gateway;
-use GatewayWorker\Lib\Helpers\MsgHelper;
+use \GatewayWorker\Lib\CustomGateway as Gateway;
+use \GatewayWorker\Lib\Helpers\MsgHelper;
 use \GatewayWorker\Lib\Security;
 
 /**
@@ -97,85 +97,44 @@ class Events
 
     public static function actionLogin($client_id,$msg)
     {
-        var_dump($msg);
-        return;
         // 判断是否有房间号
-        if(!isset($msg['room_id']))
+        if(!isset($msg['game_id']))
         {
-            throw new \Exception("\$message_data['room_id'] not set. client_ip:{$_SERVER['REMOTE_ADDR']} \$message:".json_encode($msg));
+            throw new \Exception("\$message_data['game_id'] not set. client_ip:{$_SERVER['REMOTE_ADDR']} \$message:".json_encode($msg));
         }
 
         //默认
-        $uid = 0;
-        $client_name = '游客';
-        if(isset($msg['uid']))
-        {
-            $uid = intval($msg['uid']);
-        }
+        $game_id = $msg['game_id'];
+        $uid = isset($msg['uid']) ? intval($msg['uid']) : 0;
+        $nickname = !empty($msg['nickname']) ? $msg['nickname'] : '游客';
+
         if($uid)
         {
-            $clients = Gateway::getClientIdByUid($uid);
-            if(!empty($clients))
-            {
-                foreach ($clients as $exist_client_id)
-                {
-                    //如果已经有client_id 则强制登出
-                    if($exist_client_id != $client_id)
-                    {
-                        Gateway::sendToClient($exist_client_id,MsgHelper::build('shutdown',['content' => '您已经在其他浏览器登录']));
-                        Gateway::disconnect($exist_client_id);
-                    }
-                }
-            }
-            UsersService::touch($uid);
             Gateway::bindUid($client_id,$uid);
-            $user = UsersService::getBasic($uid,1);
-            $client_name = $user['nickname'];
         }
-        if(empty($user))
-        {
-            $user = [
-                'id' => 0,
-                'login_name' => $client_name,
-                'nickname' => $client_name,
-                'avatar' => 'no_avatar',
-                'client_id' => [$client_id]
-            ];
-        }
+        Gateway::joinGroup($client_id, $game_id);
 
         // 把房间号昵称放到session中
-        $room_id = $msg['room_id'];
-        $client_name = htmlspecialchars($client_name);
-        $_SESSION['room_id'] = $room_id;
-        $_SESSION['client_name'] = $client_name;
+        $_SESSION['game_id'] = $game_id;
         $_SESSION['uid'] = $uid;
-        if(isset($msg['device_id']))
-        {
-            $_SESSION['device_id'] = $msg['device_id'];
-        }
+        $_SESSION['nickname'] = $nickname;
 
         // 获取房间内所有用户列表
-
-        Gateway::joinGroup($client_id, $room_id);
         Gateway::sendToCurrentClient(MsgHelper::build('enter',[
             'client_id' => $client_id,
-            'history_msg' => array_merge(MsgHelper::getRecentMsgs($room_id),AnnounceHelper::getRecentAnnounce($room_id)),
+            'history_msg' => MsgHelper::getRecentMsgs($game_id),
         ]));
-        if(RoomService::getConfig($room_id,'show_user_enter'))
-        {
-            Gateway::sendToGroup($room_id, MsgHelper::build('login',['user' => $user,'car' => $car]));
-        }
-        if(!RoomService::send_client_list($room_id,1))
-        {
-            Gateway::sendToCurrentClient(MsgHelper::build(
-                'client_list',
-                [
-                    'client_list' => UsersService::getUsersByRoomId($room_id,1),
-                    'apply_list' => RedisConnection::_get_instance()->lRange("room_apply_list::{$room_id}",0,-1)
-                ]
-            ));
-        }
-        self::update_user_count($room_id);
+
+        Gateway::sendToGroup($game_id, MsgHelper::build('login',['user' => [
+            'uid' => $uid,
+            'nickname' => $nickname,
+        ]]));
+        Gateway::sendToGroup($game_id, MsgHelper::build(
+            'client_list',
+            [
+                'client_list' => Gateway::getClientSessionsByGroup($game_id),
+            ]
+        ));
         return;
     }
    /**
@@ -184,25 +143,31 @@ class Events
     */
    public static function onClose($client_id)
    {
-
        // debug
        echo "client:{$_SERVER['REMOTE_ADDR']}:{$_SERVER['REMOTE_PORT']} gateway:{$_SERVER['GATEWAY_ADDR']}:{$_SERVER['GATEWAY_PORT']}  client_id:$client_id onClose:''\n";
 
        // 从房间的客户端列表中删除
-       if(isset($_SESSION['room_id']))
+       if(isset($_SESSION['game_id']))
        {
-           $room_id = $_SESSION['room_id'];
-           Gateway::leaveGroup($client_id,$room_id);
-           $user = UsersService::getBasicByClientId($client_id);
-           if(RoomService::getConfig($room_id,'show_user_enter'))
+           $game_id = $_SESSION['game_id'];
+           Gateway::leaveGroup($client_id,$game_id);
+           Gateway::sendToGroup($game_id, MsgHelper::build('logout',[
+                'user' => [
+                    'uid' => $_SESSION['uid'],
+                    'nickname' => $_SESSION['nickname'],
+                ],
+           ]));
+           Gateway::sendToGroup($game_id, MsgHelper::build(
+               'client_list',
+               [
+                   'client_list' => Gateway::getClientSessionsByGroup($game_id),
+               ]
+           ));
+           if($_SESSION['uid'])
            {
-               Gateway::sendToGroup($room_id, MsgHelper::build('logout',[
-                   'client' => $user,
-               ]));
+               Gateway::unbindUid($client_id,$_SESSION['uid']);
            }
-           RoomService::send_client_list($room_id,1);
-           self::update_user_count($room_id);
+
        }
-       //Gateway::disconnect($client_id);
    }
 }

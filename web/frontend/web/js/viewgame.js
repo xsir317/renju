@@ -232,7 +232,7 @@ var boardObj = function()
         {
             current_playing = _obj.gameData.turn ? _obj.gameData.black_id : _obj.gameData.white_id;
         }
-        if(typeof userinfo.id != "undefined")
+        if(userinfo != null)
         {
             _obj.is_my_game = (userinfo.id == _obj.gameData.black_id || userinfo.id == _obj.gameData.white_id);
             _obj.is_my_turn = (current_playing == userinfo.id);

@@ -11,10 +11,10 @@ class RedisConnection
     public $host = '127.0.0.1';
     public $port = 6379;
     public $timeout =  0.5;
-    public $database = 0;
+    public $database = 1;
     public $unixSocket;
     public $retry_interval;
-    public $prefix = 'cache::';
+    public $prefix = 'kv::';
 
     private $_redisconn_instance = null;
     private static $_instance = null;

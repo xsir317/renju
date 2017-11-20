@@ -518,3 +518,20 @@ Stack trace:
 #9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
 #10 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
 #11 {main}
+2017-11-20 18:01:51 GatewayWorker\Lib\Helpers\MsgException: 参数不完整，缺少client in D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\Lib\Helpers\MsgHelper.php:151
+Stack trace:
+#0 [internal function]: GatewayWorker\Lib\Helpers\MsgHelper::buildLogout(Array)
+#1 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\Lib\Helpers\MsgHelper.php(21): call_user_func('self::buildLogo...', Array)
+#2 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\Events.php(157): GatewayWorker\Lib\Helpers\MsgHelper::build('logout', Array)
+#3 [internal function]: Events::onClose('7f0000010b54000...')
+#4 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(390): call_user_func('Events::onClose', '7f0000010b54000...')
+#5 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#6 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Connection\TcpConnection.php(629): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#7 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#8 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Events\Select.php(286): call_user_func_array(Array, Array)
+#9 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(856): Workerman\Events\Select->loop()
+#10 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\gateway-worker-for-win\src\BusinessWorker.php(190): Workerman\Worker->run()
+#11 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(473): GatewayWorker\BusinessWorker->run()
+#12 D:\WebRenju\GatewayWorker-for-win\vendor\workerman\workerman-for-win\Worker.php(382): Workerman\Worker::runAllWorkers()
+#13 D:\WebRenju\GatewayWorker-for-win\Applications\GameWS\start_businessworker.php(35): Workerman\Worker::runAll()
+#14 {main}

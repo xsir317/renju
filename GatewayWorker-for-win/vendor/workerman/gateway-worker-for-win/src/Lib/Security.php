@@ -60,7 +60,7 @@ class Security
             if(strtoupper($this->_data['_checksum']) !== strtoupper($server_md5))
             {
                 file_put_contents(
-                    "/data/logs/checksum.log.".date('ymd'),
+                    "./checksum.log.".date('ymd'),
                     date('H:i:s')." data : ".var_export($this->_data)."\n stringfy: {$stringfy} \n server md5: {$server_md5} \n",
                     FILE_APPEND);
                 return false;
