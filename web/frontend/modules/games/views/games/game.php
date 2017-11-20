@@ -58,6 +58,12 @@ $this->registerJSFile('/js/websocket.js');
                     <li class="offer_draw_tips"><span style="color:#ff3333">您的对手向您提和，如果您同意，请点击和棋按钮。</span></li>
                 </ul>
             </div>
+            <div class="greybox chat_area">
+                <div id="chat_content_list">
+                    <ul id="chat_content"></ul>
+                </div>
+                <div id="chat_operate_area"></div>
+            </div>
         </div>
     </div>
 </div>
