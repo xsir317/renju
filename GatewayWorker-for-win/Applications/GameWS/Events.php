@@ -20,6 +20,8 @@
 //declare(ticks=1);
 
 use \GatewayWorker\Lib\Gateway;
+use GatewayWorker\Lib\Helpers\MsgHelper;
+use \GatewayWorker\Lib\Security;
 
 /**
  * 主逻辑
@@ -61,7 +63,6 @@ class Events
            echo "message type not set,abort\n";
            return;
        }
-       return;
        //进行安全性检查
        $security = new Security($message_data);
        if(!$security->verifyRequest())

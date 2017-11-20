@@ -10,16 +10,6 @@ Object.keys = Object.keys || function(obj){/**兼容IE**/
 WEB_SOCKET_SWF_LOCATION = "/swf/WebSocketMain.swf?time="+new Date().getTime();
 WEB_SOCKET_DEBUG = true;
 var ws;
-function object_md5(obj) {
-    var keys = Object.keys(obj).sort();
-    var stringfy = '', prop;
-    for (var i = 0; i < keys.length; i++) {
-        prop = keys[i];
-        if(stringfy != '') stringfy += '&';
-        stringfy += (prop + '=' + obj[prop]);
-    }
-    return md5(stringfy);
-}
 
 var global_current_client_id = '';
 var chat = function (){
@@ -40,12 +30,23 @@ var chat = function (){
             debug_log(e);
         };
     };
+    this.object_md5 = function (obj) {
+        var keys = Object.keys(obj).sort();
+        var stringfy = '', prop;
+        for (var i = 0; i < keys.length; i++) {
+            prop = keys[i];
+            if(stringfy != '') stringfy += '&';
+            stringfy += (prop + '=' + obj[prop]);
+        }
+        return md5(stringfy);
+    };
+
 
     // 连接建立时发送WEBSOCKET登录信息
     this.onopen = function ()
     {
         var login_data = {"type":"login","game_id":gameObj.id,'uid':userinfo ?　userinfo.id : 0};
-        that.dosend(login_data);
+        that.sendMsg(login_data);
     };
 
 // 服务端发来消息时
@@ -56,11 +57,8 @@ var chat = function (){
         that.agentDistribute(data);
     };
 
-    this.sendMsg = function(_data){
-        that.dosend(_data);
-    };
 
-    this.dosend = function(data){
+    this.sendMsg = function(data){
         debug_log("do send 原始数据"+JSON.stringify(data));
         var string_data = '';
         switch (typeof data)
@@ -73,7 +71,7 @@ var chat = function (){
                 data['_timestamp'] = ts_delta + Math.round(new Date().getTime()/1000);
                 var full_data_obj = JSON.parse(JSON.stringify(data));//copy
                 full_data_obj['_secret'] = ws_token['secret'];//secret 不会打包进数据
-                data['_checksum'] = object_md5(full_data_obj);
+                data['_checksum'] = this.object_md5(full_data_obj);
                 string_data = JSON.stringify(data);
                 break;
             default:
@@ -98,7 +96,7 @@ var chat = function (){
 
     // 服务端ping客户端
     this.actionPing = function(_data){
-        that.dosend({type:"pong"});
+        that.sendMsg({type:"pong"});
     };
 
 
