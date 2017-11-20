@@ -2,14 +2,6 @@
  * @author xsir317@gmail.com
  * @license http://creativecommons.org/licenses/by-sa/3.0/deed.zh
  */
-var _debug_mode = true;
-var debug_log = function(log){
-    if (typeof console == "undefined") return false;
-    if(_debug_mode)
-    {
-        console.log(log);
-    }
-};
 var boardObj = function()
 {
     //棋盘的DOM对象，基本上棋子、棋盘逻辑都在这里面。

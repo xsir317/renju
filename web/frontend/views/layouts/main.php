@@ -40,6 +40,16 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
         </div>
     </div>
 </div>
+<script type="text/javascript">
+var _debug_mode = <?php echo YII_DEBUG;?>;
+var debug_log = function(log){
+    if (typeof console == "undefined") return false;
+    if(_debug_mode)
+    {
+        console.log(log);
+    }
+};
+</script>
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
 <?php $this->endBody() ?>
 </body>
