@@ -347,11 +347,11 @@ var boardObj = function()
         controlbar.addClass('controlbar');
         board.after(controlbar);
         //按钮
-        $(document.createElement("input")).attr('type','button').addClass('button').val('前一手')  .click(_obj.move_pre   ).appendTo(controlbar);
-        $(document.createElement("input")).attr('type','button').addClass('button').val('后一手')  .click(_obj.move_next  ).appendTo(controlbar);
-        $(document.createElement("input")).attr('type','button').addClass('button').val('第一手')  .click(_obj.board_clean).appendTo(controlbar);
-        $(document.createElement("input")).attr('type','button').addClass('button').val('最后一手').click(_obj.board_end  ).appendTo(controlbar);
-        $(document.createElement("input")).attr('type','button').addClass('button').val('恢复')    .click(_obj.show_origin).appendTo(controlbar);
+        $(document.createElement("button")).addClass('button').text('前一手')  .click(_obj.move_pre   ).appendTo(controlbar);
+        $(document.createElement("button")).addClass('button').text('后一手')  .click(_obj.move_next  ).appendTo(controlbar);
+        $(document.createElement("button")).addClass('button').text('第一手')  .click(_obj.board_clean).appendTo(controlbar);
+        $(document.createElement("button")).addClass('button').text('最后一手').click(_obj.board_end  ).appendTo(controlbar);
+        $(document.createElement("button")).addClass('button').text('恢复')    .click(_obj.show_origin).appendTo(controlbar);
     };
 };
 

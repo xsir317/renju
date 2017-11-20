@@ -51,7 +51,7 @@ th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 	height:583px;
 	width:590px;
 	padding-top:3px;
-	user-select：none; 
+	user-select:none;
 	-moz-user-select: none;
 -webkit-user-select: none; 
 }
@@ -91,7 +91,7 @@ th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 	cursor:pointer;
 }
 .controlbar{width: 550px;}
-.controlbar input{margin-left:25px;}
+.controlbar button{margin-left:25px;}
 .field{height:37px;line-height:37px;margin:10px 0;}
 #gameinfo{float:left;width:163px;}
 #gameinfo li{padding:5px;border-top:1px solid #D1D1D1;overflow:hidden;}
@@ -104,7 +104,7 @@ background:-webkit-linear-gradient(top, #f9f9f9, #f7f7f7);
 background:-moz-linear-gradient(top, #f9f9f9, #f7f7f7);
 background:-o-linear-gradient(top, #f9f9f9, #f7f7f7);
 background:linear-gradient(to bottom, #f9f9f9, #f7f7f7);
-box-shadow:inset 0px 1px 0 rgba(255,255,255,1);color:#444
+box-shadow:inset 0px 1px 0 rgba(255,255,255,1);
 border-radius: 4px 4px 4px 4px;
 display: inline-block;
 height: 25px;
@@ -120,7 +120,7 @@ background:-moz-linear-gradient(top, #F1F1F1, #E7E7E7);
 background:-o-linear-gradient(top, #F1F1F1, #E7E7E7);
 background:linear-gradient(to bottom, #F1F1F1, #E7E7E7);
 box-shadow:inset 0px 1px 0 rgba(255,255,255,0.2)}
-.game_pager li.selected a{border:1pxsolid #D2D2D2;
+.game_pager li.selected a{border:1px solid #D2D2D2;
 background:#E7E7E7;
 background:-webkit-linear-gradient(top, #E7E7E7, #F1F1F1);
 background:-moz-linear-gradient(top, #E7E7E7, #F1F1F1);
