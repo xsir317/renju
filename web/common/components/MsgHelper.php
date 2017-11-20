@@ -113,26 +113,6 @@ class MsgHelper
         ];
     }
 
-    private static function buildGift_banner($params)
-    {
-        if(empty($params['from']))
-        {
-            throw new MsgException('缺少参数from_client');
-        }
-        if(empty($params['banner_id']))
-        {
-            throw new MsgException('缺少banner_id');
-        }
-
-        return [
-            'type' => 'gift_banner',
-            'banner_id' => $params['banner_id'],
-            'from' => $params['from'],
-            'to' => empty($params['to']) ? null:$params['to'],
-            'time' => date('Y-m-d H:i:s'),
-        ];
-    }
-
     private static function buildSay($params)
     {
         if(empty($params['from_client']))
