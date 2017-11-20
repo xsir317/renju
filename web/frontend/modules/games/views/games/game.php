@@ -2,10 +2,14 @@
 use common\services\GameService;
 
 $this->title = '对局';
-$this->registerJSFile('/js/md5.min.js');
+//棋盘
+$this->registerJSFile('/js/viewgame.js');
+
+//websocket连接
 $this->registerJSFile('/js/swfobject.js');
 $this->registerJSFile('/js/web_socket.js');
-$this->registerJSFile('/js/viewgame.js');
+$this->registerJSFile('/js/md5.min.js');
+$this->registerJSFile('/js/websocket.js');
 ?>
 <div class="container">
     <div class="wrapper" style="min-height:366px;overflow:hidden;">
