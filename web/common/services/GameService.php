@@ -83,22 +83,10 @@ class GameService extends BaseService
         }
         //do over
         $return  = $game->toArray();
-        $return['bplayer'] = self::renderUser($game->black_id);
-        $return['wplayer'] = self::renderUser($game->white_id);
+        $return['bplayer'] = UserService::renderUser($game->black_id);
+        $return['wplayer'] = UserService::renderUser($game->white_id);
         $return['turn'] = $turn;
         return $return;
-    }
-
-    public static function renderUser($uid)
-    {
-        $user = $uid ? Player::findOne($uid) : null;
-        return $user ? [
-            'id' => $user->id,
-            'email' => $user->email,
-            'nickname' => $user->nickname,
-            'score' => $user->score,
-            'intro' => $user->intro,
-        ] : null;
     }
 
     public static function newToken()

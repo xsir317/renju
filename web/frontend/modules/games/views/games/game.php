@@ -70,7 +70,17 @@ $this->registerJSFile('/js/websocket.js');
                 <div id="chat_content_list">
                     <ul id="chat_content"></ul>
                 </div>
-                <div id="chat_operate_area"></div>
+                <div id="chat_operate_area" class="custom-tab-oper">
+                    <div>
+                        <span class="to-emjo">
+                            <a><i class="icon-menu-2 icon-emjo icon-room-custom-bar"></i></a>
+                        </span>
+                    </div>
+                    <div class="componet-send">
+                        <textarea id="msg" placeholder="你怎么看……" maxlength="100"></textarea>
+                        <a class="send">发送</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

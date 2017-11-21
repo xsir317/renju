@@ -38,4 +38,16 @@ class UserService extends BaseService
 
         return $data;
     }
+
+    public static function renderUser($uid)
+    {
+        $user = $uid ? Player::findOne($uid) : null;
+        return $user ? [
+            'id' => $user->id,
+            'email' => $user->email,
+            'nickname' => $user->nickname,
+            'score' => $user->score,
+            'intro' => $user->intro,
+        ] : null;
+    }
 }

@@ -11,6 +11,7 @@ namespace frontend\modules\games\controllers;
 
 use common\models\Games;
 use common\services\GameService;
+use common\services\UserService;
 use frontend\components\Controller;
 use yii\web\HttpException;
 
@@ -28,7 +29,7 @@ class GamesController extends Controller
         return $this->render('game',[
             'game' => GameService::renderGame($game_id),
             'ws_token' => GameService::newToken(),
-            'userinfo' => $this->_user() ? GameService::renderUser($this->_user()->id ) : null
+            'userinfo' => $this->_user() ? UserService::renderUser($this->_user()->id ) : null
         ]);
     }
 
@@ -61,12 +62,5 @@ class GamesController extends Controller
     public function actionResgin()
     {
 
-    }
-
-    public function actionChat()
-    {
-        //按照IP限制发言频率
-        //按照关键词屏蔽内容
-        //聊天内容推送给当前Game
     }
 }

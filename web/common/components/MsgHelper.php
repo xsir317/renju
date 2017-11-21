@@ -115,13 +115,9 @@ class MsgHelper
 
     private static function buildSay($params)
     {
-        if(empty($params['from_client']))
+        if(empty($params['from_user']))
         {
-            throw new MsgException('缺少参数from_client');
-        }
-        if(empty($params['to_client']))
-        {
-            throw new MsgException('缺少参数to_client');
+            throw new MsgException('缺少参数from_user');
         }
         if(empty($params['content']))
         {
@@ -129,25 +125,10 @@ class MsgHelper
         }
         $return = [
             'type' => 'say',
-            'from_client' => $params['from_client'],
-            'to_client' => $params['to_client'],
+            'from_user' => $params['from_user'],
             'content' => $params['content'],
-            'scope' => isset($params['scope']) && in_array($params['scope'],['public','private']) ? $params['scope'] : 'public',
             'time' => date('Y-m-d H:i:s'),
         ];
-        //默认颜色和字体
-        if(!empty($params['color']) && preg_match('/^#[0-9a-f]{6}$/i',$params['color']))
-        {
-            $return['color'] = $params['color'];
-        }
-        if(!empty($params['font-size']) && intval($params['font-size']))
-        {
-            $font_size = intval($params['font-size']);
-            if($font_size >=8 && $font_size <= 40)
-            {
-                $return['font-size'] = $font_size;
-            }
-        }
         return $return;
     }
 
