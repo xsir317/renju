@@ -100,7 +100,6 @@ class MsgHelper
         return [
             'type' => 'login',
             'user' => $params['user'],
-            'car' => isset($params['car']) ? $params['car'] : 0,
             'time' => date('Y-m-d H:i:s'),
         ];
     }

@@ -269,9 +269,6 @@ var boardObj = function()
         {
             $(".offer_draw_tips").hide();
         }
-
-
-
         //计时
         _obj.timer();
     };

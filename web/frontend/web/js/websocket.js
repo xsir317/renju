@@ -49,6 +49,7 @@ var chat = function (){
             type:"login",
             game_id:gameObj.id,
             uid:userinfo ?　userinfo.id : 0,
+            score:userinfo ?　userinfo.score : 0,
             nickname:userinfo ? userinfo.nickname : ''//直接传给服务端，避免websocket读DB了。
         };
         that.sendMsg(login_data);
@@ -118,6 +119,15 @@ var chat = function (){
 
 
     this.actionClient_list = function(_data){
+        $("#chat_user_list>ul").find("li:not(:first)").remove();
+        for(var i in _data.client_list)
+        {
+            var user = (typeof _data.client_list[i].user == "object") ? _data.client_list[i].user : null;
+            var new_li = $(document.createElement("li"));
+            $(document.createElement('span')).addClass("ulist_name").text(user ? user.nickname : "游客").appendTo(new_li);
+            $(document.createElement('span')).addClass("ulist_score").text(user ? user.score : "0").appendTo(new_li);
+            new_li.appendTo($("#chat_user_list>ul"));
+        }
     };
 
     this.actionGame_info = function(_data){

@@ -21,6 +21,7 @@
 
 use \GatewayWorker\Lib\CustomGateway as Gateway;
 use \GatewayWorker\Lib\Helpers\MsgHelper;
+use GatewayWorker\Lib\QueueService;
 use \GatewayWorker\Lib\Security;
 
 /**
@@ -129,12 +130,8 @@ class Events
             'uid' => $uid,
             'nickname' => $nickname,
         ]]));
-        Gateway::sendToGroup($game_id, MsgHelper::build(
-            'client_list',
-            [
-                'client_list' => Gateway::getClientSessionsByGroup($game_id),
-            ]
-        ));
+        //TODO 用队列去发client list，或者triggerWeb端去发。
+        QueueService::insert('game',['game_id' => $game_id]);
         return;
     }
    /**

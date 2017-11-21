@@ -15,7 +15,7 @@ $this->registerJSFile('/js/websocket.js');
     <div class="wrapper" style="min-height:366px;overflow:hidden;">
         <div class="content greybox" style="padding:10px;">
             <div style="float:left;margin-right:10px;"><div id="board_main"></div></div>
-            <div class="greybox" id="gameinfo">
+            <div class="greybox" id="gameinfo" style="float:left;margin-right:10px;">
                 <ul>
                     <li class="black_name" style="border-top:none;">
                         <span>黑方:</span><ins></ins>
@@ -59,6 +59,14 @@ $this->registerJSFile('/js/websocket.js');
                 </ul>
             </div>
             <div class="greybox chat_area">
+                <div id="chat_user_list">
+                    <ul>
+                        <li class="user_title">
+                            <span class="ulist_name">昵称</span>
+                            <span class="ulist_score">等级分</span>
+                        </li>
+                    </ul>
+                </div>
                 <div id="chat_content_list">
                     <ul id="chat_content"></ul>
                 </div>
@@ -69,13 +77,6 @@ $this->registerJSFile('/js/websocket.js');
 </div>
 <!-- TODO 聊天部分需要emoji 参考 https://juejin.im/entry/596dbc68f265da6c2810e6ac-->
 <script type="text/javascript">
-    var game_id = <?php echo $game['id']?>;
-    var gameinit = '<?php echo $game['game_record']?>';
-    var board_a5 = '<?php echo $game['a5_pos']?>';
-    var a5_numbers = <?php echo $game['a5_numbers']?>;
-    var turn = '<?php echo $game['turn'] ?'black' : 'white' ?>';
-    var game_upd = '<?php echo $game['movetime']?>';
-
     var result_defines = <?php echo json_encode(GameService::$status_define) ?>;
     var gameObj = <?php echo json_encode($game);?>;
     var ws_token = <?php echo json_encode($ws_token);?>;
