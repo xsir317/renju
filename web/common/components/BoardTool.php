@@ -44,11 +44,11 @@ class BoardTool
 	{
 		$count = strlen($boardstr);
 		if($count%2 != 0)
-		return false;
+			return false;
 		$arr_pos = str_split($boardstr,2);
 		$arr_pos = array_unique($arr_pos);
 		if(count($arr_pos) != $count/2)
-		return false;
+			return false;
 		for ($i = 0;$i<$count;$i ++)
 		{
 			$pos = hexdec($boardstr{$i});
@@ -69,7 +69,7 @@ class BoardTool
 	public static function a5_symmetry($board,$a5)
 	{
 		if(strlen($a5) < 4)
-		return false;
+			return false;
 		$b = array(substr($board,0,2),substr($board,4,2));//黑棋1，3
 		$w = array(substr($board,2,2),substr($board,6,2));//白棋2，4
 		$a5_pos = str_split($a5,2);

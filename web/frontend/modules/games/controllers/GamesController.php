@@ -36,8 +36,44 @@ class GamesController extends Controller
     //TODO 研究一下怎么引入transaction，棋局的计时、计算输赢需要事务处理，冲突了就跪了
     public function actionPlay()
     {
-        //轮到自己下了。
+        if(!$this->_user())
+        {
+            return $this->renderJSON([],'您尚未登录',-1);
+        }
+        $game_id = intval($this->post("game_id"));
+        //TODO 这里如果发生超时之类的，需要通知一下websocket
+        $game_info = GameService::renderGame($game_id);
+        if(!$game_info)
+        {
+
+        }
+        if($game_info['whom_to_play'] != $this->_user()->id)
+        {
+
+        }
+        //到这里，可以落子了。
+        //是不是在下打点？
+        $game_object = Games::findOne($game_id);
         //提和id设置为0
+        $game_object->offer_draw = 0;
+        if(strlen($game_object->game_record)/2 == 4)
+        {
+            //第五手，有2种情况，都很特殊
+            $a5_on_board = strlen($game_object->a5_pos)/2;
+            if($a5_on_board < $game_object->a5_numbers)
+            {
+                //落子进a5_pos
+            }
+            else
+            {
+                //这是在选黑5，只能是在a5_pos范围内选点。
+            }
+        }
+        else
+        {
+            //在棋盘上落子。调用胜负判断。
+        }
+        //轮到自己下了。
         //如果不在摆打点，校验位置合法，可落子，则刷新时间并落子
         //如果在摆打点，校验位置合法，落子计入5apos
         

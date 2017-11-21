@@ -81,11 +81,18 @@ class GameService extends BaseService
             $game->updtime = date('Y-m-d H:i:s');
             $game->save(0);
         }
+
+        $whom_to_play = 0;
+        if($game->status == GameService::PLAYING)
+        {
+            $whom_to_play = $turn ? $game->black_id : $game->white_id;
+        }
         //do over
         $return  = $game->toArray();
         $return['bplayer'] = UserService::renderUser($game->black_id);
         $return['wplayer'] = UserService::renderUser($game->white_id);
         $return['turn'] = $turn;
+        $return['whom_to_play'] = $whom_to_play;
         return $return;
     }
 

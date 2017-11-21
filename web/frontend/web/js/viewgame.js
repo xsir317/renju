@@ -146,8 +146,21 @@ var boardObj = function()
         {
             return false;
         }
-        alert("call server "+coordinate);
-        //TODO 通知服务器。服务器返回失败原因的话，则提示之。
+        $.post(
+            "/games/games/play",
+            {
+                coordinate:coordinate,
+                "_csrf-frontend":$("meta[name=csrf-token]").attr("content"),
+                game_id:gameObj.id
+            },
+            function(_data){
+                if(_data.code != 200)
+                {
+                    alert(_data.msg);
+                }
+            },
+            "json"
+        );
         return true;
     };
 
@@ -224,17 +237,13 @@ var boardObj = function()
      */
     _obj.render_game_info = function(){
         //计算当前是否是“我”落子的回合。
-        var current_playing = 0;
         _obj.is_my_game = false;
         _obj.is_my_turn = false;
-        if(_obj.gameData.status == 1)
-        {
-            current_playing = _obj.gameData.turn ? _obj.gameData.black_id : _obj.gameData.white_id;
-        }
+        
         if(userinfo != null)
         {
             _obj.is_my_game = (userinfo.id == _obj.gameData.black_id || userinfo.id == _obj.gameData.white_id);
-            _obj.is_my_turn = (current_playing == userinfo.id);
+            _obj.is_my_turn = (_obj.gameData.whom_to_play == userinfo.id);
         }
         $(".black_name>ins").html(_obj.gameData.bplayer.nickname);
         $(".white_name>ins").html(_obj.gameData.wplayer.nickname);
