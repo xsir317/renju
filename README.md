@@ -8,6 +8,7 @@
 -----
 
 1. [安装/配置](#安装/配置)
+   * [目录结构](#目录结构)
    * [安装](#安装)
    * [系统需求](#系统需求)
    * [Linux 安装](#Linux-安装)
@@ -33,6 +34,14 @@
   * Mysql 5.6+
   * Redis
   * PHP的[redis扩展](https://github.com/phpredis/phpredis)
+
+本系统服务端分为2部分，负责运行Web后端的Yii2框架项目，以及负责Websocket连接的GatewayWorker部分，两部分通过Workerman官方提供的Gateway.php 沟通。
+
+基本数据存储在Mysql中，Redis用于缓存以及队列。
+
+## 目录结构
+   
+
 
 ## 安装
 
