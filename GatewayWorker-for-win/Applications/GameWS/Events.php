@@ -131,7 +131,7 @@ class Events
             'nickname' => $nickname,
         ]]));
         //TODO 用队列去发client list，或者triggerWeb端去发。
-        QueueService::insert('game',['game_id' => $game_id]);
+        QueueService::insert('client_list',['game_id' => $game_id]);
         return;
     }
    /**

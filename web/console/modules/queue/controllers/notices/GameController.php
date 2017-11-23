@@ -15,7 +15,7 @@ use common\services\UserService;
 use console\modules\queue\Queue;
 
 class GameController extends Queue {
-    protected $queueName = 'game';
+    protected $queueName = 'client_list';
     protected  function handle($data)
     {
         //推送信息

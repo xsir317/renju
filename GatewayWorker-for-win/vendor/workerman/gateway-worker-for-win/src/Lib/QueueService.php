@@ -12,7 +12,7 @@ namespace GatewayWorker\Lib;
 class QueueService
 {
     private static $queues = [//队列 简称 => 队列key
-        'game' => 'queue_game_info',
+        'client_list' => 'queue_game_info',
     ];
 
     public static function len($list_name)
