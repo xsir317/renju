@@ -9,6 +9,7 @@
 namespace common\services;
 
 
+use common\components\BoardTool;
 use common\models\Games;
 use common\models\Player;
 
@@ -53,34 +54,10 @@ class GameService extends BaseService
         {
             $turn = 1 - ($stones%2);
         }
-        //刷时间。
-        if($game->status == GameService::PLAYING)
-        {
-            $lastupd = strtotime($game->updtime);
-            $delta = time() - $lastupd;
-            if($turn)
-            {
-                $game->black_time -= $delta;
-                $game->black_time = ($game->black_time < 0 ? 0 : $game->black_time);
-                if($game->black_time == 0)
-                {
-                    $game->movetime = date('Y-m-d H:i:s');
-                    //BoardTool::do_over($game,0);
-                }
-            }
-            else
-            {
-                $game->white_time -= $delta;
-                $game->white_time = ($game->white_time < 0 ? 0 : $game->white_time);
-                if($game->white_time == 0)
-                {
-                    $game->movetime = date('Y-m-d H:i:s');
-                    //BoardTool::do_over($game,1);
-                }
-            }
-            $game->updtime = date('Y-m-d H:i:s');
-            $game->save(0);
-        }
+
+        //刷新时间的时候，如果涉及到超时胜负，会发个消息出去。发消息的时候会render。但是不会再次走进refresh的逻辑。
+        self::refresh_time($game_id,$turn);
+        $game->refresh();
 
         $whom_to_play = 0;
         if($game->status == GameService::PLAYING)
@@ -104,5 +81,42 @@ class GameService extends BaseService
         \Yii::$app->redis->setEx($return['token'],600,$return['secret']);
         \Yii::$app->session['chat_token'] = $return['token'];
         return $return;
+    }
+
+    private static function refresh_time($game_id,$turn)
+    {
+        $game = Games::findOne($game_id);
+        //刷时间。
+        if($game->status == GameService::PLAYING)
+        {
+            $lastupd = strtotime($game->updtime);
+            $delta = time() - $lastupd;
+            if($turn)
+            {
+                $game->black_time -= $delta;
+                $game->black_time = ($game->black_time < 0 ? 0 : $game->black_time);
+                if($game->black_time == 0)
+                {
+                    $game->movetime = date('Y-m-d H:i:s');
+                    $game->save(0);
+                    BoardTool::do_over($game_id,0);
+                    $game->refresh();
+                }
+            }
+            else
+            {
+                $game->white_time -= $delta;
+                $game->white_time = ($game->white_time < 0 ? 0 : $game->white_time);
+                if($game->white_time == 0)
+                {
+                    $game->movetime = date('Y-m-d H:i:s');
+                    $game->save(0);
+                    BoardTool::do_over($game_id,1);
+                    $game->refresh();
+                }
+            }
+            $game->updtime = date('Y-m-d H:i:s');
+            $game->save(0);
+        }
     }
 }

@@ -253,7 +253,7 @@ var boardObj = function()
         $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
         if(_obj.is_my_turn)
         {
-            $(".turn_to_play_tips").show();
+            $(".turn_to_play_tips").text("轮到您下第" + ((_obj.gameData.game_record.length / 2) + 1) + "手").show();
         }
         else
         {
