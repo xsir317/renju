@@ -6,6 +6,7 @@ body
 	margin:0px;
 	font-family: "微软雅黑",Arial,Helvetica,sans-serif;
 }
+.layui-main {overflow:hidden;}
 img{border:none;}
 h1,h2,h3{margin:0;}
 p{font-size:14px;margin:0 0 5px 0;line-height:22px;}
@@ -24,15 +25,13 @@ th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 #toolbar ul li a{color: #4C9FEB;padding-left:5px;}
 #toolbar ul li a:hover{color:#FF7D4C}
 .wrapper{width:980px;margin:0 auto;}
-#intro{width:600px;margin-right:27px;padding:10px 15px;}
 #login_reg{width:320px}
-#intro,#login_reg{float:left;}
+
+.grid_content {padding:10px;overflow: hidden;}
 .footer {margin:10px 0;}
 .footer p{text-align:center;}
 #cont_login,#cont_reg{height:475px;}
 #login2,#reg2{background-color: #EAEAEA;height:94px;}
-#reg2{border-top:1px solid #ccc}
-#login2{border-bottom:1px solid #ccc}
 #login,#reg,#login2,#reg2{padding:10px;}
 #login,#reg{height:340px;}
 #login_reg label{display:block;}
@@ -93,7 +92,6 @@ th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 .controlbar{width: 550px;}
 .controlbar button{margin-left:25px;}
 .field{height:37px;line-height:37px;margin:10px 0;}
-#gameinfo{float:left;width:163px;}
 #gameinfo li{padding:5px;border-top:1px solid #D1D1D1;overflow:hidden;}
 #gameinfo span,#gameinfo ins{float:left;text-decoration:none;padding-left:10px;}
 /*聊天*/
@@ -101,16 +99,8 @@ th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 #chat_user_list,#chat_content_list,#chat_operate_area{padding:10px 0 0 0;}
 #chat_user_list ul li,#hall_games ul li{overflow: hidden;}
 #chat_user_list .user_title,.hall_game_title{font-weight:bold;}
-#chat_user_list .ulist_name {width:78px;overflow: hidden;margin-left: 5px;text-align: center;float: left;display: inline-block;}
-#chat_user_list .ulist_score {width:82px;overflow: hidden;margin-left: 5px;text-align: center;float: left;display: inline-block;}
 
-#hall_game_list {min-height: 450px;}
-#hall_games ul li span{overflow: hidden;margin-left: 5px;text-align: center;float: left;display: inline-block;}
-#hall_games .game_id{ width:60px; }
-#hall_games .black_name{ width:80px; }
-#hall_games .white_name{ width:80px; }
-#hall_games .current_step{ width:60px; }
-#hall_games .view_game{ width:80px; }
+#hall_games ul li {overflow: hidden;}
 #chat_content_list {height:330px;overflow-x: hidden;overflow-y:auto;}
 #chat_content ul li{float: left;display: inline-block;}
 .game_pager{overflow:hidden;padding-left:220px;}

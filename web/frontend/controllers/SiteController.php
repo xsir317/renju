@@ -106,4 +106,13 @@ class SiteController extends Controller
         }
         return $this->renderJSON([],'请求方式错误',-1);
     }
+
+    public function actionLogout()
+    {
+        if(!\Yii::$app->user->isGuest)
+        {
+            \Yii::$app->user->logout();
+        }
+        return $this->redirect('/');
+    }
 }
