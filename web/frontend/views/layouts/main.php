@@ -45,7 +45,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
         </p>
     </div>
 </div>
-<div id="invite_box">
+<div id="invite_box" style="display:none;">
     <form id="invite_form" onsubmit="return false;">
         <h3>邀请对局</h3>
         <input type="hidden" value="" name="to_user" />
@@ -90,7 +90,8 @@ var debug_log = function(log){
 };
 layui.config({
     base: '/layui/'
-}).use('global');
+}).use('layer');
+//layer.open({type:1,content:$("#invite_box")});
 </script>
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
 <?php $this->endBody() ?>
