@@ -10,6 +10,8 @@ namespace common\services;
 
 
 use common\components\BoardTool;
+use common\components\CustomGateway;
+use common\components\MsgHelper;
 use common\models\Games;
 use common\models\Player;
 
@@ -81,6 +83,19 @@ class GameService extends BaseService
         \Yii::$app->redis->setEx($return['token'],600,$return['secret']);
         \Yii::$app->session['chat_token'] = $return['token'];
         return $return;
+    }
+
+    public static function sendGamesList()
+    {
+        $games_list = Games::find()
+            ->select(['id','black_id','white_id','rule','game_record'])
+            ->where(['status' => self::PLAYING])
+            ->orderBy('movetime desc')
+            ->asArray()
+            ->all();
+        UserService::render($games_list,'black_id','black');
+        UserService::render($games_list,'white_id','white');
+        CustomGateway::sendToHall(MsgHelper::build('games',['games' => $games_list]));
     }
 
     private static function refresh_time($game_id,$turn)

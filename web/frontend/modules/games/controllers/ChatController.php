@@ -20,7 +20,7 @@ class ChatController extends Controller
     {
         //TODO 按照IP限制发言频率
         //TODO 按照关键词屏蔽内容
-        $game_id = intval($this->post('game_id'));
+        $game_id = $this->post('game_id');
         $content = trim($this->post('content'));
 
         if(!$this->_user())

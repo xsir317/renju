@@ -359,27 +359,3 @@ var board = new boardObj();
 board.init_board();
 //3.把web页输出的数据结构load进来。
 board.load(gameObj);
-
-$("#chat_operate_area .send").click(function(){
-    var content = $("#msg").val().trim();
-    if(!content)
-    {
-        alert("请勿发送空信息");
-    }
-    $.post(
-        "/games/chat/say",
-        {
-            content:content,
-            "_csrf-frontend":$("meta[name=csrf-token]").attr("content"),
-            game_id:gameObj.id
-        },
-        function(_data){
-            if(_data.code != 200)
-            {
-                alert(_data.msg);
-            }
-            $("#msg").val("");
-        },
-        "json"
-    );
-});

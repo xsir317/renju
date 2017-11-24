@@ -124,6 +124,7 @@ class GamesController extends Controller
         Gateway::sendToGroup($game_id,MsgHelper::build('game_info',[
             'game' => GameService::renderGame($game_id)
         ]));
+        GameService::sendGamesList();
 
         return $this->renderJSON([]);
     }

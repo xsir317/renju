@@ -228,6 +228,7 @@ class BoardTool
             Gateway::sendToGroup($game_id,MsgHelper::build('game_info',[
                 'game' => GameService::renderGame($game_id)
             ]));
+            GameService::sendGamesList();
         }
 		//对局量前50局,K值取30,然后,一般取20-15之间,等级分达到2400后K值取10 TODO
 		//惩罚性规则：如果手数小于16，则变动系数K降为5,如果手数小于5，则降为1。

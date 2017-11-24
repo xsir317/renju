@@ -22,17 +22,19 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div class="layui-header header header-doc">
-    <div class="layui-main">
-        <ul class="layui-nav">
-            <?php if(!Yii::$app->user->isGuest):?><li class="layui-nav-item">欢迎你，<?php echo Html::encode(Yii::$app->user->identity->nickname);?>。</li><?php endif;?>
-            <li class="layui-nav-item ">
-                <a href="/">首页</a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="mailto:xsir317@gmail.com">联系我们</a>
-            </li>
-        </ul>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header header header-doc">
+        <div class="layui-main">
+            <ul class="layui-nav">
+                <?php if(!Yii::$app->user->isGuest):?><li class="layui-nav-item">欢迎你，<?php echo Html::encode(Yii::$app->user->identity->nickname);?>。</li><?php endif;?>
+                <li class="layui-nav-item ">
+                    <a href="/">首页</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="mailto:xsir317@gmail.com">联系我们</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 <div class="layui-main site-inline">
@@ -95,6 +97,7 @@ layui.config({
 </script>
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
 <?php $this->endBody() ?>
+<script src="/js/page.js" charset="utf-8"></script>
 </body>
 </html>
 <?php $this->endPage() ?>

@@ -203,6 +203,18 @@ class MsgHelper
         ];
     }
 
+    private static function buildGames($params)
+    {
+        if(!isset($params['games']))
+        {
+            throw new MsgException('参数不完整，缺少games游戏信息');
+        }
+        return [
+            'type' => 'games',
+            'games' => $params['games']
+        ];
+    }
+
     private static function getRoomMsgKey($room_id)
     {
         return sprintf("room_msg::%d",$room_id);

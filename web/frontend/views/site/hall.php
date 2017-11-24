@@ -4,13 +4,17 @@ use common\services\GameService;
 $this->title = '大厅';
 
 //websocket连接
+$this->registerJSFile('/js/swfobject.js');
+$this->registerJSFile('/js/web_socket.js');
+$this->registerJSFile('/js/md5.min.js');
+$this->registerJSFile('/js/websocket.js');
 ?>
     <div id="hall_games" class="layui-col-xs9">
         <ul class="grid_content">
             <li class="hall_game_title">
-                <span class="game_id layui-col-xs3">ID</span>
+                <span class="game_id layui-col-xs2">ID</span>
                 <span class="black_name layui-col-xs3">执黑方</span>
-                <span class="white_name layui-col-xs2">执白方</span>
+                <span class="white_name layui-col-xs3">执白方</span>
                 <span class="current_step layui-col-xs2">手数</span>
                 <span class="view_game layui-col-xs2">旁观游戏</span>
             </li>

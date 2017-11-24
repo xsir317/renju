@@ -30,4 +30,9 @@ class TestController extends Controller
             'client_list' => $client_list
         ]));
     }
+
+    public function actionGames()
+    {
+        GameService::sendGamesList();
+    }
 }

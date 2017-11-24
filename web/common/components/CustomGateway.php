@@ -13,6 +13,8 @@ class CustomGateway extends Gateway
 {
     const UID_CLIENT_SET = 'uid_client';
     const CLIENT_UID_HASH = 'client_uid';
+    const HALL_GROUP = 'HALL';
+
     public static function isUidOnline($uid)
     {
         return intval(\Yii::$app->redis->sSize(self::UID_CLIENT_SET.'::'.$uid)) > 0;
@@ -59,6 +61,11 @@ class CustomGateway extends Gateway
             return true;
         }
         return false;
+    }
+
+    public static function sendToHall($msg)
+    {
+        self::sendToGroup(self::HALL_GROUP,$msg);
     }
 
     public static function disconnect($client_id)

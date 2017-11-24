@@ -104,6 +104,14 @@ var chat = function (){
     this.actionPing = function(_data){
         that.sendMsg({type:"pong"});
     };
+    // 服务端ping客户端
+    this.actionLogin = function(_data){
+        var new_li = $(document.createElement("li"));
+        $(document.createElement('span')).text(_data.user.nickname + " 进入了房间").appendTo(new_li);
+        new_li.appendTo($("#chat_content"));
+        //滚动。
+        $("#chat_content_list").scrollTop($("#chat_content_list")[0].scrollHeight - $("#chat_content_list").height());
+    };
 
 
     //进入房间之后会接收到自己的client_id 和一些历史消息
@@ -147,6 +155,21 @@ var chat = function (){
         new_li.appendTo($("#chat_content"));
         //滚动。
         $("#chat_content_list").scrollTop($("#chat_content_list")[0].scrollHeight - $("#chat_content_list").height());
+    };
+
+    this.actionGames = function(_data)
+    {
+        $("#hall_games>ul").find("li:not(:first)").remove();
+        for(var i in _data.games)
+        {
+            var new_li = $(document.createElement("li"));
+            $(document.createElement('span')).addClass("layui-col-xs2").text(_data.games[i].id).appendTo(new_li);
+            $(document.createElement('span')).addClass("layui-col-xs3").text(_data.games[i].black.nickname).appendTo(new_li);
+            $(document.createElement('span')).addClass("layui-col-xs3").text(_data.games[i].white.nickname).appendTo(new_li);
+            $(document.createElement('span')).addClass("layui-col-xs2").text(_data.games[i].game_record.length/2 + 1).appendTo(new_li);
+            $(document.createElement('span')).addClass("layui-col-xs2").html("<a href='/game/"+_data.games[i].id+"'>进入</a>").appendTo(new_li);
+            new_li.appendTo($("#hall_games>ul"));
+        }
     };
 
 
