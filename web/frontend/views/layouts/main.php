@@ -45,6 +45,39 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
         </p>
     </div>
 </div>
+<div id="invite_box">
+    <form id="invite_form" onsubmit="return false;">
+        <h3>邀请对局</h3>
+        <input type="hidden" value="" name="to_user" />
+        <input type="hidden" value="" name="action" />
+        <input type="hidden" value="" name="id" />
+        <div class="field odd">
+            <span>对手：</span>
+        </div>
+        <div class="field">
+            <label><input type="radio" name="use_black" value="1" id="use_black" /><img src="/images/black.png" /><span>我使用黑棋</span></label>
+        </div>
+        <div class="field odd">
+            <label><input type="radio" name="use_white" value="1" id="use_white" /><img src="/images/white.png" /><span>我使用白棋</span></label>
+        </div>
+        <div class="field">
+            <span>时间：</span><input name="days" value="" style="width:22px;" /><span>天</span>
+            <input name="hours" value="" /><span>小时</span>
+            <input name="minutes" value="" /><span>分</span>
+        </div>
+        <div class="field odd"><span><a href="/about.html#yamaguchi">规则：</a></span>
+            <?= Html::dropDownList('rule',null,Yii::$app->params['rules']) ?>
+        </div>
+        <div class="field">
+            <span>备注：</span>
+            <input name="comment" value="" />
+        </div>
+        <div class="field odd">
+            <span><a href="/about.html#freeopen">自由开局：</a></span>
+            <label><input name="free_open" value="1" type="checkbox" id="free_open" />（前三手无限制）</label></div>
+            <input type="submit" class="button" value="发出邀请" id="invite_submit_button" />
+    </form>
+</div>
 <script src="/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript">
 var _debug_mode = <?php echo YII_DEBUG;?>;
