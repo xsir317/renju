@@ -47,7 +47,7 @@ var chat = function (){
     {
         var login_data = {
             type:"login",
-            game_id:gameObj.id,
+            game_id:typeof gameObj == 'undefined' ? 'HALL' : gameObj.id,
             uid:userinfo ?　userinfo.id : 0,
             score:userinfo ?　userinfo.score : 0,
             nickname:userinfo ? userinfo.nickname : ''//直接传给服务端，避免websocket读DB了。

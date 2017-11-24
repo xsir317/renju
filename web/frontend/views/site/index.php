@@ -14,21 +14,20 @@ $this->registerJSFile('/js/index.js');
         </div>
     </div>
     <div id="login_reg">
-        <?php if(Yii::$app->user->isGuest):?>
-            <div id="cont_login" class="greybox">
-                <div id="login">
-                    <h3>用户登录</h3>
-                    <form action="/site/login" method="post" onsubmit="return false;">
-                        <ul>
-                            <li><label>Email</label><input type="text" name="email" class="input" id="loginfocus" /></li>
-                            <li><label>密码</label><input type="password" name="passwd" class="input" /></li>
-                            <li><input type="submit" id="loginsubmit" value="登录submit" class="button" /></li>
-                        </ul>
-                    </form>
-                </div>
-                <div id="reg2">还没有帐号？请注册！</div>
+        <div id="cont_login" class="greybox">
+            <div id="login">
+                <h3>用户登录</h3>
+                <form action="/site/login" method="post" onsubmit="return false;">
+                    <ul>
+                        <li><label>Email</label><input type="text" name="email" class="input" id="loginfocus" /></li>
+                        <li><label>密码</label><input type="password" name="passwd" class="input" /></li>
+                        <li><input type="submit" id="loginsubmit" value="登录submit" class="button" /></li>
+                    </ul>
+                </form>
             </div>
-            <div id="cont_reg" style="display:none;" class="greybox">
+            <div id="reg2">还没有帐号？请注册！</div>
+        </div>
+        <div id="cont_reg" style="display:none;" class="greybox">
                 <div id="login2">已经注册过了？请登录！</div>
                 <div id="reg">
                     <h3>用户注册</h3>
@@ -43,10 +42,5 @@ $this->registerJSFile('/js/index.js');
                     </form>
                 </div>
             </div>
-        <?php else:?>
-            <div class="greybox" style="padding:10px;">
-                <p>您好，<?= Yii::$app->user->identity->nickname ?></p>
-            </div>
-        <?php endif;?>
     </div>
 </div>

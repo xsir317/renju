@@ -15,6 +15,7 @@ class CustomGateway extends Gateway
 {
     const UID_CLIENT_SET = 'uid_client';
     const CLIENT_UID_HASH = 'client_uid';
+    const HALL_GROUP = 'HALL';
 
 
     public static function isUidOnline($uid)
@@ -63,6 +64,11 @@ class CustomGateway extends Gateway
             return true;
         }
         return false;
+    }
+
+    public static function sendToHall($msg)
+    {
+        self::sendToGroup(self::HALL_GROUP,$msg);
     }
 
 }

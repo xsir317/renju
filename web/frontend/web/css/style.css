@@ -97,13 +97,20 @@ th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 #gameinfo li{padding:5px;border-top:1px solid #D1D1D1;overflow:hidden;}
 #gameinfo span,#gameinfo ins{float:left;text-decoration:none;padding-left:10px;}
 /*聊天*/
-.chat_area{float:left;width:130px;overflow: hidden;}
+.chat_area{float:left;width:175px;overflow: hidden;}
 #chat_user_list,#chat_content_list,#chat_operate_area{padding:10px 0 0 0;}
-#chat_user_list ul li{overflow: hidden;}
-#chat_user_list .user_title{font-weight:bold;}
-#chat_user_list .ulist_name {width:50px;overflow: hidden;margin-left: 5px;text-align: center;float: left;display: inline-block;}
-#chat_user_list .ulist_score {width:70px;overflow: hidden;margin-left: 5px;text-align: center;float: left;display: inline-block;}
+#chat_user_list ul li,#hall_games ul li{overflow: hidden;}
+#chat_user_list .user_title,.hall_game_title{font-weight:bold;}
+#chat_user_list .ulist_name {width:78px;overflow: hidden;margin-left: 5px;text-align: center;float: left;display: inline-block;}
+#chat_user_list .ulist_score {width:82px;overflow: hidden;margin-left: 5px;text-align: center;float: left;display: inline-block;}
 
+#hall_game_list {min-height: 450px;}
+#hall_games ul li span{overflow: hidden;margin-left: 5px;text-align: center;float: left;display: inline-block;}
+#hall_games .game_id{ width:60px; }
+#hall_games .black_name{ width:80px; }
+#hall_games .white_name{ width:80px; }
+#hall_games .current_step{ width:60px; }
+#hall_games .view_game{ width:80px; }
 #chat_content_list {height:330px;overflow-x: hidden;overflow-y:auto;}
 #chat_content ul li{float: left;display: inline-block;}
 .game_pager{overflow:hidden;padding-left:220px;}
