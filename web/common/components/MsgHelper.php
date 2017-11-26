@@ -113,6 +113,19 @@ class MsgHelper
         ];
     }
 
+    private static function buildInvite($params)
+    {
+        if(empty($params['invite']))
+        {
+            throw new MsgException('缺少invite');
+        }
+
+        return [
+            'type' => 'invite',
+            'content' => $params['invite']
+        ];
+    }
+
     private static function buildSay($params)
     {
         if(empty($params['from_user']))
