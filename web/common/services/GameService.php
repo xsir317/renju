@@ -48,6 +48,10 @@ class GameService extends BaseService
         {
             $turn = 1;
         }
+        elseif ($stones == 3 && $game->a5_numbers == 0 && $game->rule == 'Yamaguchi')
+        {
+            $turn = 1;
+        }
         elseif($stones == 4 && $game->a5_numbers == (strlen($game->a5_pos)/2))//打点摆完了
         {
             $turn = 0;

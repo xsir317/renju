@@ -253,6 +253,7 @@ var boardObj = function()
         $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
         if(_obj.is_my_turn)
         {
+            //TODO 提示的细化，需要正确提示落下打点、选择打点、交换等。
             $(".turn_to_play_tips").text("轮到您下第" + ((_obj.gameData.game_record.length / 2) + 1) + "手").show();
         }
         else

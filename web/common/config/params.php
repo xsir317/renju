@@ -5,6 +5,7 @@ return [
     'user.passwordResetTokenExpire' => 3600,
     'rules' => [
         'Yamaguchi' => '山口',
-        'RIF' => 'RIF'
+        'RIF' => 'RIF',
+        'Soosyrv8' => '索索夫8'
     ]
 ];

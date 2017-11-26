@@ -5,7 +5,15 @@ var pager = {
      *  可能是一个邀请数据结构，用于接受一个邀请。
      */
     invite:function(_data){
+        if(!userinfo)
+        {
+            layer.alert("请先登录");
+            return false;
+        }
+        if(typeof _data.user_id != "undefined")//click on someone's invite button
+        {
 
+        }
     }
 };
 

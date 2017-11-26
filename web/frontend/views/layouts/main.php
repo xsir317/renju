@@ -49,7 +49,6 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
 </div>
 <div id="invite_box" style="display:none;">
     <form id="invite_form" onsubmit="return false;">
-        <h3>邀请对局</h3>
         <input type="hidden" value="" name="to_user" />
         <input type="hidden" value="" name="action" />
         <input type="hidden" value="" name="id" />
@@ -60,12 +59,12 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
             <label><input type="radio" name="use_black" value="1" id="use_black" /><img src="/images/black.png" /><span>我使用黑棋</span></label>
         </div>
         <div class="field odd">
-            <label><input type="radio" name="use_white" value="1" id="use_white" /><img src="/images/white.png" /><span>我使用白棋</span></label>
+            <label><input type="radio" name="use_black" value="0" id="use_white" /><img src="/images/white.png" /><span>我使用白棋</span></label>
         </div>
         <div class="field">
-            <span>时间：</span><input name="days" value="" style="width:22px;" /><span>天</span>
-            <input name="hours" value="" /><span>小时</span>
-            <input name="minutes" value="" /><span>分</span>
+            <span>时间：</span><label>
+            <label><input name="hours" value="" style="width: 22px;" />小时</label>
+            <label><input name="minutes" value="" style="width: 22px;" />分</label>
         </div>
         <div class="field odd"><span><a href="/about.html#yamaguchi">规则：</a></span>
             <?= Html::dropDownList('rule',null,Yii::$app->params['rules']) ?>
@@ -93,7 +92,6 @@ var debug_log = function(log){
 layui.config({
     base: '/layui/'
 }).use('layer');
-//layer.open({type:1,content:$("#invite_box")});
 </script>
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
 <?php $this->endBody() ?>
