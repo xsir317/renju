@@ -177,6 +177,10 @@ var chat = function (){
     this.actionGlobal_announce = function(_data){
     };
 
+    this.actionInvite = function(_data){
+        pager.invite(_data.invite);
+    };
+
     // 用户退出 更新用户列表
     this.actionLogout = function(_data){
         debug_log(_data);

@@ -149,4 +149,13 @@ class GamesController extends Controller
     {
 
     }
+
+    /**
+     * 一个演示板，用于教学、沟通；
+     * 就是一个不判断胜负的没有时间限制的演示功能；新建者可落子，可授权给他人落子。
+     */
+    public function actionPlay_board()
+    {
+
+    }
 }
