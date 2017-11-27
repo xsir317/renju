@@ -132,7 +132,14 @@ var chat = function (){
         {
             var user = (typeof _data.client_list[i].user == "object") ? _data.client_list[i].user : null;
             var new_li = $(document.createElement("li"));
-            $(document.createElement('span')).addClass("layui-col-xs7").text(user ? user.nickname : "游客").appendTo(new_li);
+            var name_span = $(document.createElement('span'));
+            if(user)
+            {
+                name_span.attr({alt:"点击邀请对局","data-uid":user.id}).click(function(){
+                    pager.invite({user_id:$(this).attr("data-uid"),nickname:$(this).text()});
+                });
+            }
+            name_span.addClass("layui-col-xs7").text(user ? user.nickname : "游客").appendTo(new_li);
             $(document.createElement('span')).addClass("layui-col-xs5").text(user ? user.score : "0").appendTo(new_li);
             new_li.appendTo($("#chat_user_list>ul"));
         }

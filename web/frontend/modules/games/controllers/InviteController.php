@@ -86,6 +86,7 @@ class InviteController extends Controller
                 $game->white_time = $minutes * 60;
                 $game->totaltime = $minutes * 60;
                 $game->swap = 0;
+                $game->soosyrv_swap = 0;
                 $game->a5_pos = '';
                 $game->a5_numbers = $rule == 'RIF' ? 2:0;
                 $game->updtime = date('Y-m-d H:i:s');

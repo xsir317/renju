@@ -24,8 +24,8 @@ $this->registerJSFile('/js/websocket.js');
         <div id="chat_user_list" class="grid_content">
             <ul>
                 <li class="user_title">
-                    <span class="ulist_name">昵称</span>
-                    <span class="ulist_score">等级分</span>
+                    <span class="ulist_name layui-col-xs7">昵称</span>
+                    <span class="ulist_score layui-col-xs5">等级分</span>
                 </li>
             </ul>
         </div>

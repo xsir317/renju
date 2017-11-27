@@ -5,6 +5,7 @@ var pager = {
      *  可能是一个邀请数据结构，用于接受一个邀请。
      */
     invite:function(_data){
+        debug_log(_data);
         if(!userinfo)
         {
             layer.alert("请先登录");
