@@ -222,7 +222,7 @@ class BoardTool
         $black_player->games ++;
         $white_player->games ++;
 		$game->movetime = date('Y-m-d H:i:s');
-		$game->save();
+		$game->save(0);
 		if($do_send_msg)
         {
             Gateway::sendToGroup($game_id,MsgHelper::build('game_info',[
@@ -259,6 +259,7 @@ class BoardTool
 		$before_white_score = $white_player->score;
 		$we = 1/(1+pow(10,(($before_white_score - $before_black_score)/400)));
 		$delta_black = $k_black * ($result - $we);
+
 		/*记录积分变动log*/
 		$log = new ScoreLog();
 		$log->game_id = $game->id;
@@ -271,8 +272,9 @@ class BoardTool
 		$log->after_score = floatval($before_black_score) + $delta_black;
 		$log->save();
 		/*记录积分变动log end */
+
 		$black_player->score = $log->after_score;//$black_player->score + $delta_black;
-		$black_player->save();
+		$black_player->save(0);
 		$delta_white = -1 * $k_white * ($result - $we);
 		/*记录积分变动log*/
 		$log = new ScoreLog();
@@ -287,7 +289,7 @@ class BoardTool
 		$log->save();
 		/*记录积分变动log end */
 		$white_player->score = $log->after_score;//$white_player->score + $delta_white;
-		$white_player->save();
+		$white_player->save(0);
 		//如果是比赛，调用一下比赛结束
 		//if($game->tid)
 		//{
