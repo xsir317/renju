@@ -181,6 +181,10 @@ var chat = function (){
         pager.invite(_data.invite);
     };
 
+    this.actionGame_start = function(_data){
+        window.location.href = "/game/" + _data.game_id;
+    };
+
     // 用户退出 更新用户列表
     this.actionLogout = function(_data){
         debug_log(_data);

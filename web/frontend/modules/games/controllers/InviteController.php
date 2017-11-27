@@ -30,6 +30,10 @@ class InviteController extends Controller
         $to_user_id = intval($this->post('to_user'));
         $minutes = 60 * intval($this->post('hours')) + intval($this->post('minutes'));
         $rule = trim($this->post('rule'));
+        $rule = isset(\Yii::$app->params['rules'][$rule]) ? $rule : 'RIF';
+        $use_black = intval($this->post('use_black'));
+        $comment = trim($this->post('comment'));
+        $free_open = intval($this->post('free_open'));
         if($minutes < 3)
         {
             return $this->renderJSON([],'时间请至少设置为3分钟',-1);
@@ -40,6 +44,80 @@ class InviteController extends Controller
         }
         if($id)
         {
+            $exist_invite = GameInvites::findOne($id);
+            if(!$exist_invite || $exist_invite->to != $this->_user()->id || $exist_invite->status != 0)
+            {
+                return $this->renderJSON([],'此邀请不存在',-1);
+            }
+            $invite_from = $exist_invite->from;
+            //核对，一切都符合则进入游戏； 不符合则进入协商，修改invite发给对面。
+            $match = true;
+            //发出15秒后没有应答，则进入二次协商。
+            //以下逻辑其实可以写在一起的，但是写在一起 这个if 太长了。。。
+            if(time() - strtotime($exist_invite->updtime) > 15)
+            {
+                $match = false;
+            }
+            elseif ($exist_invite->black_id != ($use_black ? $this->_user()->id : $invite_from))//执黑？
+            {
+                $match = false;
+            }
+            elseif ($exist_invite->rule != $rule || $exist_invite->totaltime != $minutes * 60 || $exist_invite->free_opening != $free_open)//rule
+            {
+                $match = false;
+            }
+            elseif ($exist_invite->message != $comment)
+            {
+                $match = false;
+            }
+
+            if($match)
+            {
+                //新建棋局， 进入游戏 TODO 封装一下
+                $game = new Games();
+                $game->black_id = $use_black ? $this->_user()->id : $invite_from;
+                $game->white_id = $use_black ? $invite_from : $this->_user()->id;
+                $game->status = GameService::PLAYING;
+                $game->offer_draw = 0;
+                $game->rule = $rule;
+                $game->free_opening = $free_open;
+                $game->game_record = '';
+                $game->black_time = $minutes * 60;
+                $game->white_time = $minutes * 60;
+                $game->totaltime = $minutes * 60;
+                $game->swap = 0;
+                $game->a5_pos = '';
+                $game->a5_numbers = $rule == 'RIF' ? 2:0;
+                $game->updtime = date('Y-m-d H:i:s');
+                $game->movetime = date('Y-m-d H:i:s');
+                $game->comment = $comment;
+                $game->tid = 0;
+                $game->create_time = date('Y-m-d H:i:s');
+                $game->save(0);
+                CustomGateway::sendToUid($this->_user()->id,MsgHelper::build('game_start',[
+                    'game_id' => $game->id,
+                ]));
+                CustomGateway::sendToUid($invite_from,MsgHelper::build('game_start',[
+                    'game_id' => $game->id,
+                ]));
+                return $this->renderJSON([],'接受邀请，对局即将开始');
+            }
+            else
+            {
+                $exist_invite->from = $this->_user()->id; //对调双方。。。
+                $exist_invite->to = $invite_from;
+                $exist_invite->black_id = $use_black ? $this->_user()->id : $invite_from;
+                $exist_invite->message = $comment;
+                $exist_invite->totaltime = $minutes * 60;
+                $exist_invite->rule = $rule;
+                $exist_invite->free_opening = $free_open;
+                $exist_invite->status = 0;
+                $exist_invite->game_id = 0;
+                $exist_invite->updtime = date('Y-m-d H:i:s');
+                $exist_invite->save(0);
+                $this->send_invite($exist_invite);
+                return $this->renderJSON([],'邀请发送成功');
+            }
 
         }
         elseif ($to_user_id)//create
@@ -62,11 +140,11 @@ class InviteController extends Controller
             $invite = new GameInvites();
             $invite->from = $this->_user()->id;
             $invite->to = $to_user_id;
-            $invite->black_id = intval($this->post('use_black')) ? $this->_user()->id : $to_user_id;
-            $invite->message = trim($this->post('comment'));
+            $invite->black_id = $use_black ? $this->_user()->id : $to_user_id;
+            $invite->message = $comment;
             $invite->totaltime = $minutes * 60;
             $invite->rule = isset(\Yii::$app->params['rules'][$rule]) ? $rule : 'RIF';
-            $invite->free_opening = intval($this->post('free_open'));
+            $invite->free_opening = $free_open;
             $invite->status = 0;
             $invite->game_id = 0;
             $invite->updtime = date('Y-m-d H:i:s');

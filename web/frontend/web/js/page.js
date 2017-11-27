@@ -21,6 +21,7 @@ var pager = {
             $("#invite_form input[name=minutes]").val(30);
             $("#invite_form select[name=rule]").val("Yamaguchi");
             $("#invite_form input[name=comment]").val("");
+            $("#invite_form input[name=free_open]").prop("checked",false);
             $("#invite_submit_button").val("发出邀请");
         }
         else// 被人邀请，弹出被邀请的窗口
@@ -42,7 +43,7 @@ var pager = {
             $("#invite_form input[name=hours]").val(parseInt(_data.totaltime / 3600));
             $("#invite_form input[name=minutes]").val(parseInt(_data.totaltime / 60) % 60);
             $("#invite_form select[name=rule]").val(_data.rule);
-            $("#invite_form select[name=comment]").val(_data.message);
+            $("#invite_form input[name=comment]").val(_data.message);
             $("#invite_form input[name=free_open]").prop("checked",(_data.free_opening == "1"));
             $("#invite_submit_button").val("接受邀请");
         }

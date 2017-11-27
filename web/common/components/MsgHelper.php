@@ -72,6 +72,17 @@ class MsgHelper
             'client_list' => $params['client_list']
         ];
     }
+    private static function buildGame_start($params)
+    {
+        if(!isset($params['game_id']))
+        {
+            throw new MsgException('参数不完整，需要game_id');
+        }
+        return [
+            'type' => 'game_start',
+            'game_id' => $params['game_id']
+        ];
+    }
 
 
     private static function buildEnter($params)
@@ -122,7 +133,7 @@ class MsgHelper
 
         return [
             'type' => 'invite',
-            'content' => $params['invite']
+            'invite' => $params['invite']
         ];
     }
 

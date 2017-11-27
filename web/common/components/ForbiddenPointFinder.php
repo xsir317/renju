@@ -20,7 +20,7 @@ class ForbiddenPointFinder
     {
         $this->clear();
         $this->recordstr = $boardstring;
-		$arrStones =  str_split($boardstring,2);
+		$arrStones = strlen($boardstring) > 0 ? str_split($boardstring,2) : [];
 		//用来返回的二维棋盘数组
 		//棋子序号
 		$nowstone = BLACKSTONE;
