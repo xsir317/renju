@@ -89,7 +89,7 @@ class BoardTool
 			{
 				$symmetry_x = $point{0};
 				$symmetry_y = $y_sum - hexdec($point{1});
-				$symmetry = dechex($symmetry_x).dechex($symmetry_y);
+				$symmetry = $symmetry_x.dechex($symmetry_y);
 				if($symmetry != $point && in_array($symmetry, $a5_pos))
 				return true;
 			}
@@ -104,7 +104,7 @@ class BoardTool
 			{
 				$symmetry_x = $x_sum - hexdec($point{0});
 				$symmetry_y = $point{1};
-				$symmetry = dechex($symmetry_x).dechex($symmetry_y);
+				$symmetry = dechex($symmetry_x).$symmetry_y;
 				if($symmetry != $point && in_array($symmetry, $a5_pos))
 				return true;
 			}

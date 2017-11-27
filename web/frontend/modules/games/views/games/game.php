@@ -47,12 +47,12 @@ $this->registerJSFile('/js/websocket.js');
             <li>
                 <span>白方剩余时间:</span><ins style="width:135px;" id="white_time_display">00:00:00</ins>
             </li>
-            <li class="turn_to_play_tips">
+            <li class="turn_to_play_tips" style="display: none;">
                 <span>轮到您下第<?php echo strlen($game['game_record'])/2 +1?>手</span>
             </li>
-            <li class="draw_button"><span>提和：</span><input type="button" value="和棋" class="button" id="draw_button" /></li>
-            <li class="resign_button"><span>认输：</span><input type="button" value="认输" class="button" id="resign_button" /></li>
-            <li class="offer_draw_tips"><span style="color:#ff3333">您的对手向您提和，如果您同意，请点击和棋按钮。</span></li>
+            <li class="draw_button" style="display: none;"><span>提和：</span><input type="button" value="和棋" class="button" id="draw_button" /></li>
+            <li class="resign_button" style="display: none;"><span>认输：</span><input type="button" value="认输" class="button" id="resign_button" /></li>
+            <li class="offer_draw_tips" style="display: none;"><span style="color:#ff3333">您的对手向您提和，如果您同意，请点击和棋按钮。</span></li>
         </ul>
     </div>
     <div class="chat_area layui-col-xs3">

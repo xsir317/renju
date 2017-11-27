@@ -55,12 +55,18 @@ class GamesController extends Controller
         {
             return $this->renderJSON([],'当前不轮到您下棋',-1);
         }
+        $stones = strlen($game_info['game_record'])/2;
+        //特殊情况判断：如果是轮到输入打点的，提示玩家输入打点数目，而不是落子。在这时走进此逻辑的都不予执行，做个提示。
+        if($game_info['a5_numbers'] == 0 && (($game_info['rule'] == 'Yamaguchi' && $stones == 3) || ($game_info['rule'] == 'Soosyrv8' && $stones == 4)))
+        {
+            return $this->renderJSON([],'当前请填写五手打点数量',-1);
+        }
         //到这里，可以落子了。
         //是不是在下打点？
         $game_object = Games::findOne($game_id);
         //提和id设置为0
         $game_object->offer_draw = 0;
-        if(strlen($game_object->game_record)/2 == 4)
+        if($stones == 4)
         {
             //第五手，有2种情况，都很特殊
             $a5_on_board = strlen($game_object->a5_pos)/2;
@@ -115,7 +121,7 @@ class GamesController extends Controller
                 //白胜
                 BoardTool::do_over($game_id,0,false);
             }
-            elseif((strlen($game_object->game_record)/2) == 225)
+            elseif($stones == 225)
             {
                 //和棋
                 BoardTool::do_over($game_id,0.5,false);

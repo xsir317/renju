@@ -49,6 +49,28 @@ var pager = {
             $("#invite_submit_button").val("接受邀请");
         }
         layer.open({type:1,content:$("#invite_box"),title:"邀请对局"});
+    },
+    ask_for_a5:function(){
+        layer.prompt({
+            formType: 0,
+            value: '2',
+            title: '请输入打点数量'
+        }, function(value, index, elem){
+            $.post("/games/game/a5_number",{
+                number:value,
+                "_csrf-frontend":$("meta[name=csrf-token]").attr("content"),
+                game_id:gameObj.id
+            },function(_data){
+                if(_data.code == 200)
+                {
+                    layer.close(index);
+                }
+                else
+                {
+                    layer.alert(_data.msg);
+                }
+            });
+        });
     }
 };
 

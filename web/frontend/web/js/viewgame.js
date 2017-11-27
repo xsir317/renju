@@ -102,7 +102,7 @@ var boardObj = function()
         //这里的逻辑解释一下： 如果是轮到我下，而且是完全展示棋局的状态，那么就是“落子状态”。
         //如果是落子状态，就可以不按照之前的记录落下新的一个棋子。
         //如果不是落子状态，则对对局双方作出限制：只能按照之前的记录去落子，不能拿这个棋盘来拆棋。
-        var playing = (_obj.is_my_turn && _obj.currgame == _obj.gameData.game_record);
+        var playing = (_obj.is_my_turn && _obj.currgame == _obj.gameData.game_record && _obj.gameData.waiting_for_a5_numbers == 0);
         if(_obj.is_my_game && !playing)
         {
             if(coordinate != _obj.endgame.substr(_obj.currgame.length,2))
@@ -253,8 +253,7 @@ var boardObj = function()
         $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
         if(_obj.is_my_turn)
         {
-            //TODO 提示的细化，需要正确提示落下打点、选择打点、交换等。
-            $(".turn_to_play_tips").text("轮到您下第" + ((_obj.gameData.game_record.length / 2) + 1) + "手").show();
+            _obj.playing_tips();
         }
         else
         {
@@ -280,6 +279,71 @@ var boardObj = function()
         }
         //计时
         _obj.timer();
+    };
+
+    _obj.playing_tips = function(){
+        if(!_obj.is_my_turn)
+        {
+            return false;
+        }
+        var stones = _obj.gameData.game_record.length / 2;
+        var tips = "轮到您下第" + (stones + 1) + "手";
+        //按照不同规则去写提示。
+        switch (_obj.gameData.rule)
+        {
+            case 'RIF':
+            case 'Yamaguchi':
+                if(stones < 3)
+                {
+                    tips = "请下前三手";
+                }
+                else if (stones == 3 && _obj.gameData.a5_numbers > 0 && _obj.gameData.swap == 0)
+                {
+                    tips += "或选择交换";
+                }
+                else if(stones == 4 && _obj.gameData.a5_numbers == (_obj.gameData.a5_pos.length/2))//打点摆完了，等白棋选。
+                {
+                    tips = "请选择一个黑5作为第五手";
+                }
+                else if(stones == 4 && _obj.gameData.a5_numbers > (_obj.gameData.a5_pos.length/2))//打点没摆完
+                {
+                    tips = "第五手请选择" + _obj.gameData.a5_numbers + "个点";
+                }
+                break;
+            case 'Soosyrv8'://索索夫规则描述 三手可交换，第四手时声明打点数量，可交换。其余略。
+                if(stones < 3)
+                {
+                    tips = "请下前三手";
+                }
+                else if (stones == 3 && _obj.gameData.swap == 0)
+                {
+                    tips += "或选择交换";
+                }
+                else if(stones == 4 && _obj.gameData.a5_numbers > 0 )
+                {
+                    if(_obj.gameData.a5_numbers > (_obj.gameData.a5_pos.length/2))
+                    {
+                        tips = "第五手请选择" + _obj.gameData.a5_numbers + "个点";
+                    }
+                    if(_obj.gameData.a5_pos == '' && _obj.gameData.soosyrv_swap == 0)
+                    {
+                        tips += "或选择交换";
+                    }
+
+                    if(_obj.gameData.a5_numbers == (_obj.gameData.a5_pos.length/2))
+                    {
+                        tips = "请选择一个黑5作为第五手";
+                    }
+                }
+                break;
+        }
+
+        if(_obj.gameData.waiting_for_a5_numbers)
+        {
+            tips = "请输入打点数量";
+            pager.ask_for_a5();
+        }
+        $(".turn_to_play_tips").text(tips).show();
     };
 
     /**

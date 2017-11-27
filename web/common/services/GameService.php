@@ -41,24 +41,61 @@ class GameService extends BaseService
         {
             return null;
         }
+        //是否在等待打点数输入，默认0
+        $waiting_for_a5_numbers = 0;
         //turn
         $turn = 0;
-        $stones = strlen($game->game_record)/2 ;
-        if($stones < 3)
+        //分不同规则来算turn，差别较大的规则不共用逻辑，否则会把手数和规则掺合起来，导致混乱
+        //分开之后便于增加新规则。
+        $stones = strlen($game->game_record)/2;
+        switch ($game->rule)
         {
-            $turn = 1;
-        }
-        elseif ($stones == 3 && $game->a5_numbers == 0 && $game->rule == 'Yamaguchi')
-        {
-            $turn = 1;
-        }
-        elseif($stones == 4 && $game->a5_numbers == (strlen($game->a5_pos)/2))//打点摆完了
-        {
-            $turn = 0;
-        }
-        else
-        {
-            $turn = 1 - ($stones%2);
+            case 'RIF':
+            case 'Yamaguchi':
+                if($stones < 3)
+                {
+                    $turn = 1;
+                }
+                elseif ($stones == 3 && $game->a5_numbers == 0 && $game->rule == 'Yamaguchi')
+                {
+                    $turn = 1;//这里是要写打点而不是要落子。
+                    $waiting_for_a5_numbers = 1;
+                }
+                elseif($stones == 4 && $game->a5_numbers == (strlen($game->a5_pos)/2))//打点摆完了，等白棋选。
+                {
+                    $turn = 0;
+                }
+                else
+                {
+                    $turn = 1 - ($stones%2);
+                }
+                break;
+            case 'Soosyrv8'://索索夫规则描述 三手可交换，第四手时声明打点数量，可交换。其余略。
+                if($stones < 3)
+                {
+                    $turn = 1;
+                }
+                elseif($stones == 4)
+                {
+                    if($game->a5_numbers == 0)
+                    {
+                        $turn = 0;//这里是要写打点而不是要落子。
+                        $waiting_for_a5_numbers = 1;
+                    }
+                    elseif ($game->a5_numbers == (strlen($game->a5_pos)/2))
+                    {
+                        $turn = 0;
+                    }
+                    else
+                    {
+                        $turn = 1;//下打点
+                    }
+                }
+                else
+                {
+                    $turn = 1 - ($stones%2);
+                }
+                break;
         }
 
         //刷新时间的时候，如果涉及到超时胜负，会发个消息出去。发消息的时候会render。但是不会再次走进refresh的逻辑。
@@ -76,6 +113,7 @@ class GameService extends BaseService
         $return['wplayer'] = UserService::renderUser($game->white_id);
         $return['turn'] = $turn;
         $return['whom_to_play'] = $whom_to_play;
+        $return['waiting_for_a5_numbers'] = $waiting_for_a5_numbers;
         return $return;
     }
 

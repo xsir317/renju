@@ -9,6 +9,7 @@
 namespace console\controllers;
 
 
+use common\components\BoardTool;
 use common\components\Gateway;
 use common\components\MsgHelper;
 use common\models\Games;
@@ -34,5 +35,10 @@ class TestController extends Controller
     public function actionGames()
     {
         GameService::sendGamesList();
+    }
+
+    public function actionA5()
+    {
+        var_dump(BoardTool::a5_symmetry('88798a99','9a7a'));
     }
 }
