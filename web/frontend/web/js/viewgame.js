@@ -103,7 +103,7 @@ var boardObj = function()
         //如果是落子状态，就可以不按照之前的记录落下新的一个棋子。
         //如果不是落子状态，则对对局双方作出限制：只能按照之前的记录去落子，不能拿这个棋盘来拆棋。
         var playing = (_obj.is_my_turn && _obj.currgame == _obj.gameData.game_record && _obj.gameData.waiting_for_a5_numbers == 0);
-        if(_obj.is_my_game && !playing)
+        if(_obj.is_my_game && !playing && _obj.gameData.status == 1)
         {
             if(coordinate != _obj.endgame.substr(_obj.currgame.length,2))
             {
