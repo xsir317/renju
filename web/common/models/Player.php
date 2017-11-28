@@ -26,7 +26,6 @@ use yii\web\IdentityInterface;
  * @property string $last_login_ip
  * @property string $score
  * @property string $intro
- * @property integer $isvip
  */
 class Player extends \yii\db\ActiveRecord implements IdentityInterface
 {
@@ -45,7 +44,7 @@ class Player extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['email', 'nickname', 'password', 'login_times', 'score'], 'required'],
-            [['login_times', 'b_win', 'b_lose', 'w_win', 'w_lose', 'draw', 'games', 'isvip'], 'integer'],
+            [['login_times', 'b_win', 'b_lose', 'w_win', 'w_lose', 'draw', 'games'], 'integer'],
             [['reg_time', 'last_login_time'], 'safe'],
             [['score'], 'number'],
             [['email'], 'string', 'max' => 64],
@@ -78,7 +77,6 @@ class Player extends \yii\db\ActiveRecord implements IdentityInterface
             'last_login_ip' => 'Last Login Ip',
             'score' => 'Score',
             'intro' => 'Intro',
-            'isvip' => 'Isvip',
         ];
     }
 

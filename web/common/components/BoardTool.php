@@ -2,6 +2,9 @@
 namespace common\components;
 
 use common\models\Games;
+use common\models\Player;
+use common\models\ScoreLog;
+use common\services\GameService;
 
 class BoardTool
 {
@@ -44,11 +47,11 @@ class BoardTool
 	{
 		$count = strlen($boardstr);
 		if($count%2 != 0)
-		return false;
+			return false;
 		$arr_pos = str_split($boardstr,2);
 		$arr_pos = array_unique($arr_pos);
 		if(count($arr_pos) != $count/2)
-		return false;
+			return false;
 		for ($i = 0;$i<$count;$i ++)
 		{
 			$pos = hexdec($boardstr{$i});
@@ -69,7 +72,7 @@ class BoardTool
 	public static function a5_symmetry($board,$a5)
 	{
 		if(strlen($a5) < 4)
-		return false;
+			return false;
 		$b = array(substr($board,0,2),substr($board,4,2));//黑棋1，3
 		$w = array(substr($board,2,2),substr($board,6,2));//白棋2，4
 		$a5_pos = str_split($a5,2);
@@ -86,7 +89,7 @@ class BoardTool
 			{
 				$symmetry_x = $point{0};
 				$symmetry_y = $y_sum - hexdec($point{1});
-				$symmetry = dechex($symmetry_x).dechex($symmetry_y);
+				$symmetry = $symmetry_x.dechex($symmetry_y);
 				if($symmetry != $point && in_array($symmetry, $a5_pos))
 				return true;
 			}
@@ -101,7 +104,7 @@ class BoardTool
 			{
 				$symmetry_x = $x_sum - hexdec($point{0});
 				$symmetry_y = $point{1};
-				$symmetry = dechex($symmetry_x).dechex($symmetry_y);
+				$symmetry = dechex($symmetry_x).$symmetry_y;
 				if($symmetry != $point && in_array($symmetry, $a5_pos))
 				return true;
 			}
@@ -179,58 +182,71 @@ class BoardTool
 		
 		return false;
 	}
+
 	/**
 	 * 
 	 * 结束棋局，设置棋局状态，结算分数。
-	 * @param Games $game
+	 * @param int $game_id
 	 * @param int $result  1黑胜  0.5和棋   0 白胜
+     * @param boolean $do_send_msg 是否发送Push消息。默认发送。
+     * @return boolean
 	 */
-	public static function do_over(&$game,$result)
+	public static function do_over($game_id,$result,$do_send_msg = true)
 	{
-		if ($game->status != '进行中')
+        $game = Games::findOne($game_id);
+		if (!$game || $game->status != GameService::PLAYING)
 		{
 			return false;
 		}
 		$moves = strlen($game->game_record)/2;
+		$black_player = Player::findOne($game->black_id);
+		$white_player = Player::findOne($game->white_id);
 		switch($result)
 		{
 			case 1:
-				$game->bplayer->b_win ++;
-				$game->wplayer->w_lose ++;
-				$game->status = '黑胜';
+                $black_player->b_win ++;
+                $white_player->w_lose ++;
+				$game->status = GameService::BLACK_WIN;
 				break;
 			case 0:
-				$game->bplayer->b_lose ++;
-				$game->wplayer->w_win ++;
-				$game->status = '白胜';
+                $black_player->b_lose ++;
+                $white_player->w_win ++;
+				$game->status = GameService::WHITE_WIN;
 				break;
 			case 0.5:
-				$game->bplayer->draw ++;
-				$game->wplayer->draw ++;
-				$game->status = '和棋';
+                $black_player->draw ++;
+                $white_player->draw ++;
+				$game->status = GameService::GAME_DRAW;
 				break;
 		}
-		$game->bplayer->games ++;
-		$game->wplayer->games ++;
+        $black_player->games ++;
+        $white_player->games ++;
 		$game->movetime = date('Y-m-d H:i:s');
-		$game->save();
+		$game->save(0);
+		if($do_send_msg)
+        {
+            Gateway::sendToGroup($game_id,MsgHelper::build('game_info',[
+                'game' => GameService::renderGame($game_id)
+            ]));
+            GameService::sendGamesList();
+        }
 		//对局量前50局,K值取30,然后,一般取20-15之间,等级分达到2400后K值取10 TODO
 		//惩罚性规则：如果手数小于16，则变动系数K降为5,如果手数小于5，则降为1。
 		$k_black = 30;
 		$k_white = 30;
-		if($game->bplayer->games >=50)
+		if($black_player->games >=50)
 		{
 			$k_black = 16; 
 		}
-		if($game->wplayer->games >=50)
+		if($white_player->games >=50)
 		{
 			$k_white = 16; 
 		}
-		if($game->bplayer->score >=2400)
+		if($black_player->score >=2400)
 		{
 			$k_black = 10; 
 		}
-		if($game->wplayer->score >=2400)
+		if($white_player->score >=2400)
 		{
 			$k_white = 10; 
 		}
@@ -239,12 +255,13 @@ class BoardTool
 			$k_black = 1;
 			$k_white = 1;
 		}
-		$before_black_score = $game->bplayer->score;
-		$before_white_score = $game->wplayer->score;
+		$before_black_score = $black_player->score;
+		$before_white_score = $white_player->score;
 		$we = 1/(1+pow(10,(($before_white_score - $before_black_score)/400)));
 		$delta_black = $k_black * ($result - $we);
+
 		/*记录积分变动log*/
-		$log = new Score_log;
+		$log = new ScoreLog();
 		$log->game_id = $game->id;
 		$log->player_id = $game->black_id;
 		$log->op_id = $game->white_id;
@@ -252,14 +269,15 @@ class BoardTool
 		$log->op_score = $before_white_score;
 		$log->k_val = $k_black;
 		$log->delta_score = $delta_black;
-		$log->after_score = $before_black_score + $delta_black;
+		$log->after_score = floatval($before_black_score) + $delta_black;
 		$log->save();
 		/*记录积分变动log end */
-		$game->bplayer->score = $log->after_score;//$game->bplayer->score + $delta_black;
-		$game->bplayer->save();
+
+		$black_player->score = $log->after_score;//$black_player->score + $delta_black;
+		$black_player->save(0);
 		$delta_white = -1 * $k_white * ($result - $we);
 		/*记录积分变动log*/
-		$log = new Score_log;
+		$log = new ScoreLog();
 		$log->game_id = $game->id;
 		$log->player_id = $game->white_id;
 		$log->op_id = $game->black_id;
@@ -267,16 +285,17 @@ class BoardTool
 		$log->op_score = $before_black_score;
 		$log->k_val = $k_white;
 		$log->delta_score = $delta_white;
-		$log->after_score = $before_white_score + $delta_white;
+		$log->after_score = floatval($before_white_score) + $delta_white;
 		$log->save();
 		/*记录积分变动log end */
-		$game->wplayer->score = $log->after_score;//$game->wplayer->score + $delta_white;
-		$game->wplayer->save();
+		$white_player->score = $log->after_score;//$white_player->score + $delta_white;
+		$white_player->save(0);
 		//如果是比赛，调用一下比赛结束
-		if($game->tid)
-		{
-			TournamentTool::end_tournament($game->tid);
-		}
+		//if($game->tid)
+		//{
+		//	TournamentTool::end_tournament($game->tid);
+		//}
+		return true;
 	}
 
 	public static function opening_name($boardstr)

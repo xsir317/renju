@@ -19,7 +19,10 @@
  */
 //declare(ticks=1);
 
-use \GatewayWorker\Lib\Gateway;
+use \GatewayWorker\Lib\CustomGateway as Gateway;
+use \GatewayWorker\Lib\Helpers\MsgHelper;
+use GatewayWorker\Lib\QueueService;
+use \GatewayWorker\Lib\Security;
 
 /**
  * 主逻辑
@@ -36,10 +39,8 @@ class Events
      */
     public static function onConnect($client_id)
     {
-        // 向当前client_id发送数据 
-        Gateway::sendToClient($client_id, "Hello $client_id\r\n");
-        // 向所有人发送
-        Gateway::sendToAll("$client_id login\r\n");
+        //Gateway::sendToClient($client_id, "Hello $client_id\r\n");
+        echo "{$client_id} has a connection in\n";
     }
     
    /**
@@ -49,17 +50,121 @@ class Events
     */
    public static function onMessage($client_id, $message)
    {
-        // 向所有人发送 
-        Gateway::sendToAll("$client_id said $message\r\n");
+       // debug
+       echo date('Y-m-d H:i:s')."\t client:{$_SERVER['REMOTE_ADDR']}:{$_SERVER['REMOTE_PORT']} gateway:{$_SERVER['GATEWAY_ADDR']}:{$_SERVER['GATEWAY_PORT']}  client_id:$client_id session:".json_encode($_SESSION)." onMessage: \n".$message."\n";
+
+       // 客户端传递的是json数据
+       $message_data = @json_decode($message, true);
+       if(!$message_data)
+       {
+           return ;
+       }
+       if(empty($message_data['type']) || !is_string($message_data['type']))
+       {
+           echo "message type not set,abort\n";
+           return;
+       }
+       //进行安全性检查
+       $security = new Security($message_data);
+       if(!$security->verifyRequest())
+       {
+           Gateway::sendToCurrentClient(MsgHelper::build('shutdown',['content' => '校验错误，请刷新页面']));
+           Gateway::closeCurrentClient();
+       }
+
+       if(is_callable('self::action'.ucfirst($message_data['type'])))
+       {
+           try
+           {
+               call_user_func('self::action'.ucfirst($message_data['type']),$client_id,$message_data);
+           }
+           catch(\Exception $e)
+           {
+               Gateway::sendToCurrentClient(MsgHelper::build('notice',['content' => '发生错误: '.$e->getMessage()]));
+           }
+       }
+       else
+       {
+           echo "unknown type:{$message_data['type']}\n";
+       }
+       return;
    }
-   
+
+    public static function actionPong($client_id,$msg)
+    {
+        // 客户端回应服务端的心跳
+        return;
+    }
+
+    public static function actionLogin($client_id,$msg)
+    {
+        // 判断是否有房间号
+        if(!isset($msg['game_id']))
+        {
+            throw new \Exception("\$message_data['game_id'] not set. client_ip:{$_SERVER['REMOTE_ADDR']} \$message:".json_encode($msg));
+        }
+
+        //默认
+        $game_id = $msg['game_id'];
+        $uid = isset($msg['uid']) ? intval($msg['uid']) : 0;
+        $nickname = !empty($msg['nickname']) ? $msg['nickname'] : '游客';
+
+        if($uid)
+        {
+            Gateway::bindUid($client_id,$uid);
+        }
+        Gateway::joinGroup($client_id, $game_id);
+
+        // 把房间号昵称放到session中
+        $_SESSION['game_id'] = $game_id;
+        $_SESSION['uid'] = $uid;
+        $_SESSION['nickname'] = $nickname;
+
+        // 获取房间内所有用户列表
+        Gateway::sendToCurrentClient(MsgHelper::build('enter',[
+            'client_id' => $client_id,
+            'history_msg' => MsgHelper::getRecentMsgs($game_id),
+        ]));
+
+        Gateway::sendToGroup($game_id, MsgHelper::build('login',['user' => [
+            'uid' => $uid,
+            'nickname' => $nickname,
+        ]]));
+        //TODO 用队列去发client list，或者triggerWeb端去发。
+        QueueService::insert('client_list',['game_id' => $game_id]);
+        return;
+    }
    /**
     * 当用户断开连接时触发
     * @param int $client_id 连接id
     */
    public static function onClose($client_id)
    {
-       // 向所有人发送 
-       GateWay::sendToAll("$client_id logout\r\n");
+       // debug
+       echo "client:{$_SERVER['REMOTE_ADDR']}:{$_SERVER['REMOTE_PORT']} gateway:{$_SERVER['GATEWAY_ADDR']}:{$_SERVER['GATEWAY_PORT']}  client_id:$client_id onClose:''\n";
+
+       // 从房间的客户端列表中删除
+       if(isset($_SESSION['game_id']))
+       {
+           $game_id = $_SESSION['game_id'];
+           Gateway::leaveGroup($client_id,$game_id);
+           Gateway::sendToGroup($game_id, MsgHelper::build('logout',[
+                'user' => [
+                    'uid' => $_SESSION['uid'],
+                    'nickname' => $_SESSION['nickname'],
+                ],
+           ]));
+           Gateway::sendToGroup($game_id, MsgHelper::build(
+               'client_list',
+               [
+                   'client_list' => Gateway::getClientSessionsByGroup($game_id),
+               ]
+           ));
+           if($_SESSION['uid'])
+           {
+               Gateway::unbindUid($client_id,$_SESSION['uid']);
+           }
+
+       }
    }
 }

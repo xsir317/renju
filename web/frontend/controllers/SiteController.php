@@ -3,6 +3,8 @@ namespace frontend\controllers;
 
 use common\models\Player;
 use common\services\CommonService;
+use common\services\GameService;
+use common\services\UserService;
 use frontend\components\Controller;
 
 /**
@@ -28,7 +30,17 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        if($this->_user())
+        {
+            return $this->render('hall',[
+                'ws_token' => GameService::newToken(),
+                'userinfo' => UserService::renderUser($this->_user()->id )
+            ]);
+        }
+        else
+        {
+            return $this->render('index');
+        }
     }
 
 
@@ -93,5 +105,14 @@ class SiteController extends Controller
             }
         }
         return $this->renderJSON([],'请求方式错误',-1);
+    }
+
+    public function actionLogout()
+    {
+        if(!\Yii::$app->user->isGuest)
+        {
+            \Yii::$app->user->logout();
+        }
+        return $this->redirect('/');
     }
 }

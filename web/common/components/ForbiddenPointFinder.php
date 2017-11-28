@@ -20,7 +20,7 @@ class ForbiddenPointFinder
     {
         $this->clear();
         $this->recordstr = $boardstring;
-		$arrStones =  str_split($boardstring,2);
+		$arrStones = strlen($boardstring) > 0 ? str_split($boardstring,2) : [];
 		//用来返回的二维棋盘数组
 		//棋子序号
 		$nowstone = BLACKSTONE;
@@ -1097,24 +1097,21 @@ class ForbiddenPointFinder
     function IsDoubleFour($x, $y)//是否是双4
     {
         if ($this->cBoard[$x+1][$y+1] != EMPTYSTONE)
-        return FALSE;//如果这个坐标有棋子，直接返回false
+            return FALSE;//如果这个坐标有棋子，直接返回false
 
         if ($this->IsFive($x, $y, 0))	// five?
-        return FALSE;//如果能成5，则无视一切禁手，直接返回false
+            return FALSE;//如果能成5，则无视一切禁手，直接返回false
 
         $nFour = 0;//4的数目
         for ($i=1; $i<=4; $i++)
         {
             if ($this->IsOpenFour($x, $y, 0, $i) == 2)//如果是一条线上的双4
-            $nFour += 2;//4的数量+2
+                $nFour += 2;//4的数量+2
             else if ($this->IsFour($x, $y, 0, $i))
-            $nFour++;//否则+1
+                $nFour++;//否则+1
         }
 
-        if ($nFour >= 2)//如果4的数量大于1返回true
-        return TRUE;
-        else
-        return FALSE;
+        return ($nFour >= 2);//如果4的数量大于1返回true
     }
 
     function IsOpenThree($x, $y, $nColor, $nDir)//判断是否是活三

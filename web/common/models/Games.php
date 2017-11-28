@@ -10,7 +10,7 @@ use Yii;
  * @property integer $id
  * @property integer $black_id
  * @property integer $white_id
- * @property string $status
+ * @property integer $status
  * @property integer $offer_draw
  * @property string $rule
  * @property integer $free_opening
@@ -19,6 +19,7 @@ use Yii;
  * @property integer $white_time
  * @property integer $totaltime
  * @property integer $swap
+ * @property integer $soosyrv_swap
  * @property string $a5_pos
  * @property integer $a5_numbers
  * @property string $updtime
@@ -44,8 +45,8 @@ class Games extends \yii\db\ActiveRecord
     {
         return [
             [['black_id', 'white_id', 'black_time', 'white_time', 'totaltime', 'swap', 'a5_numbers', 'comment'], 'required'],
-            [['black_id', 'white_id', 'offer_draw', 'free_opening', 'black_time', 'white_time', 'totaltime', 'swap', 'a5_numbers', 'tid'], 'integer'],
-            [['status', 'rule'], 'string'],
+            [['black_id', 'white_id', 'status', 'offer_draw', 'free_opening', 'black_time', 'white_time', 'totaltime', 'swap', 'soosyrv_swap', 'a5_numbers', 'tid'], 'integer'],
+            [['rule'], 'string'],
             [['updtime', 'movetime', 'create_time'], 'safe'],
             [['game_record'], 'string', 'max' => 450],
             [['a5_pos'], 'string', 'max' => 40],
@@ -71,6 +72,7 @@ class Games extends \yii\db\ActiveRecord
             'white_time' => 'White Time',
             'totaltime' => 'Totaltime',
             'swap' => 'Swap',
+            'soosyrv_swap' => 'Soosyrv Swap',
             'a5_pos' => 'A5 Pos',
             'a5_numbers' => 'A5 Numbers',
             'updtime' => 'Updtime',

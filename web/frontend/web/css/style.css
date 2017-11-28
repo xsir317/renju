@@ -6,6 +6,7 @@ body
 	margin:0px;
 	font-family: "微软雅黑",Arial,Helvetica,sans-serif;
 }
+.layui-main {overflow:hidden;}
 img{border:none;}
 h1,h2,h3{margin:0;}
 p{font-size:14px;margin:0 0 5px 0;line-height:22px;}
@@ -24,15 +25,13 @@ th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 #toolbar ul li a{color: #4C9FEB;padding-left:5px;}
 #toolbar ul li a:hover{color:#FF7D4C}
 .wrapper{width:980px;margin:0 auto;}
-#intro{width:600px;margin-right:27px;padding:10px 15px;}
 #login_reg{width:320px}
-#intro,#login_reg{float:left;}
+
+.grid_content {padding:10px;overflow: hidden;}
 .footer {margin:10px 0;}
 .footer p{text-align:center;}
 #cont_login,#cont_reg{height:475px;}
 #login2,#reg2{background-color: #EAEAEA;height:94px;}
-#reg2{border-top:1px solid #ccc}
-#login2{border-bottom:1px solid #ccc}
 #login,#reg,#login2,#reg2{padding:10px;}
 #login,#reg{height:340px;}
 #login_reg label{display:block;}
@@ -51,7 +50,7 @@ th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 	height:583px;
 	width:590px;
 	padding-top:3px;
-	user-select：none; 
+	user-select:none;
 	-moz-user-select: none;
 -webkit-user-select: none; 
 }
@@ -91,11 +90,20 @@ th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 	cursor:pointer;
 }
 .controlbar{width: 550px;}
-.controlbar input{margin-left:25px;}
-.field{height:37px;line-height:37px;margin:10px 0;}
-#gameinfo{float:left;width:163px;}
+.controlbar button{margin-left:25px;}
+.field {height:37px;line-height:37px;margin:10px 0;padding: 0 15px;}
+#invite_submit_button {margin:10px auto; display: block}
 #gameinfo li{padding:5px;border-top:1px solid #D1D1D1;overflow:hidden;}
 #gameinfo span,#gameinfo ins{float:left;text-decoration:none;padding-left:10px;}
+/*聊天*/
+.chat_area{float:left;width:175px;overflow: hidden;}
+#chat_user_list,#chat_content_list,#chat_operate_area{padding:10px 0 0 0;}
+#chat_user_list ul li,#hall_games ul li{overflow: hidden;}
+#chat_user_list .user_title,.hall_game_title{font-weight:bold;}
+
+#hall_games ul li {overflow: hidden;}
+#chat_content_list {height:330px;overflow-x: hidden;overflow-y:auto;}
+#chat_content ul li{float: left;display: inline-block;}
 .game_pager{overflow:hidden;padding-left:220px;}
 .game_pager li{float:left;}
 .game_pager li a{border:1px solid #E0E0E0;border-bottom-color:#CDCDCD;
@@ -104,7 +112,7 @@ background:-webkit-linear-gradient(top, #f9f9f9, #f7f7f7);
 background:-moz-linear-gradient(top, #f9f9f9, #f7f7f7);
 background:-o-linear-gradient(top, #f9f9f9, #f7f7f7);
 background:linear-gradient(to bottom, #f9f9f9, #f7f7f7);
-box-shadow:inset 0px 1px 0 rgba(255,255,255,1);color:#444
+box-shadow:inset 0px 1px 0 rgba(255,255,255,1);
 border-radius: 4px 4px 4px 4px;
 display: inline-block;
 height: 25px;
@@ -120,7 +128,7 @@ background:-moz-linear-gradient(top, #F1F1F1, #E7E7E7);
 background:-o-linear-gradient(top, #F1F1F1, #E7E7E7);
 background:linear-gradient(to bottom, #F1F1F1, #E7E7E7);
 box-shadow:inset 0px 1px 0 rgba(255,255,255,0.2)}
-.game_pager li.selected a{border:1pxsolid #D2D2D2;
+.game_pager li.selected a{border:1px solid #D2D2D2;
 background:#E7E7E7;
 background:-webkit-linear-gradient(top, #E7E7E7, #F1F1F1);
 background:-moz-linear-gradient(top, #E7E7E7, #F1F1F1);

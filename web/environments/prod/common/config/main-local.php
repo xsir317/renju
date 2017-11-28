@@ -20,7 +20,7 @@ return [
             'database' => 1,
             'host' => '127.0.0.1',
             'port' => 6379,
-            'prefix' => 'queue::',
+            'prefix' => 'kv::',
         ],
         'cache' => [
             'class' => 'common\components\RedisCache',

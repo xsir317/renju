@@ -40,29 +40,21 @@ jQuery.cookie = function(name, value, options) {
 $("#reg2").hover(function(){$("#cont_login").hide();$("#cont_reg").show();$("#email").focus();});
 $("#login2").hover(function(){$("#cont_reg").hide();$("#cont_login").show();$("#loginfocus").focus();});
 $("#loginsubmit,#regsubmit").click(function(){
-	var button = $(this);
-	var buttontext = button.val();
-	button.val('请稍候...');
-	var myform = button.parentsUntil("form").parent();
-	var submit_data = {};
-	var _serialized = myform.serializeArray();
-	for(var _i in _serialized)
-    {
-        submit_data[_serialized[_i]['name']] = _serialized[_i]['value'];
-    }
-    submit_data['_csrf-frontend'] = $("meta[name=csrf-token]").attr("content");
-	$.post(myform.attr("action"),submit_data,function(_data){
-		button.val(buttontext);
-		if(_data.code == 200)
-		{
-			//$.cookie('username',$("#loginfocus").val(),{expires:30,path:'/'});
-			window.location.href = _data.data.redirect;
-		}
-		else
-		{
-			alert(_data.msg);
-		}
-	},'json');
+    var button = $(this);
+    var buttontext = button.val();
+    button.val('请稍候...');
+    var _form = button.parentsUntil("form").parent();
+    $.post(_form.attr("action"),_form.serialize(),function(_data){
+        button.val(buttontext);
+        if(_data.code == 200)
+        {
+            //$.cookie('username',$("#loginfocus").val(),{expires:30,path:'/'});
+            window.location.href = _data.data.redirect;
+        }
+        else
+        {
+            alert(_data.msg);
+        }
+    },'json');
 });
-//$("#loginfocus").focus().val($.cookie('username'));
 
