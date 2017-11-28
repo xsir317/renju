@@ -5,7 +5,7 @@ return [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=localhost;dbname=renju',
             'username' => 'root',
-            'password' => '',
+            'password' => 'Fz1$4fB3jf',
             'charset' => 'utf8',
         ],
         'redis' => [
