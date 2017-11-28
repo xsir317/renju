@@ -117,12 +117,6 @@ class MsgHelper
         ];
     }
 
-    /**we don't need it any more*/
-    //private static function buildSay($params)
-    //{
-    //}
-
-
     private static function buildRoom_announce($params)
     {
         if(empty($params['user']))

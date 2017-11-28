@@ -39,7 +39,7 @@ $this->registerJSFile('/js/websocket.js');
                 <span>轮到:</span><ins></ins>
             </li>
             <li class="total_time">
-                <span>对局时限:</span><ins><?php echo $game['totaltime']?>小时</ins>
+                <span>对局时限:</span><ins><?php echo intval($game['totaltime']) / 60 ?>分钟</ins>
             </li>
             <li>
                 <span>黑方剩余时间:</span><ins style="width:135px;" id="black_time_display">00:00:00</ins>
@@ -51,6 +51,7 @@ $this->registerJSFile('/js/websocket.js');
                 <span>轮到您下第<?php echo strlen($game['game_record'])/2 +1?>手</span>
             </li>
             <li class="draw_button" style="display: none;"><span>提和：</span><input type="button" value="和棋" class="button" id="draw_button" /></li>
+            <li class="swap_button" style="display: none;"><span>交换：</span><input type="button" value="交换" class="button" id="swap_button" /></li>
             <li class="resign_button" style="display: none;"><span>认输：</span><input type="button" value="认输" class="button" id="resign_button" /></li>
             <li class="offer_draw_tips" style="display: none;"><span style="color:#ff3333">您的对手向您提和，如果您同意，请点击和棋按钮。</span></li>
         </ul>

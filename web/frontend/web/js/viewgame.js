@@ -156,7 +156,8 @@ var boardObj = function()
             function(_data){
                 if(_data.code != 200)
                 {
-                    alert(_data.msg);
+                    layer.alert(_data.msg);
+                    _obj.show_origin();
                 }
             },
             "json"
@@ -248,8 +249,8 @@ var boardObj = function()
         $(".black_name>ins").html(_obj.gameData.bplayer.nickname);
         $(".white_name>ins").html(_obj.gameData.wplayer.nickname);
         $(".current_player_name>ins").html(_obj.gameData.turn ? _obj.gameData.bplayer.nickname : _obj.gameData.wplayer.nickname);
-        $(".a5_numbers>ins").html(_obj.gameData.wplayer.a5_numbers);
-        $(".is_swap>ins").html(_obj.gameData.wplayer.swap ? "是":"否");
+        $(".a5_numbers>ins").html(_obj.gameData.a5_numbers);
+        $(".is_swap>ins").html(_obj.gameData.swap ? "是":"否");
         $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
         if(_obj.is_my_turn)
         {
@@ -258,6 +259,7 @@ var boardObj = function()
         else
         {
             $(".turn_to_play_tips").hide();
+            $(".swap_button").hide();
         }
 
         if(_obj.is_my_game && _obj.gameData.status == 1)
@@ -289,6 +291,7 @@ var boardObj = function()
         var stones = _obj.gameData.game_record.length / 2;
         var tips = "轮到您下第" + (stones + 1) + "手";
         //按照不同规则去写提示。
+        var show_swap = false;
         switch (_obj.gameData.rule)
         {
             case 'RIF':
@@ -300,6 +303,7 @@ var boardObj = function()
                 else if (stones == 3 && _obj.gameData.a5_numbers > 0 && _obj.gameData.swap == 0)
                 {
                     tips += "或选择交换";
+                    show_swap = true;
                 }
                 else if(stones == 4 && _obj.gameData.a5_numbers == (_obj.gameData.a5_pos.length/2))//打点摆完了，等白棋选。
                 {
@@ -318,6 +322,7 @@ var boardObj = function()
                 else if (stones == 3 && _obj.gameData.swap == 0)
                 {
                     tips += "或选择交换";
+                    show_swap = true;
                 }
                 else if(stones == 4 && _obj.gameData.a5_numbers > 0 )
                 {
@@ -328,6 +333,7 @@ var boardObj = function()
                     if(_obj.gameData.a5_pos == '' && _obj.gameData.soosyrv_swap == 0)
                     {
                         tips += "或选择交换";
+                        show_swap = true;
                     }
 
                     if(_obj.gameData.a5_numbers == (_obj.gameData.a5_pos.length/2))
@@ -344,6 +350,14 @@ var boardObj = function()
             pager.ask_for_a5();
         }
         $(".turn_to_play_tips").text(tips).show();
+        if(show_swap)
+        {
+            $(".swap_button").show();
+        }
+        else
+        {
+            $(".swap_button").hide();
+        }
     };
 
     /**
@@ -417,10 +431,13 @@ var boardObj = function()
     };
 };
 
-//页面初始化时对棋盘的操作：
 //1.new出对象
 var board = new boardObj();
+
+$(document).ready(function(){
+//页面初始化时对棋盘的操作：
 //2.调用其init方法
-board.init_board();
+    board.init_board();
 //3.把web页输出的数据结构load进来。
-board.load(gameObj);
+    board.load(gameObj);
+});

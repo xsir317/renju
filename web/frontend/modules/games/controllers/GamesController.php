@@ -37,6 +37,69 @@ class GamesController extends Controller
         ]);
     }
 
+    public function actionA5_number()
+    {
+        $number = abs(intval($this->post('number')));
+        $game_id = intval($this->post('game_id'));
+        if(!$number)
+        {
+            return $this->renderJSON([],'填写的打点数不正确',-1);
+        }
+
+        if(!$this->_user())
+        {
+            return $this->renderJSON([],'您尚未登录',-1);
+        }
+        $game_info = GameService::renderGame($game_id);
+        if(!$game_info)
+        {
+            return $this->renderJSON([],'棋局不存在',-1);
+        }
+        if($game_info['whom_to_play'] != $this->_user()->id)
+        {
+            return $this->renderJSON([],'当前不轮到您下棋',-1);
+        }
+        if($game_info['a5_numbers'] > 0)
+        {
+            return $this->renderJSON([],'当前不是指定打点的回合',-1);
+        }
+
+        $stones = strlen($game_info['game_record'])/2;
+        $game_object = Games::findOne($game_id);
+        switch ($game_object->rule)
+        {
+            case 'Yamaguchi':
+                if($stones == 3)
+                {
+                    $game_object->a5_numbers = min($number,12);
+                }
+                break;
+            case 'Soosyrv8':
+                if($stones == 4)
+                {
+                    $game_object->a5_numbers = min($number,8);
+                }
+                break;
+        }
+        if($game_object->a5_numbers > 0)
+        {
+            $game_object->offer_draw = 0;
+            $game_object->movetime = date('Y-m-d H:i:s');
+            $game_object->save(0);
+            Gateway::sendToGroup($game_id,MsgHelper::build('game_info',[
+                'game' => GameService::renderGame($game_id)
+            ]));
+            Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                'content' => "打点数设置为" . $game_object->a5_numbers . '。'
+            ]));
+            return $this->renderJSON([]);
+        }
+        else
+        {
+            return $this->renderJSON([],'指定打点数量失败',-1);
+        }
+    }
+
     //TODO 研究一下怎么引入transaction，棋局的计时、计算输赢需要事务处理，冲突了就跪了
     public function actionPlay()
     {
@@ -65,6 +128,13 @@ class GamesController extends Controller
         //是不是在下打点？
         $game_object = Games::findOne($game_id);
         //提和id设置为0
+        if($game_info['free_opening'] == 0)
+        {
+            if(($stones == 0 && $coordinate != '88') || ($stones == 1 && (!in_array($coordinate{0},[7,8,9]) || !in_array($coordinate{1},[7,8,9])) ) || ($stones == 2 && (!in_array($coordinate{0},[6,7,8,9,'a']) || !in_array($coordinate{1},[6,7,8,9,'a']))) )
+            {
+                return $this->renderJSON([],'标准开局不允许26种开局以外的开局',-1);
+            }
+        }
         $game_object->offer_draw = 0;
         if($stones == 4)
         {
@@ -115,16 +185,25 @@ class GamesController extends Controller
             {
                 //黑胜
                 BoardTool::do_over($game_id,1,false);
+                Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                    'content' => "黑方获胜"
+                ]));
             }
             elseif($result == WHITEFIVE || $result == BLACKFORBIDDEN)
             {
                 //白胜
                 BoardTool::do_over($game_id,0,false);
+                Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                    'content' => ($result == WHITEFIVE ? "连五" : "黑方禁手") . "，白方获胜"
+                ]));
             }
             elseif($stones == 225)
             {
                 //和棋
                 BoardTool::do_over($game_id,0.5,false);
+                Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                    'content' => "满局，和棋。"
+                ]));
             }
         }
         Gateway::sendToGroup($game_id,MsgHelper::build('game_info',[
@@ -137,23 +216,150 @@ class GamesController extends Controller
 
     public function actionSwap()
     {
-        //仅当当前应落第四手，且未交换时，可交换。 if user id == white and not swap and strlen(game_record)==6
-        //结算时间
-        //swap : 交换黑白ID记录，交换用时。
+        $game_id = intval($this->post('game_id'));
 
+        if(!$this->_user())
+        {
+            return $this->renderJSON([],'您尚未登录',-1);
+        }
+        $game_info = GameService::renderGame($game_id);
+        if(!$game_info)
+        {
+            return $this->renderJSON([],'棋局不存在',-1);
+        }
+        if($game_info['whom_to_play'] != $this->_user()->id)
+        {
+            return $this->renderJSON([],'当前不轮到您下棋',-1);
+        }
+
+        $stones = strlen($game_info['game_record'])/2;
+        $allow_swap = false;
+        $game_object = Games::findOne($game_id);
+        switch ($game_object->rule)
+        {
+            case 'RIF':
+            case 'Yamaguchi':
+                if($stones == 3 && $game_object->a5_numbers > 0 && $game_object->swap == 0)
+                {
+                    $allow_swap = true;
+                }
+                break;
+            case 'Soosyrv8':
+                if($stones == 3 && $game_object->swap == 0)
+                {
+                    $allow_swap = true;
+                }
+                elseif ($stones == 4 && $game_object->a5_numbers > 0 && $game_object->a5_pos == '' && $game_object->soosyrv_swap == 0)
+                {
+                    $allow_swap = true;
+                }
+                break;
+        }
+        if($allow_swap)
+        {
+            $game_object->offer_draw = 0;
+            $game_object->black_id = $game_info['white_id'];
+            $game_object->white_id = $game_info['black_id'];
+            $game_object->black_time = $game_info['white_time'];
+            $game_object->white_time = $game_info['black_time'];
+            if($stones == 3)
+            {
+                $game_object->swap = 1;
+            }
+            else
+            {
+                $game_object->soosyrv_swap = 1;
+            }
+            $game_object->movetime = date('Y-m-d H:i:s');
+            $game_object->save(0);
+            Gateway::sendToGroup($game_id,MsgHelper::build('game_info',[
+                'game' => GameService::renderGame($game_id)
+            ]));
+            Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                'content' => "双方先后手已交换"
+            ]));
+            return $this->renderJSON([]);
+        }
+        else
+        {
+            return $this->renderJSON([],'指定打点数量失败',-1);
+        }
     }
 
     public function actionOffer_draw()
     {
-        //是对局双方，且棋局进行中
-        //如果原提和id为0 则写入自己id
-        //如果原提和id为对方，和了。
-        //如果原提和id为自己，不做操作。
+        $game_id = intval($this->post('game_id'));
+
+        if(!$this->_user())
+        {
+            return $this->renderJSON([],'您尚未登录',-1);
+        }
+        $game_info = GameService::renderGame($game_id);
+        if(!$game_info)
+        {
+            return $this->renderJSON([],'棋局不存在',-1);
+        }
+        if($game_info['black_id'] != $this->_user()->id && $game_info['white_id'] != $this->_user()->id)
+        {
+            return $this->renderJSON([],'这不是您的对局',-1);
+        }
+        $opponent_id = $this->_user()->id == $game_info['black_id'] ? $game_info['white_id'] : $game_info['black_id'];
+
+        $game_object = Games::findOne($game_id);
+        if($game_object->offer_draw == 0)
+        {
+            $game_object->offer_draw = $this->_user()->id;
+            $game_object->movetime = date('Y-m-d H:i:s');
+            $game_object->save(0);
+            Gateway::sendToGroup($game_id,MsgHelper::build('game_info',[
+                'game' => GameService::renderGame($game_id)
+            ]));
+            Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                'content' => $this->_user()->nickname. "提出和棋"
+            ]));
+            return $this->renderJSON([]);
+        }
+        elseif ($game_object->offer_draw == $this->_user()->id)
+        {
+            return $this->renderJSON([],'您已经提和了，请等待对方回应',-1);
+        }
+        elseif ($game_object->offer_draw == $opponent_id)
+        {
+            BoardTool::do_over($game_id,0.5);
+            Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                'content' => $this->_user()->nickname. "同意和棋，对局结束。"
+            ]));
+            return $this->renderJSON([]);
+        }
+        else
+        {
+            return $this->renderJSON([],'发生错误，请联系管理员',-1);
+        }
     }
 
-    public function actionResgin()
+    public function actionResign()
     {
+        $game_id = intval($this->post('game_id'));
 
+        if(!$this->_user())
+        {
+            return $this->renderJSON([],'您尚未登录',-1);
+        }
+        $game_info = GameService::renderGame($game_id);
+        if(!$game_info)
+        {
+            return $this->renderJSON([],'棋局不存在',-1);
+        }
+        if($game_info['black_id'] != $this->_user()->id && $game_info['white_id'] != $this->_user()->id)
+        {
+            return $this->renderJSON([],'这不是您的对局',-1);
+        }
+        $game_result = $this->_user()->id == $game_info['black_id'] ? 0 : 1 ;//黑认输则白胜
+        BoardTool::do_over($game_id,$game_result);
+        Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+            'content' => ($game_result ? "白":"黑") . "方认输。"
+        ]));
+        return $this->renderJSON([]);
     }
 
     /**

@@ -11,6 +11,7 @@ namespace common\services;
 
 use common\components\BoardTool;
 use common\components\CustomGateway;
+use common\components\Gateway;
 use common\components\MsgHelper;
 use common\models\Games;
 use common\models\Player;
@@ -157,6 +158,9 @@ class GameService extends BaseService
                     $game->movetime = date('Y-m-d H:i:s');
                     $game->save(0);
                     BoardTool::do_over($game_id,0);
+                    Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                        'content' => "黑方超时，对局结束。"
+                    ]));
                     $game->refresh();
                 }
             }
@@ -169,6 +173,9 @@ class GameService extends BaseService
                     $game->movetime = date('Y-m-d H:i:s');
                     $game->save(0);
                     BoardTool::do_over($game_id,1);
+                    Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                        'content' => "白方超时，对局结束。"
+                    ]));
                     $game->refresh();
                 }
             }

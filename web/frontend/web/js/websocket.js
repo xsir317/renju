@@ -151,17 +151,7 @@ var chat = function (){
 
     // 接收发言消息
     this.actionSay = function(_data){
-        if($("#chat_content").find("li").length > 150)
-        {
-            $("#chat_content").empty();
-        }
-        var new_li = $(document.createElement("li"));
-        $(document.createElement('span')).text(_data.from_user.nickname).appendTo(new_li);
-        new_li.append(" 说：");
-        $(document.createElement('span')).text(_data.content).appendTo(new_li);
-        new_li.appendTo($("#chat_content"));
-        //滚动。
-        $("#chat_content_list").scrollTop($("#chat_content_list")[0].scrollHeight - $("#chat_content_list").height());
+        pager.show_msg("<span>" + _data.from_user.nickname +  "</span> 说：<span>" + _data.content + "</span>");
     };
 
     this.actionGames = function(_data)
@@ -198,10 +188,7 @@ var chat = function (){
     };
 
     this.actionNotice = function(_data){
-        if(_data.content)
-        {
-            alert(_data.content);
-        }
+        pager.show_msg(_data.content);
     };
 
     this.actionShutdown = function(_data)

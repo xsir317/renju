@@ -78,7 +78,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
             <input type="submit" class="button" value="发出邀请" id="invite_submit_button" />
     <?= Html::endForm();?>
 </div>
-<script src="/layui/layui.js" charset="utf-8"></script>
+<script src="/layui/layui.all.js" charset="utf-8"></script>
 <script type="text/javascript">
 var _debug_mode = <?php echo YII_DEBUG;?>;
 var debug_log = function(log){
@@ -90,11 +90,11 @@ var debug_log = function(log){
 };
 layui.config({
     base: '/layui/'
-}).use('layer');
+});
 </script>
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-<?php $this->endBody() ?>
 <script src="/js/page.js" charset="utf-8"></script>
+<?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
