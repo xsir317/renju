@@ -60,7 +60,7 @@ $this->registerJSFile('/js/websocket.js');
         <div id="chat_user_list">
             <ul>
                 <li class="user_title">
-                    <span class="layui-col-xs7">昵称</span>
+                    <span class="layui-col-xs7">昵称（点击邀请）</span>
                     <span class="layui-col-xs5">等级分</span>
                 </li>
             </ul>
