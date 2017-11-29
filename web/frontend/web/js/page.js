@@ -50,7 +50,15 @@ var pager = {
             invite_form.find("input[name=free_open]").prop("checked",(_data.free_opening == "1"));
             invite_btn.val("接受邀请");
         }
-        layer.open({type:1,content:$("#invite_box"),title:"邀请对局"});
+        layer.open({
+            type:1,
+            content:$("#invite_box"),
+            title:"邀请对局",
+            cancel: function(index, layero){
+                $("#invite_box").hide();
+                layer.close(index);
+            }
+        });
     },
     ask_for_a5:function(){
         layer.prompt({
