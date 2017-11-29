@@ -131,7 +131,7 @@ class ForbiddenPointFinder
             {
                 return false;// 连5了立刻返回
             }
-            else
+            elseif($count > 5)
             {
                 $black_overline = true; //没连5，但是长连了，记录一下
             }
