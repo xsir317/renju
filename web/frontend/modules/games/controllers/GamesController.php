@@ -136,7 +136,7 @@ class GamesController extends Controller
             }
         }
         $game_object->offer_draw = 0;
-        if($stones == 4)
+        if($stones == 4 && in_array($game_object->rule,['Yamaguchi','RIF','Soosyrv8']))
         {
             //第五手，有2种情况，都很特殊
             $a5_on_board = strlen($game_object->a5_pos)/2;
@@ -180,7 +180,7 @@ class GamesController extends Controller
             $game_object->save(0);
 
             $checkwin = new ForbiddenPointFinder($old_board);
-            $result = $checkwin->CheckWin($coordinate);
+            $result = $game_object->rule == 'Gomoku' ? $checkwin->GomokuCheckWin($coordinate) : $checkwin->CheckWin($coordinate);
             if($result == BLACKFIVE)
             {
                 //黑胜

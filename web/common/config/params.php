@@ -6,6 +6,8 @@ return [
     'rules' => [
         'Yamaguchi' => '山口',
         'RIF' => 'RIF',
-        'Soosyrv8' => '索索夫8'
+        'Soosyrv8' => '索索夫8',
+        'Renju' => '有禁手',
+        'Gomoku' => '无禁手',
     ]
 ];

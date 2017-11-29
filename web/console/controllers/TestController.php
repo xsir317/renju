@@ -10,6 +10,7 @@ namespace console\controllers;
 
 
 use common\components\BoardTool;
+use common\components\ForbiddenPointFinder;
 use common\components\Gateway;
 use common\components\MsgHelper;
 use common\models\Games;
@@ -39,6 +40,8 @@ class TestController extends Controller
 
     public function actionA5()
     {
-        var_dump(BoardTool::a5_symmetry('88798a99','9a7a'));
+        $board = new ForbiddenPointFinder('');
+        var_dump($board->AddStone(7,7,0));
+        //var_dump(BoardTool::a5_symmetry('88798a99','9a7a'));
     }
 }

@@ -10,11 +10,9 @@ namespace common\services;
 
 
 use common\components\BoardTool;
-use common\components\CustomGateway;
 use common\components\Gateway;
 use common\components\MsgHelper;
 use common\models\Games;
-use common\models\Player;
 
 class GameService extends BaseService
 {
@@ -97,6 +95,9 @@ class GameService extends BaseService
                     $turn = 1 - ($stones%2);
                 }
                 break;
+            default:
+                $turn = 1 - ($stones%2);
+                break;
         }
 
         //刷新时间的时候，如果涉及到超时胜负，会发个消息出去。发消息的时候会render。但是不会再次走进refresh的逻辑。
@@ -130,7 +131,7 @@ class GameService extends BaseService
 
     public static function sendGamesList()
     {
-        CustomGateway::sendToHall(MsgHelper::build('games',['games' => self::getRecentGameList()]));
+        Gateway::sendToGroup('HALL',MsgHelper::build('games',['games' => self::getRecentGameList()]));
     }
 
     private static function refresh_time($game_id,$turn)

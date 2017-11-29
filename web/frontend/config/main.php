@@ -47,6 +47,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '/game/<id:\d+>' => '/games/games/game',
+                '/about.html' => '/site/about',
             ],
         ],
     ],
