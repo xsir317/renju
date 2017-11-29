@@ -37,7 +37,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
         </div>
     </div>
 </div>
-<div class="layui-main site-inline">
+<div class="layui-main site-inline" style="margin-top: 20px;">
     <?php echo $content?>
 </div>
 <div class="layui-footer footer footer-doc">
