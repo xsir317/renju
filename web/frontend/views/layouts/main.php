@@ -80,7 +80,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
 </div>
 <script src="/layui/layui.all.js" charset="utf-8"></script>
 <script type="text/javascript">
-var _debug_mode = <?php echo YII_DEBUG;?>;
+var _debug_mode = <?php echo intval(YII_DEBUG);?>;
 var debug_log = function(log){
     if (typeof console == "undefined") return false;
     if(_debug_mode)
