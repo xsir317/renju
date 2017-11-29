@@ -93,7 +93,7 @@ var pager = {
             $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].id).appendTo(new_li);
             $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].black.nickname).appendTo(new_li);
             $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].white.nickname).appendTo(new_li);
-            $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].game_record.length/2 + 1).appendTo(new_li);
+            $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].game_record.length/2).appendTo(new_li);
             $(document.createElement('span')).addClass("layui-col-xs2").text(result_defines[games[i].status]).appendTo(new_li);
             $(document.createElement('span')).addClass("layui-col-xs2").html("<a href='/game/"+games[i].id+"'>进入</a>").appendTo(new_li);
             new_li.appendTo($("#hall_games>ul"));
