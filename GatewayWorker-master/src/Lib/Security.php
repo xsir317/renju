@@ -61,7 +61,7 @@ class Security
             {
                 file_put_contents(
                     "./checksum.log.".date('ymd'),
-                    date('H:i:s')." data : ".var_export($this->_data)."\n stringfy: {$stringfy} \n server md5: {$server_md5} \n",
+                    date('H:i:s')." data : ".var_export($this->_data)."\n stringfy: {$stringfy} \n server md5: {$server_md5},client md5 {$this->_data['_checksum']} \n",
                     FILE_APPEND);
                 return false;
             }

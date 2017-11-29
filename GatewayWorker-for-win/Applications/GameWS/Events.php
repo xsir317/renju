@@ -154,12 +154,7 @@ class Events
                     'nickname' => $_SESSION['nickname'],
                 ],
            ]));
-           Gateway::sendToGroup($game_id, MsgHelper::build(
-               'client_list',
-               [
-                   'client_list' => Gateway::getClientSessionsByGroup($game_id),
-               ]
-           ));
+           QueueService::insert('client_list',['game_id' => $game_id]);
            if($_SESSION['uid'])
            {
                Gateway::unbindUid($client_id,$_SESSION['uid']);
