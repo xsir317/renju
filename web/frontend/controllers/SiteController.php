@@ -81,6 +81,10 @@ class SiteController extends Controller
             {
                 return $this->renderJSON([],'这个Email已经被占用',-1);
             }
+            if(!$email || !$password || !$nickname)
+            {
+                return $this->renderJSON([],'请完整填写注册信息！',-1);
+            }
             else
             {
                 $new_user = new Player();
