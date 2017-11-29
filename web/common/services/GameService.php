@@ -95,6 +95,9 @@ class GameService extends BaseService
                     $turn = 1 - ($stones%2);
                 }
                 break;
+            default:
+                $turn = 1 - ($stones%2);
+                break;
         }
 
         //刷新时间的时候，如果涉及到超时胜负，会发个消息出去。发消息的时候会render。但是不会再次走进refresh的逻辑。
