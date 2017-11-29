@@ -10,6 +10,7 @@ return [
     'id' => 'app-console',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    "timezone" => "Asia/Shanghai",
     'controllerNamespace' => 'console\controllers',
     'modules' => [
         'queue' => [

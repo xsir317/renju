@@ -10,6 +10,7 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    "timezone" => "Asia/Shanghai",
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
         'games' => [
