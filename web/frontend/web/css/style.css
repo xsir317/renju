@@ -97,7 +97,7 @@ th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 #gameinfo span,#gameinfo ins{float:left;text-decoration:none;padding-left:10px;}
 /*聊天*/
 .chat_area{float:left;width:175px;overflow: hidden;}
-#chat_user_list,#chat_content_list,#chat_operate_area{padding:10px 0 0 0;}
+#chat_content_list,#chat_operate_area{padding:10px 0 0 0;}
 #chat_user_list ul li,#hall_games ul li{overflow: hidden;}
 #chat_user_list .user_title,.hall_game_title{font-weight:bold;}
 #msg {width:280px;}
