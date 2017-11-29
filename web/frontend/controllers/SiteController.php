@@ -45,6 +45,12 @@ class SiteController extends Controller
     }
 
 
+    public function actionAbout()
+    {
+        return $this->render('about');
+    }
+
+
     public function actionLogin()
     {
         $req = \Yii::$app->request;

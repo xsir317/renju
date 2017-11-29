@@ -33,6 +33,9 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
                 <li class="layui-nav-item">
                     <a href="mailto:xsir317@gmail.com">联系我们</a>
                 </li>
+                <li class="layui-nav-item">
+                    <a href="/about.html">关于规则和等级分</a>
+                </li>
             </ul>
         </div>
     </div>
