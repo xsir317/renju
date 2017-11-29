@@ -9,7 +9,7 @@
 namespace frontend\modules\games\controllers;
 
 
-use common\components\CustomGateway;
+use common\components\Gateway;
 use common\components\MsgHelper;
 use common\services\UserService;
 use frontend\components\Controller;
@@ -69,7 +69,7 @@ class ChatController extends Controller
         try{
             //保存消息到redis中
             MsgHelper::persist($game_id,$send_msg);
-            CustomGateway::sendToGroup($game_id ,$send_msg);
+            Gateway::sendToGroup($game_id ,$send_msg);
         }catch (\Exception $e)
         {
             return $this->renderJSON([],$e->getMessage(),-1);
