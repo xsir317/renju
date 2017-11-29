@@ -12,7 +12,7 @@ $this->registerJSFile('/js/md5.min.js');
 $this->registerJSFile('/js/websocket.js');
 ?>
     <div class="layui-col-xs6"><div id="board_main"></div></div>
-    <div id="gameinfo" class="layui-col-xs3">
+    <div id="gameinfo" class="layui-col-xs3" style="padding: 0 5px 0 20px;">
         <ul class="greybox">
             <li class="black_name" style="border-top:none;">
                 <span>黑方:</span><ins></ins>
@@ -56,7 +56,7 @@ $this->registerJSFile('/js/websocket.js');
             <li class="offer_draw_tips" style="display: none;"><span style="color:#ff3333">您的对手向您提和，如果您同意，请点击和棋按钮。</span></li>
         </ul>
     </div>
-    <div class="chat_area layui-col-xs3">
+    <div class="chat_area layui-col-xs3" style="padding: 0 5px 0 10px;">
         <div id="chat_user_list">
             <ul>
                 <li class="user_title">

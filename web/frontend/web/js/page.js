@@ -145,7 +145,10 @@ $(document).ready(function () {
                 game_id:gameObj.id,
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
             },function(data){
-                layer.alert(data.msg);
+                if(data.code != 200)
+                {
+                    layer.alert(data.msg);
+                }
             },"json");
         }
     });
