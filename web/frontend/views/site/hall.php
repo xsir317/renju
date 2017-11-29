@@ -13,9 +13,10 @@ $this->registerJSFile('/js/websocket.js');
         <ul class="grid_content">
             <li class="hall_game_title">
                 <span class="game_id layui-col-xs2">ID</span>
-                <span class="black_name layui-col-xs3">执黑方</span>
-                <span class="white_name layui-col-xs3">执白方</span>
+                <span class="black_name layui-col-xs2">执黑方</span>
+                <span class="white_name layui-col-xs2">执白方</span>
                 <span class="current_step layui-col-xs2">手数</span>
+                <span class="game_result layui-col-xs2">结果</span>
                 <span class="view_game layui-col-xs2">旁观游戏</span>
             </li>
         </ul>
@@ -50,4 +51,5 @@ $this->registerJSFile('/js/websocket.js');
     var ws_token = <?php echo json_encode($ws_token);?>;
     var userinfo = <?php echo json_encode($userinfo);?>;
     var ts_delta = <?php echo time() ?> - Math.round(new Date().getTime()/1000);
+    var game_list = <?php echo json_encode($game_list);?>;
 </script>

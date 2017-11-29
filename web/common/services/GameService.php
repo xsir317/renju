@@ -130,15 +130,7 @@ class GameService extends BaseService
 
     public static function sendGamesList()
     {
-        $games_list = Games::find()
-            ->select(['id','black_id','white_id','rule','game_record'])
-            ->where(['status' => self::PLAYING])
-            ->orderBy('movetime desc')
-            ->asArray()
-            ->all();
-        UserService::render($games_list,'black_id','black');
-        UserService::render($games_list,'white_id','white');
-        CustomGateway::sendToHall(MsgHelper::build('games',['games' => $games_list]));
+        CustomGateway::sendToHall(MsgHelper::build('games',['games' => self::getRecentGameList()]));
     }
 
     private static function refresh_time($game_id,$turn)
@@ -182,5 +174,19 @@ class GameService extends BaseService
             $game->updtime = date('Y-m-d H:i:s');
             $game->save(0);
         }
+    }
+
+    public static function getRecentGameList()
+    {
+        $games_list = Games::find()
+            ->select(['id','black_id','white_id','rule','game_record','status'])
+            ->where(['status' => self::PLAYING])
+            ->orWhere(['>=','movetime',date('Y-m-d H:i:s',time() - 600)])
+            ->orderBy('status ASC , movetime DESC')
+            ->asArray()
+            ->all();
+        UserService::render($games_list,'black_id','black');
+        UserService::render($games_list,'white_id','white');
+        return $games_list;
     }
 }

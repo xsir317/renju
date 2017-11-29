@@ -156,17 +156,7 @@ var chat = function (){
 
     this.actionGames = function(_data)
     {
-        $("#hall_games>ul").find("li:not(:first)").remove();
-        for(var i in _data.games)
-        {
-            var new_li = $(document.createElement("li"));
-            $(document.createElement('span')).addClass("layui-col-xs2").text(_data.games[i].id).appendTo(new_li);
-            $(document.createElement('span')).addClass("layui-col-xs3").text(_data.games[i].black.nickname).appendTo(new_li);
-            $(document.createElement('span')).addClass("layui-col-xs3").text(_data.games[i].white.nickname).appendTo(new_li);
-            $(document.createElement('span')).addClass("layui-col-xs2").text(_data.games[i].game_record.length/2 + 1).appendTo(new_li);
-            $(document.createElement('span')).addClass("layui-col-xs2").html("<a href='/game/"+_data.games[i].id+"'>进入</a>").appendTo(new_li);
-            new_li.appendTo($("#hall_games>ul"));
-        }
+        pager.show_game_list(_data.games);
     };
 
 
