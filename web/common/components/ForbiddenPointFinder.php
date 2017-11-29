@@ -123,121 +123,20 @@ class ForbiddenPointFinder
         if ($this->cBoard[$x+1][$y+1] != EMPTYSTONE)
         return FALSE;
 
-        $this->SetStone($x, $y, BLACKSTONE);
-
-        // detect black overline
-        $bOverline = FALSE;
-
-        // 1 - horizontal direction
-        $nLine = 1;
-        $i = $x;
-        while ($i > 0)
+        $black_overline = false;
+        foreach ([1,2,3,4] as $nDir)
         {
-            if ($this->cBoard[$i--][$y+1] == BLACKSTONE)
-            $nLine++;
+            $count = $this->count_direction($x,$y,0,$nDir);
+            if($count == 5)
+            {
+                return false;// 连5了立刻返回
+            }
             else
-            break;
+            {
+                $black_overline = true; //没连5，但是长连了，记录一下
+            }
         }
-        $i = $x+2;
-        while ($i < (BOARDSIZE+1))
-        {
-            if ($this->cBoard[$i++][$y+1] == BLACKSTONE)
-            $nLine++;
-            else
-            break;
-        }
-        if ($nLine == 5)
-        {
-            $this->SetStone($x, $y, EMPTYSTONE);
-            return FALSE;
-        }
-        else
-        $bOverline |= ($nLine >= 6);
-
-        // 2 - vertical direction
-        $nLine = 1;
-        $i = $y;
-        while ($i > 0)
-        {
-            if ($this->cBoard[$x+1][$i--] == BLACKSTONE)
-            $nLine++;
-            else
-            break;
-        }
-        $i = $y+2;
-        while ($i < (BOARDSIZE+1))
-        {
-            if ($this->cBoard[$x+1][$i++] == BLACKSTONE)
-            $nLine++;
-            else
-            break;
-        }
-        if ($nLine == 5)
-        {
-            $this->SetStone($x, $y, EMPTYSTONE);
-            return FALSE;
-        }
-        else
-        $bOverline |= ($nLine >= 6);
-
-        // 3 - diagonal direction (lower-left to upper-right: '/')
-        $nLine = 1;
-        $i = $x;
-        $j = $y;
-        while (($i > 0) && ($j > 0))
-        {
-            if ($this->cBoard[$i--][$j--] == BLACKSTONE)
-            $nLine++;
-            else
-            break;
-        }
-        $i = $x+2;
-        $j = $y+2;
-        while (($i < (BOARDSIZE+1)) && ($j < (BOARDSIZE+1)))
-        {
-            if ($this->cBoard[$i++][$j++] == BLACKSTONE)
-            $nLine++;
-            else
-            break;
-        }
-        if ($nLine == 5)
-        {
-            $this->SetStone($x, $y, EMPTYSTONE);
-            return FALSE;
-        }
-        else
-        $bOverline |= ($nLine >= 6);
-
-        // 4 - diagonal direction (upper-left to lower-right: '\')
-        $nLine = 1;
-        $i = $x;
-        $j = $y+2;
-        while (($i > 0) && ($j < (BOARDSIZE+1)))
-        {
-            if ($this->cBoard[$i--][$j++] == BLACKSTONE)
-            $nLine++;
-            else
-            break;
-        }
-        $i = $x+2;
-        $j = $y;
-        while (($i < (BOARDSIZE+1)) && ($j > 0))
-        {
-            if ($this->cBoard[$i++][$j--] == BLACKSTONE)
-            $nLine++;
-            else
-            break;
-        }
-        if ($nLine == 5)
-        {
-            $this->SetStone($x, $y, EMPTYSTONE);
-            return FALSE;
-        }
-        else
-        $bOverline |= ($nLine >= 6);
-
-        $this->SetStone($x, $y, EMPTYSTONE);
-        return $bOverline;
+        return $black_overline;// 都没连5，返回是否有长连
     }
 
     function IsFive($x, $y, $nColor, $nDir=0 , $isRenju = true)//判断是否连5，nDir参数：方向  1横的  2 竖的 3 斜线 4 反斜线
@@ -246,102 +145,15 @@ class ForbiddenPointFinder
         {
             if ($this->cBoard[$x+1][$y+1] != EMPTYSTONE)
             return FALSE;
+            $count = $this->count_direction($x,$y,$nColor,$nDir);
 
-            $c = ($nColor == 0) ? BLACKSTONE:WHITESTONE;
-
-            $this->SetStone($x, $y, $c);
-
-            $nLine = 1;
-            switch ($nDir)
-            {
-                case 1:		// horizontal direction
-                    $i = $x;
-                    while ($i > 0)
-                    {
-                        if ($this->cBoard[$i--][$y+1] == $c)
-                            $nLine++;
-                        else
-                        break;
-                    }
-                    $i = $x+2;
-                    while ($i < (BOARDSIZE+1))
-                    {
-                        if ($this->cBoard[$i++][$y+1] == $c)
-                            $nLine++;
-                        else
-                        break;
-                    }
-                break;
-                case 2:		// vertial direction
-                    $i = $y;
-                    while ($i > 0)
-                    {
-                        if ($this->cBoard[$x+1][$i--] == $c)
-                            $nLine++;
-                        else
-                        break;
-                    }
-                    $i = $y+2;
-                    while ($i < (BOARDSIZE+1))
-                    {
-                        if ($this->cBoard[$x+1][$i++] == $c)
-                            $nLine++;
-                        else
-                        break;
-                    }
-                break;
-                case 3:		// diagonal direction - '/'
-                    $i = $x;
-                    $j = $y;
-                    while (($i > 0) && ($j > 0))
-                    {
-                        if ($this->cBoard[$i--][$j--] == $c)
-                            $nLine++;
-                        else
-                        break;
-                    }
-                    $i = $x+2;
-                    $j = $y+2;
-                    while (($i < (BOARDSIZE+1)) && ($j < (BOARDSIZE+1)))
-                    {
-                        if ($this->cBoard[$i++][$j++] == $c)
-                            $nLine++;
-                        else
-                        break;
-                    }
-                break;
-                case 4:		// diagonal direction - '\'
-                    $i = $x;
-                    $j = $y+2;
-                    while (($i > 0) && ($j < (BOARDSIZE+1)))
-                    {
-                        if ($this->cBoard[$i--][$j++] == $c)
-                            $nLine++;
-                        else
-                        break;
-                    }
-                    $i = $x+2;
-                    $j = $y;
-                    while (($i < (BOARDSIZE+1)) && ($j > 0))
-                    {
-                        if ($this->cBoard[$i++][$j--] == $c)
-                            $nLine++;
-                        else
-                        break;
-                    }
-                break;
-                default:
-                    break;
-            }
-
-            $this->SetStone($x, $y, EMPTYSTONE);
             if($isRenju)
             {
-                return ($nLine == 5 || ($nLine > 5 && $c == WHITESTONE));
+                return ($count == 5 || ($count > 5 && $nColor == 1));
             }
             else
             {
-                return ($nLine == 5);
+                return ($count == 5);
             }
         }
         else
@@ -374,13 +186,7 @@ class ForbiddenPointFinder
         }
         else//否则进行判断
         {
-            $c = '';
-            if ($nColor == 0)	// black
-            $c = BLACKSTONE;
-            else if ($nColor == 1)	// white
-            $c = WHITESTONE;
-            else
-            return FALSE;
+            $c = ($nColor == 0) ? BLACKSTONE:WHITESTONE;
             //c是棋子颜色，0为黑棋，1为白棋
             $this->SetStone($x, $y, $c);
 
@@ -589,21 +395,15 @@ class ForbiddenPointFinder
     function IsOpenFour($x, $y, $nColor, $nDir)//是否是活四
     {
         if ($this->cBoard[$x+1][$y+1] != EMPTYSTONE)
-        return 0;
+            return 0;
 
         if ($this->IsFive($x, $y, $nColor))	// five?
-        return 0;
+            return 0;
         else if (($nColor == 0) && ($this->IsOverline($x, $y)))	// black overline?
-        return 0;
+            return 0;
         else
         {
-            $c = '';
-            if ($nColor == 0)	// black
-            $c = BLACKSTONE;
-            else if ($nColor == 1)	// white
-            $c = WHITESTONE;
-            else
-            return 0;
+            $c = ($nColor == 0) ? BLACKSTONE:WHITESTONE;
 
             $this->SetStone($x, $y, $c);
 
@@ -861,13 +661,7 @@ class ForbiddenPointFinder
         return FALSE;
         else
         {
-            $c = '';
-            if ($nColor == 0)	// black
-            $c = BLACKSTONE;
-            else if ($nColor == 1)	// white
-            $c = WHITESTONE;
-            else
-            return FALSE;
+            $c = ($nColor == 0) ? BLACKSTONE:WHITESTONE;
 
             $this->SetStone($x, $y, $c);
 
@@ -1152,6 +946,98 @@ class ForbiddenPointFinder
             }
         }
         return -1;
+    }
+
+    function count_direction($x,$y,$nColor,$nDir)
+    {
+        $c = ($nColor == 0) ? BLACKSTONE:WHITESTONE;
+
+        $this->SetStone($x, $y, $c);
+        $nLine = 1;
+        switch ($nDir)
+        {
+            case 1:		// horizontal direction
+                $i = $x;
+                while ($i > 0)
+                {
+                    if ($this->cBoard[$i--][$y+1] == $c)
+                        $nLine++;
+                    else
+                        break;
+                }
+                $i = $x+2;
+                while ($i < (BOARDSIZE+1))
+                {
+                    if ($this->cBoard[$i++][$y+1] == $c)
+                        $nLine++;
+                    else
+                        break;
+                }
+                break;
+            case 2:		// vertial direction
+                $i = $y;
+                while ($i > 0)
+                {
+                    if ($this->cBoard[$x+1][$i--] == $c)
+                        $nLine++;
+                    else
+                        break;
+                }
+                $i = $y+2;
+                while ($i < (BOARDSIZE+1))
+                {
+                    if ($this->cBoard[$x+1][$i++] == $c)
+                        $nLine++;
+                    else
+                        break;
+                }
+                break;
+            case 3:		// diagonal direction - '/'
+                $i = $x;
+                $j = $y;
+                while (($i > 0) && ($j > 0))
+                {
+                    if ($this->cBoard[$i--][$j--] == $c)
+                        $nLine++;
+                    else
+                        break;
+                }
+                $i = $x+2;
+                $j = $y+2;
+                while (($i < (BOARDSIZE+1)) && ($j < (BOARDSIZE+1)))
+                {
+                    if ($this->cBoard[$i++][$j++] == $c)
+                        $nLine++;
+                    else
+                        break;
+                }
+                break;
+            case 4:		// diagonal direction - '\'
+                $i = $x;
+                $j = $y+2;
+                while (($i > 0) && ($j < (BOARDSIZE+1)))
+                {
+                    if ($this->cBoard[$i--][$j++] == $c)
+                        $nLine++;
+                    else
+                        break;
+                }
+                $i = $x+2;
+                $j = $y;
+                while (($i < (BOARDSIZE+1)) && ($j > 0))
+                {
+                    if ($this->cBoard[$i++][$j--] == $c)
+                        $nLine++;
+                    else
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+
+        $this->SetStone($x, $y, EMPTYSTONE);
+        return $nLine;
     }
 
     private function coordinate_to_str($x,$y)
