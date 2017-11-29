@@ -84,6 +84,20 @@ var pager = {
         new_li.html(content).appendTo($("#chat_content"));
         //滚动。
         $("#chat_content_list").scrollTop($("#chat_content_list")[0].scrollHeight - $("#chat_content_list").height());
+    },
+    show_game_list: function(games){
+        $("#hall_games>ul").find("li:not(:first)").remove();
+        for(var i in games)
+        {
+            var new_li = $(document.createElement("li"));
+            $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].id).appendTo(new_li);
+            $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].black.nickname).appendTo(new_li);
+            $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].white.nickname).appendTo(new_li);
+            $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].game_record.length/2 + 1).appendTo(new_li);
+            $(document.createElement('span')).addClass("layui-col-xs2").text(result_defines[games[i].status]).appendTo(new_li);
+            $(document.createElement('span')).addClass("layui-col-xs2").html("<a href='/game/"+games[i].id+"'>进入</a>").appendTo(new_li);
+            new_li.appendTo($("#hall_games>ul"));
+        }
     }
 };
 
@@ -162,4 +176,9 @@ $(document).ready(function () {
             },"json");
         }
     });
+
+    if(typeof game_list != "undefined")
+    {
+        pager.show_game_list(game_list);
+    }
 });
