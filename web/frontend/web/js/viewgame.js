@@ -388,7 +388,19 @@ var boardObj = function()
     _obj.hide_a5 = function(){
         $(".a5stone").removeClass('black a5stone').html('');
     };
-
+    _obj.show_rule = function () {
+        var rule_description = {
+            Yamaguchi:"山口规则：<br /><p>1.先手方下3个棋子（黑1，白2，黑3），同时指定第五手的打点数量N；</p><p>2.后手方可以选择执白或者执黑。</p> <p>3.白方下第四手；</p> <p>4.黑方按照约定的五手打点数量放上N个棋子，白方指定其中的一个为实战的第五手，然后白方下第六手；</p> <p>5.双方轮流行棋。</p> <p>注意：先手方的开局仅限26种开局。</p>",
+            RIF:"RIF规则：<br /><p>1.先手方下3个棋子（黑1，白2，黑3）；</p> <p>2.后手方可以选择执白或者执黑。</p> <p>3.白方下第四手；</p> <p>4.黑方放上2个棋子，白方指定其中的一个为实战的第五手，然后白方下第六手；</p> <p>5.双方轮流行棋。</p> <p>注意：先手方的开局仅限26种开局。</p>",
+            Soosyrv8:"索索夫8规则：<br /><p>1.先手方下3个棋子（黑1，白2，黑3，26种开局）；</p> <p>2.后手方可以选择执白或者执黑。</p> <p>3.白方下第四手，同时指定第五手的打点数量N（N<=8）；</p> <p>4.黑方可以选择交换，或者按照约定的五手打点数量放上N个棋子，白方指定其中的一个为实战的第五手，然后白方下第六手；</p> <p>5.双方轮流行棋。</p>",
+            Renju:"有禁手规则：<br />黑白双方轮流落子，先5为胜，黑方不得双3，双4，长连，白方长连视为五连。",
+            Gomoku:"无禁手规则：<br />双方轮流行棋。黑白双方均无限制，先5为胜，超过6个不产生胜负。"
+        };
+        if(typeof rule_description[gameObj.rule] != "undefined")
+        {
+            pager.show_msg(rule_description[gameObj.rule]);
+        }
+    };
 
     /**
      * 画棋盘和按钮。绑定右键事件。
@@ -450,4 +462,5 @@ $(document).ready(function(){
     board.init_board();
 //3.把web页输出的数据结构load进来。
     board.load(gameObj);
+    board.show_rule();
 });
