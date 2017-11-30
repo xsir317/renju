@@ -19,7 +19,7 @@
  */
 //declare(ticks=1);
 
-use \GatewayWorker\Lib\CustomGateway as Gateway;
+use \GatewayWorker\Lib\Gateway;
 use \GatewayWorker\Lib\Helpers\MsgHelper;
 use GatewayWorker\Lib\QueueService;
 use \GatewayWorker\Lib\Security;

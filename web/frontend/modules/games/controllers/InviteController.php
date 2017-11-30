@@ -9,7 +9,7 @@
 namespace frontend\modules\games\controllers;
 
 
-use common\components\CustomGateway;
+use common\components\Gateway;
 use common\components\MsgHelper;
 use common\models\GameInvites;
 use common\models\Games;
@@ -95,10 +95,10 @@ class InviteController extends Controller
                 $game->tid = 0;
                 $game->create_time = date('Y-m-d H:i:s');
                 $game->save(0);
-                CustomGateway::sendToUid($this->_user()->id,MsgHelper::build('game_start',[
+                Gateway::sendToUid($this->_user()->id,MsgHelper::build('game_start',[
                     'game_id' => $game->id,
                 ]));
-                CustomGateway::sendToUid($invite_from,MsgHelper::build('game_start',[
+                Gateway::sendToUid($invite_from,MsgHelper::build('game_start',[
                     'game_id' => $game->id,
                 ]));
                 return $this->renderJSON([],'接受邀请，对局即将开始');
@@ -167,7 +167,7 @@ class InviteController extends Controller
     {
         $invite = $invite_obj->toArray();
         $invite['from_user'] = UserService::renderUser($invite_obj->from);
-        CustomGateway::sendToUid($invite_obj->to,MsgHelper::build('invite',[
+        Gateway::sendToUid($invite_obj->to,MsgHelper::build('invite',[
             'invite' => $invite
         ]));
     }
