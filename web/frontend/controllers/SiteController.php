@@ -142,6 +142,7 @@ class SiteController extends Controller
         {
             $users = Player::find()
                 ->select(['id','nickname','games','score','intro',])
+                ->where('games>0')
                 ->orderBy('score desc')
                 ->limit(100)
                 ->asArray()
