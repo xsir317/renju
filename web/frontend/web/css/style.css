@@ -98,9 +98,10 @@ th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 /*聊天*/
 .chat_area{float:left;width:175px;overflow: hidden;}
 #chat_content_list,#chat_operate_area{padding:10px 0 0 0;}
+#chat_user_list {height:125px;overflow-y:auto;}
 #chat_user_list ul li,#hall_games ul li{overflow: hidden;}
 #chat_user_list .user_title,.hall_game_title{font-weight:bold;}
-#msg {width:280px;}
+#msg {width:270px;}
 
 #hall_games ul li {overflow: hidden;}
 #chat_content_list {height:330px;overflow-x: hidden;overflow-y:auto;}
