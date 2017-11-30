@@ -362,6 +362,25 @@ class GamesController extends Controller
         return $this->renderJSON([]);
     }
 
+    public function actionTimeout()
+    {
+        $game_id = intval($this->post('game_id'));
+        if(!$game_id)
+        {
+            return $this->renderJSON([],'指定游戏不存在');
+        }
+        $cache_key = sprintf("timeout_lock_game%d",$game_id);
+        $my_rand = rand(10000,99999);
+        $lock = \Yii::$app->redis->setNx($cache_key,$my_rand);
+        //采用setNx存一个数字进去，如果存成功了，而且
+        if($lock && \Yii::$app->redis->get($cache_key) == $my_rand)
+        {
+            GameService::renderGame($game_id);
+            \Yii::$app->redis->setTimeout($cache_key,10);
+            return $this->renderJSON([],'done');
+        }
+        return $this->renderJSON([],'thanks');
+    }
     /**
      * 一个演示板，用于教学、沟通；
      * 就是一个不判断胜负的没有时间限制的演示功能；新建者可落子，可授权给他人落子。

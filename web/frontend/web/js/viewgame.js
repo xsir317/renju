@@ -80,6 +80,10 @@ var boardObj = function()
                     var delta_time = current - timer_start;
                     var time_left = (_obj.gameData.turn ? _obj.gameData.black_time : _obj.gameData.white_time) - parseInt(delta_time/1000);
                     render_time(time_left,_obj.gameData.turn);
+                    if(time_left <= 0)
+                    {
+                        _obj.notice_timeout();
+                    }
                 },1000);
                 debug_log("setInterval " + timer_handler);
             }
@@ -207,6 +211,12 @@ var boardObj = function()
         return false;
     };
 
+    _obj.notice_timeout = function(){
+        $.post("/games/games/timeout",{
+            "_csrf-frontend":$("meta[name=csrf-token]").attr("content"),
+            game_id:gameObj.id
+        });
+    };
     /**
      * 回退到空棋盘状态。
      */
