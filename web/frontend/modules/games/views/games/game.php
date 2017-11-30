@@ -24,7 +24,7 @@ $this->registerJSFile('/js/websocket.js');
                 <span>开始时间:</span><ins style="width:140px;"><?php echo substr($game['create_time'],0,16)?></ins>
             </li>
             <li class="rule_name">
-                <span>规则:</span><ins><?php echo $game['rule']?></ins>
+                <span>规则:</span><ins><?php echo Yii::$app->params['rules'][$game['rule']]?></ins>
             </li>
             <li class="a5_numbers">
                 <span>五手打点数:</span><ins><?php echo $game['a5_numbers']?></ins>
