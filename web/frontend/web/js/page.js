@@ -54,6 +54,7 @@ var pager = {
             type:1,
             content:$("#invite_box"),
             title:"邀请对局",
+            shade: 0,
             cancel: function(index, layero){
                 $("#invite_box").hide();
                 layer.close(index);
