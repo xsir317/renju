@@ -56,6 +56,10 @@ class SiteController extends Controller
         $req = \Yii::$app->request;
         if($req->isPost)
         {
+            if(!$this->check_abuse())
+            {
+                return $this->renderJSON([],'您的操作频率太快，请稍后再试',-1);
+            }
             $email = trim($this->post('email'));
             $password = trim($this->post('passwd'));
             $user = Player::findOne(['email' => $email]);
@@ -78,6 +82,10 @@ class SiteController extends Controller
         $req = \Yii::$app->request;
         if($req->isPost)
         {
+            if(!$this->check_abuse())
+            {
+                return $this->renderJSON([],'您的操作频率太快，请稍后再试',-1);
+            }
             $email = trim($this->post('email'));
             $password = trim($this->post('passwd'));
             $nickname = trim($this->post('nickname'));
@@ -125,5 +133,46 @@ class SiteController extends Controller
             \Yii::$app->user->logout();
         }
         return $this->redirect('/');
+    }
+
+    private function check_abuse()
+    {
+        $time = time();
+        $ip = CommonService::getIP();
+        $hash_key = sprintf("abuse_%u",ip2long($ip));
+        $curr_min = date('mdHi',$time);
+        \Yii::$app->redis->hIncrBy($hash_key,$curr_min,1);
+
+        $last_ten_min = [];
+        for($ts = $time - 600; $ts <= $time ; $ts += 60 )
+        {
+            $last_ten_min[] = date('mdHi',$ts);
+        }
+        $record_times = \Yii::$app->redis->hMGet($hash_key,$last_ten_min);
+        //插入一个逻辑，如果长度已经超过了60，清一下。。。
+        if(\Yii::$app->redis->hLen($hash_key) > 60)
+        {
+            \Yii::$app->redis->delete($hash_key);
+            \Yii::$app->redis->hMSet($hash_key,$record_times);
+        }
+        //长度处理结束
+        foreach ($last_ten_min as $_min)
+        {
+            $record_times[$_min] = isset($record_times[$_min]) ? intval($record_times[$_min]) : 0;
+        }
+        krsort($record_times);
+        if($record_times[$curr_min] >= 5)
+        {
+            return false;
+        }
+        if(array_sum(array_slice($record_times,0,3)) >= 12)
+        {
+            return false;
+        }
+        if(array_sum($record_times) >= 30)
+        {
+            return false;
+        }
+        return true;
     }
 }
