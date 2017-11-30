@@ -24,17 +24,20 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
 <?php $this->beginBody() ?>
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header header header-doc">
-        <div class="layui-main">
+        <div class="layui-main" style="width: 1140px;margin: 0 auto;">
             <ul class="layui-nav">
                 <?php if(!Yii::$app->user->isGuest):?><li class="layui-nav-item">欢迎你，<?php echo Html::encode(Yii::$app->user->identity->nickname);?>。</li><?php endif;?>
                 <li class="layui-nav-item ">
-                    <a href="/">首页</a>
+                    <a href="/">大厅</a>
                 </li>
                 <li class="layui-nav-item">
                     <a href="mailto:xsir317@gmail.com">联系我们</a>
                 </li>
                 <li class="layui-nav-item">
                     <a href="/about.html">关于规则和等级分</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="/site/top100">TOP100</a>
                 </li>
             </ul>
         </div>
