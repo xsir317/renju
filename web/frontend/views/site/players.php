@@ -5,6 +5,7 @@ $this->title = "积分榜";
 <table class="layui-table" lay-skin="line">
     <colgroup>
         <col width="50">
+        <col width="50">
         <col width="120">
         <col width="50">
         <col width="120">
@@ -13,6 +14,7 @@ $this->title = "积分榜";
     </colgroup>
     <thead>
     <tr>
+        <th>排名</th>
         <th>ID</th>
         <th>昵称</th>
         <th>对局次数</th>
@@ -22,8 +24,9 @@ $this->title = "积分榜";
     </thead>
     <tbody>
     <?php use yii\helpers\Html;
-    foreach($players as $row): ?>
+    foreach($players as $k=>$row): ?>
     <tr>
+        <td><?= $k+1 ?></td>
         <td><?= $row['id'] ?></td>
         <td><a href="/player/<?= $row['id'] ?>"><?= Html::encode($row['nickname']) ?></a></td>
         <td><?= $row['games'] ?></td>
