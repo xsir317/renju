@@ -152,7 +152,7 @@ class MsgHelper
 
     private static function getRoomMsgKey($room_id)
     {
-        return sprintf("room_msg::%d",$room_id);
+        return sprintf("room_msg::%s",$room_id);
     }
 
     private static function getRoomMsgId($room_id)

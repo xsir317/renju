@@ -27,6 +27,12 @@ class MsgHelper
     public static function persist($room_id,$data)
     {
         //TODO 塞个别的队列啥的。。。 用于分析，这里放redis是用于用户显示历史消息
+        //插入一个逻辑，如果长度已经超过了100，清一下。。。
+        if(\Yii::$app->redis->zSize(self::getRoomMsgKey($room_id)) > 100)
+        {
+            //只保留最近10个
+            \Yii::$app->redis->zRemRangeByRank(self::getRoomMsgKey($room_id),0,-11);
+        }
         return \Yii::$app->redis->zAdd(
             self::getRoomMsgKey($room_id),
             self::getRoomMsgId($room_id),
@@ -241,7 +247,7 @@ class MsgHelper
 
     private static function getRoomMsgKey($room_id)
     {
-        return sprintf("room_msg::%d",$room_id);
+        return sprintf("room_msg::%s",$room_id);
     }
 
     private static function getRoomMsgId($room_id)

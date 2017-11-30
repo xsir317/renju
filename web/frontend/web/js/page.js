@@ -112,7 +112,7 @@ var pager = {
 
 $(document).ready(function () {
     //聊天
-    $("#chat_operate_area .send").click(function(){
+    var send_chat = function(){
         var content = $("#msg").val().trim();
         if(!content)
         {
@@ -134,7 +134,14 @@ $(document).ready(function () {
             },
             "json"
         );
+    };
+    $("#msg").keydown(function(event){
+        if(event.keyCode == 13)
+        {
+            send_chat();
+        }
     });
+    $("#chat_operate_area .send").click(send_chat);
 
     //邀请游戏
     $("#invite_submit_button").click(function () {
