@@ -47,7 +47,7 @@ $this->registerJSFile('/js/websocket.js');
             <li>
                 <span>白方剩余时间:</span><ins style="width:135px;" id="white_time_display">00:00:00</ins>
             </li>
-            <li class="turn_to_play_tips" style="display: none;">
+            <li class="turn_to_play_tips" style="display: none;color: #3367d6;font-weight:bold;">
                 <span>轮到您下第<?php echo strlen($game['game_record'])/2 +1?>手</span>
             </li>
             <li class="draw_button" style="display: none;"><span>提和：</span><input type="button" value="和棋" class="button" id="draw_button" /></li>
