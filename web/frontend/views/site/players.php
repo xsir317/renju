@@ -6,8 +6,8 @@ $this->title = "积分榜";
     <colgroup>
         <col width="50">
         <col width="50">
-        <col width="120">
-        <col width="50">
+        <col width="100">
+        <col width="80">
         <col width="120">
         <col width="300">
         <col>
@@ -17,7 +17,7 @@ $this->title = "积分榜";
         <th>排名</th>
         <th>ID</th>
         <th>昵称</th>
-        <th>对局次数</th>
+        <th>对局数</th>
         <th>等级分</th>
         <th>个人简介</th>
     </tr>
