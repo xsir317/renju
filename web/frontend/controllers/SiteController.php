@@ -135,6 +135,22 @@ class SiteController extends Controller
         return $this->redirect('/');
     }
 
+    public function actionTop100()
+    {
+        $users = \Yii::$app->cache->get('top_players0');
+        if(!$users)
+        {
+            $users = Player::find()
+                ->select(['id','nickname','games','score','intro',])
+                ->orderBy('score desc')
+                ->limit(100)
+                ->asArray()
+                ->all();
+            \Yii::$app->cache->set('top_players0',$users,60);
+        }
+        return $this->render('players',['players' => $users]);
+    }
+
     private function check_abuse()
     {
         $time = time();
