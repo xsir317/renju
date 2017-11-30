@@ -6,15 +6,13 @@ body
 	margin:0px;
 	font-family: "微软雅黑",Arial,Helvetica,sans-serif;
 }
-.layui-main {overflow:hidden;}
+.layui-main {overflow:hidden;width:1140px;margin:0 auto;}
 img{border:none;}
 h1,h2,h3{margin:0;}
 p{font-size:14px;margin:0 0 5px 0;line-height:22px;}
 a{color:#4C9FEB;text-decoration:none;}
 a:hover{color:#FF7D4C}
 ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
-td{border: 1px solid #E2D89F;    font-size: 15px;    height: 30px;}
-th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 .odd{background:#E8E8E8}
 #page-top{background:#e8e8e8;border-bottom: 1px solid rgba(0, 0, 2, 0.1);border-top: 1px solid #FDFDFF;box-shadow: 0 1px 0 rgba(253, 253, 255, 0.5);margin-bottom:10px;}
 #toolbar{clear: both;overflow:hidden;font-size: 12px;
@@ -26,7 +24,8 @@ th{background-color: #FCF4B1;    border: 1px solid #E2D89F;}
 #toolbar ul li a:hover{color:#FF7D4C}
 .wrapper{width:980px;margin:0 auto;}
 #login_reg{width:320px}
-
+.header .layui-nav {
+}
 .grid_content {padding:10px;overflow: hidden;}
 .footer {margin:10px 0;}
 .footer p{text-align:center;}
