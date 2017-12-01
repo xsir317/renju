@@ -123,10 +123,11 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 .face-pop .tab a.active {  background: #fff none repeat scroll 0 0;  }
 .face-pop .tab a {  display: inline-block;  height: 20px;  padding: 5px 8px;  width: 45px;  vertical-align: middle;color: #a5a5a5;  }
 .face-pop .face-content{height: 240px;overflow: hidden;}
-
+/*大厅*/
+#hall_games {min-height:650px;border-right:1px solid #ccc;}
 #hall_games ul li {overflow: hidden;}
-#chat_content_list {height:330px;overflow-x: hidden;overflow-y:auto;padding: 12px 8px;}
-#chat_content ul li{float: left;display: inline-block;}
+#chat_content_list {height:330px;overflow-x: hidden;overflow-y:auto;padding: 12px 8px;background: #f2f2f2}
+#chat_content li{border-bottom: 1px solid #ddd;line-height: 25px;}
 .game_pager{overflow:hidden;padding-left:220px;}
 .game_pager li{float:left;}
 .game_pager li a{border:1px solid #E0E0E0;border-bottom-color:#CDCDCD;
