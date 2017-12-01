@@ -49,7 +49,6 @@ var chat = function (){
             type:"login",
             game_id:typeof gameObj == 'undefined' ? 'HALL' : gameObj.id,
             uid:userinfo ?　userinfo.id : 0,
-            score:userinfo ?　userinfo.score : 0,
             nickname:userinfo ? userinfo.nickname : ''//直接传给服务端，避免websocket读DB了。
         };
         that.sendMsg(login_data);
@@ -135,11 +134,13 @@ var chat = function (){
             var name_span = $(document.createElement('span'));
             if(user)
             {
-                name_span.attr({alt:"点击邀请对局","data-uid":user.id}).click(function(){
+                name_span.attr({alt:user.intro,"data-uid":user.id}).click(function(){
                     pager.invite({user_id:$(this).attr("data-uid"),nickname:$(this).text()});
+                }).mouseover(function(){
+                    layer.tips($(this).attr("alt"),this,{tips:1,time:1500});
                 });
             }
-            name_span.addClass("layui-col-xs7").text(user ? user.nickname : "游客").appendTo(new_li);
+            name_span.addClass("layui-col-xs7 name_tag").text(user ? user.nickname : "游客").appendTo(new_li);
             $(document.createElement('span')).addClass("layui-col-xs5").text(user ? user.score : "0").appendTo(new_li);
             new_li.appendTo($("#chat_user_list>ul"));
         }
