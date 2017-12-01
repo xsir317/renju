@@ -88,7 +88,7 @@ class SiteController extends Controller
             }
             $email = trim($this->post('email'));
             $password = trim($this->post('passwd'));
-            $nickname = trim($this->post('nickname'));
+            $nickname = strip_tags(trim($this->post('nickname')));
             $user = Player::findOne(['email' => $email]);
             //验证密码
             if($user)
@@ -99,29 +99,31 @@ class SiteController extends Controller
             {
                 return $this->renderJSON([],'请完整填写注册信息！',-1);
             }
-            else
+            if(!preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i',$email))
             {
-                $new_user = new Player();
-                $new_user->email = $email;
-                $new_user->nickname = $nickname;
-                $new_user->password = Player::hash_pwd($password);
-                $new_user->login_times = 0;
-                $new_user->b_win = 0;
-                $new_user->b_lose = 0;
-                $new_user->w_win = 0;
-                $new_user->w_lose = 0;
-                $new_user->draw = 0;
-                $new_user->games = 0;
-                $new_user->reg_time = date('Y-m-d H:i:s');
-                $new_user->reg_ip = CommonService::getIP();
-                $new_user->last_login_time = date('Y-m-d H:i:s');
-                $new_user->last_login_ip = CommonService::getIP();
-                $new_user->score = 2100;
-                $new_user->intro = '';
-                $new_user->save(0);
-                \Yii::$app->user->login($new_user,30*86400);
-                return $this->renderJSON(['redirect' => '/']);
+                return $this->renderJSON([],'Email格式不合法。',-1);
             }
+
+            $new_user = new Player();
+            $new_user->email = $email;
+            $new_user->nickname = $nickname;
+            $new_user->password = Player::hash_pwd($password);
+            $new_user->login_times = 0;
+            $new_user->b_win = 0;
+            $new_user->b_lose = 0;
+            $new_user->w_win = 0;
+            $new_user->w_lose = 0;
+            $new_user->draw = 0;
+            $new_user->games = 0;
+            $new_user->reg_time = date('Y-m-d H:i:s');
+            $new_user->reg_ip = CommonService::getIP();
+            $new_user->last_login_time = date('Y-m-d H:i:s');
+            $new_user->last_login_ip = CommonService::getIP();
+            $new_user->score = 2100;
+            $new_user->intro = '';
+            $new_user->save(0);
+            \Yii::$app->user->login($new_user,30*86400);
+            return $this->renderJSON(['redirect' => '/']);
         }
         return $this->renderJSON([],'请求方式错误',-1);
     }

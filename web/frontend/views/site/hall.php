@@ -39,10 +39,14 @@ $this->registerJSFile('/js/websocket.js');
                     <a><i class="icon-menu-2 icon-emjo icon-room-custom-bar"></i></a>
                 </span>
             </div>
-            <div class="componet-send">
-                <textarea id="msg" placeholder="你怎么看……" maxlength="100"></textarea>
-                <a class="send">发送</a>
+            <div class="component-send">
+                <textarea id="msg" placeholder="你怎么看……" maxlength="100"></textarea><a class="send">发送</a>
             </div>
+        </div>
+        <div id="face_pop" class="face-pop">
+            <div class="face-content">
+            </div>
+            <div class="tab"></div>
         </div>
     </div>
 <script type="text/javascript">
