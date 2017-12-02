@@ -135,9 +135,13 @@ var chat = function (){
             if(user)
             {
                 name_span.attr({alt:user.intro,"data-uid":user.id}).click(function(){
+                    //TODO 如果是自己，则弹出修改intro
                     pager.invite({user_id:$(this).attr("data-uid"),nickname:$(this).text()});
                 }).mouseover(function(){
-                    layer.tips($(this).attr("alt"),this,{tips:1,time:1500});
+                    if($(this).attr("alt"))
+                    {
+                        layer.tips($(this).attr("alt"),this,{tips:1,time:1500});
+                    }
                 });
             }
             name_span.addClass("layui-col-xs7 name_tag").text(user ? user.nickname : "游客").appendTo(new_li);
