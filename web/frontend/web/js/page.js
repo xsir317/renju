@@ -126,6 +126,19 @@ var pager = {
             $(document.createElement('span')).addClass("layui-col-xs2").html("<a href='/game/"+games[i].id+"'>进入</a>").appendTo(new_li);
             new_li.appendTo($("#hall_games>ul"));
         }
+    },
+    sounds:{
+        'GameOver' : "/sound/GameOver.wav",
+        'Invitation' : "/sound/Invitation.wav",
+        'Move' : "/sound/Move.wav",
+        'Back' : "/sound/Back.wav"
+    },
+    play_sound : function(_name){
+        if(typeof this.sounds[_name] == "string")
+        {
+            $("#global-audio").attr('src',this.sounds[_name]);
+            $("#global-audio")[0].play();
+        }
     }
 };
 

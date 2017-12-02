@@ -84,6 +84,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
             <input type="submit" class="button" value="发出邀请" id="invite_submit_button" />
     <?= Html::endForm();?>
 </div>
+<audio src="" id="global-audio"></audio>
 <script src="/layui/layui.all.js" charset="utf-8"></script>
 <script type="text/javascript">
 var _debug_mode = <?php echo intval(YII_DEBUG);?>;

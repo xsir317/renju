@@ -185,7 +185,7 @@ class GamesController extends Controller
             {
                 //黑胜
                 BoardTool::do_over($game_id,1,false);
-                Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
                     'content' => "黑方获胜"
                 ]));
             }
@@ -193,7 +193,7 @@ class GamesController extends Controller
             {
                 //白胜
                 BoardTool::do_over($game_id,0,false);
-                Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
                     'content' => ($result == WHITEFIVE ? "连五" : "黑方禁手") . "，白方获胜"
                 ]));
             }
@@ -201,7 +201,7 @@ class GamesController extends Controller
             {
                 //和棋
                 BoardTool::do_over($game_id,0.5,false);
-                Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
                     'content' => "满局，和棋。"
                 ]));
             }
@@ -326,7 +326,7 @@ class GamesController extends Controller
         elseif ($game_object->offer_draw == $opponent_id)
         {
             BoardTool::do_over($game_id,0.5);
-            Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+            Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
                 'content' => $this->_user()->nickname. "同意和棋，对局结束。"
             ]));
             return $this->renderJSON([]);
@@ -356,7 +356,7 @@ class GamesController extends Controller
         }
         $game_result = $this->_user()->id == $game_info['black_id'] ? 0 : 1 ;//黑认输则白胜
         BoardTool::do_over($game_id,$game_result);
-        Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+        Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
             'content' => ($game_result ? "白":"黑") . "方认输。"
         ]));
         return $this->renderJSON([]);

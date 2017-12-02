@@ -3,7 +3,7 @@ use common\services\GameService;
 
 $this->title = '对局';
 //棋盘
-$this->registerJSFile('/js/viewgame.js');
+$this->registerJSFile('/js/board.js');
 
 //websocket连接
 $this->registerJSFile('/js/swfobject.js');

@@ -167,6 +167,7 @@ var chat = function (){
 
     this.actionInvite = function(_data){
         pager.invite(_data.invite);
+        pager.play_sound("Invitation");
     };
 
     this.actionGame_start = function(_data){
@@ -180,6 +181,10 @@ var chat = function (){
 
     this.actionNotice = function(_data){
         pager.show_msg(_data.content);
+    };
+    this.actionGame_over = function(_data){
+        pager.show_msg('<span style="color: #3367d6;font-weight:bold;">' +_data.content + '</span>');
+        pager.play_sound("GameOver");
     };
 
     this.actionShutdown = function(_data)
