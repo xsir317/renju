@@ -50,6 +50,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '/game/<id:\d+>' => '/games/games/game',
+                '/games/history/<player_id:\d+>' => '/games/games/history',
                 '/about.html' => '/site/about',
             ],
         ],

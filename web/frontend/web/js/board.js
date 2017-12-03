@@ -30,8 +30,14 @@ var boardObj = function()
 
     //load 一个游戏数据。
     _obj.load = function( game_data ){
+        //为了播放声音，这里对比一下旧盘面和新load的盘面，决定是否播放一次声音
+        var play_sound = (_obj.currgame != game_data.game_record);
         _obj.gameData = game_data;
         _obj.show_origin();
+        if(play_sound)
+        {
+            pager.play_sound('Move');
+        }
     };
 
     //setInterval就存在这里，初始化的时候clear一下
@@ -94,9 +100,10 @@ var boardObj = function()
      * @description 在指定位置放置一枚棋子。当操作者是行棋一方时，会转交给make_move来处理。
      * 当操作者是玩家之一时，不可以拿棋盘来拆棋，只能按照对局记录前进后退。
      * @param  {string} coordinate 传入坐标。
+     * @param  {boolean} play_sound 是否播放声音
      * @returns {boolean}
      */
-    _obj.place_stone = function(coordinate){
+    _obj.place_stone = function(coordinate,play_sound){
         var target_cell = board.find('.'+coordinate);
         if(!target_cell.hasClass('blank'))
         {
@@ -129,6 +136,10 @@ var boardObj = function()
         if(_obj.currgame != _obj.endgame.substr(0,_obj.currgame.length))
         {
             _obj.endgame = _obj.currgame;
+        }
+        if(play_sound)
+        {
+            pager.play_sound('Move');
         }
 
         //最后，如果是落子状态，通知一下服务器。
@@ -437,7 +448,7 @@ var boardObj = function()
             board.append(newrow);
         }
         board.find('.row div').click(function(){
-            _obj.place_stone($(this).attr('alt'));
+            _obj.place_stone($(this).attr('alt'),true);
             return true;
         });
         //生成控制按钮

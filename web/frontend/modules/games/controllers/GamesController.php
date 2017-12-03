@@ -14,6 +14,7 @@ use common\components\ForbiddenPointFinder;
 use common\components\Gateway;
 use common\components\MsgHelper;
 use common\models\Games;
+use common\models\Player;
 use common\services\GameService;
 use common\services\UserService;
 use frontend\components\Controller;
@@ -185,7 +186,7 @@ class GamesController extends Controller
             {
                 //黑胜
                 BoardTool::do_over($game_id,1,false);
-                Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
                     'content' => "黑方获胜"
                 ]));
             }
@@ -193,7 +194,7 @@ class GamesController extends Controller
             {
                 //白胜
                 BoardTool::do_over($game_id,0,false);
-                Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
                     'content' => ($result == WHITEFIVE ? "连五" : "黑方禁手") . "，白方获胜"
                 ]));
             }
@@ -201,7 +202,7 @@ class GamesController extends Controller
             {
                 //和棋
                 BoardTool::do_over($game_id,0.5,false);
-                Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
                     'content' => "满局，和棋。"
                 ]));
             }
@@ -326,7 +327,7 @@ class GamesController extends Controller
         elseif ($game_object->offer_draw == $opponent_id)
         {
             BoardTool::do_over($game_id,0.5);
-            Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+            Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
                 'content' => $this->_user()->nickname. "同意和棋，对局结束。"
             ]));
             return $this->renderJSON([]);
@@ -356,7 +357,7 @@ class GamesController extends Controller
         }
         $game_result = $this->_user()->id == $game_info['black_id'] ? 0 : 1 ;//黑认输则白胜
         BoardTool::do_over($game_id,$game_result);
-        Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+        Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
             'content' => ($game_result ? "白":"黑") . "方认输。"
         ]));
         return $this->renderJSON([]);
@@ -388,5 +389,43 @@ class GamesController extends Controller
     public function actionPlay_board()
     {
 
+    }
+
+    public function actionHistory()
+    {
+        $per_page = 12;
+        $player_id = intval($this->get('player_id'));
+        $player = UserService::renderUser($player_id);
+        if(!$player)
+        {
+            return $this->redirect('/');
+        }
+        if(\Yii::$app->request->isAjax)
+        {
+            $page = intval($this->get('page',1));
+            $games = Games::find()
+                ->select(['id','black_id','white_id','game_record','status','rule','comment'])
+                ->where("black_id={$player_id} or white_id={$player_id}")
+                ->asArray()
+                ->limit($per_page + 1)
+                ->offset($per_page * ($page - 1))
+                ->orderBy('id desc')
+                ->all();
+            $has_next = count($games) > $per_page ;
+            if($has_next)
+            {
+                unset($games[$per_page]);
+            }
+            UserService::render($games,'black_id','black');
+            UserService::render($games,'white_id','white');
+            return $this->renderJSON([
+                'games' => $games,
+                'has_next' => $has_next
+            ]);
+        }
+        else
+        {
+            return $this->render("history",['player' => $player]);
+        }
     }
 }

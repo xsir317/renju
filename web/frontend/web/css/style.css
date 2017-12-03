@@ -1,17 +1,13 @@
 @CHARSET "UTF-8";
 body
 {
-    background:#F0F0F0;/*url("/images/chalkboard_bg.jpg") repeat scroll 50% 0 #373434;*/
-	color:#56595E;
-	margin:0px;
 	font-family: "微软雅黑",Arial,Helvetica,sans-serif;
+	background-color: #EFEEF7;
 }
 .layui-main {overflow:hidden;width:1140px;margin:0 auto;}
 img{border:none;}
 h1,h2,h3{margin:0;}
 p{font-size:14px;margin:0 0 5px 0;line-height:22px;}
-a{color:#4C9FEB;text-decoration:none;}
-a:hover{color:#FF7D4C}
 ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 .odd{background:#E8E8E8}
 #page-top{background:#e8e8e8;border-bottom: 1px solid rgba(0, 0, 2, 0.1);border-top: 1px solid #FDFDFF;box-shadow: 0 1px 0 rgba(253, 253, 255, 0.5);margin-bottom:10px;}
@@ -98,8 +94,9 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 .chat_area{float:left;width:175px;overflow: hidden;}
 #chat_content_list,#chat_operate_area{padding:10px 0 0 0;}
 #chat_user_list {height:125px;overflow-y:auto;}
-#chat_user_list ul li,#hall_games ul li{overflow: hidden;}
+#chat_user_list ul li,#hall_games ul li{overflow: hidden;line-height: 25px;}
 #chat_user_list .user_title,.hall_game_title{font-weight:bold;}
+#chat_user_list .name_tag{font-weight:bold;cursor:pointer;}
 #chat_operate_area{padding: 12px 8px;box-sizing: border-box;width: 100%;height: 140px;}
 #chat_operate_area  .to-name{position: relative;display: inline-block;}
 #chat_operate_area>div>span{vertical-align: middle;}
@@ -123,10 +120,11 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 .face-pop .tab a.active {  background: #fff none repeat scroll 0 0;  }
 .face-pop .tab a {  display: inline-block;  height: 20px;  padding: 5px 8px;  width: 45px;  vertical-align: middle;color: #a5a5a5;  }
 .face-pop .face-content{height: 240px;overflow: hidden;}
-
+/*大厅*/
+#hall_games {min-height:650px;border-right:1px solid #ccc;}
 #hall_games ul li {overflow: hidden;}
-#chat_content_list {height:330px;overflow-x: hidden;overflow-y:auto;padding: 12px 8px;}
-#chat_content ul li{float: left;display: inline-block;}
+#chat_content_list {height:330px;overflow-x: hidden;overflow-y:auto;padding: 12px 8px;background: #f2f2f2}
+#chat_content li{border-bottom: 1px solid #ddd;line-height: 25px;}
 .game_pager{overflow:hidden;padding-left:220px;}
 .game_pager li{float:left;}
 .game_pager li a{border:1px solid #E0E0E0;border-bottom-color:#CDCDCD;
@@ -176,3 +174,8 @@ box-shadow:inset 0px 1px 2px rgba(0,0,0,0.05),0 1px 0 #fff}
 .about_content{padding:0 20px;}
 .about_content h3{font-weight: bold;margin-top:15px;}
 .about_content p{text-indent:2em;}
+
+/*对局历史列表。。。*/
+#games_list li{overflow: hidden;position: relative;line-height:28px;border:1px solid #eee;}
+#games_list li:hover{background-color:#F8F8FE;}
+#games_list .game_list_title{font-size: 16px; font-weight:bold;}

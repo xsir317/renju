@@ -151,7 +151,7 @@ class GameService extends BaseService
                     $game->movetime = date('Y-m-d H:i:s');
                     $game->save(0);
                     BoardTool::do_over($game_id,0);
-                    Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                    Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
                         'content' => "黑方超时，对局结束。"
                     ]));
                     $game->refresh();
@@ -166,7 +166,7 @@ class GameService extends BaseService
                     $game->movetime = date('Y-m-d H:i:s');
                     $game->save(0);
                     BoardTool::do_over($game_id,1);
-                    Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                    Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
                         'content' => "白方超时，对局结束。"
                     ]));
                     $game->refresh();
