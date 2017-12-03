@@ -79,7 +79,7 @@ var pager = {
                 }
                 else
                 {
-                    alert(_data.msg);
+                    layer.alert(_data.msg);
                     board.show_origin();
                 }
             },"json");
@@ -152,7 +152,6 @@ var pager = {
             {
                 name_span.attr({alt:user.intro,"data-uid":user.id})
                     .click(function(){
-                        //TODO 如果是自己，则弹出修改intro
                         if(userinfo && userinfo.id != $(this).attr("data-uid"))
                         {
                             pager.invite({user_id:$(this).attr("data-uid"),nickname:$(this).text()});
@@ -162,7 +161,7 @@ var pager = {
                             layer.prompt({
                                 formType: 0,
                                 value: $(this).attr("alt"),
-                                title: '请输入值'
+                                title: '编辑个人简介'
                             }, function(value, index, elem){
                                 $.post(
                                     "/user/edit",
@@ -174,7 +173,7 @@ var pager = {
                                     function(_data){
                                         if(_data.code != 200)
                                         {
-                                            alert(_data.msg);
+                                            layer.alert(_data.msg);
                                         }
                                     },
                                     "json"
@@ -222,7 +221,7 @@ $(document).ready(function () {
             function(_data){
                 if(_data.code != 200)
                 {
-                    alert(_data.msg);
+                    layer.alert(_data.msg);
                 }
                 $("#msg").val("");
             },
@@ -290,28 +289,14 @@ $(document).ready(function () {
     $("#invite_submit_button").click(function () {
         $("#invite_submit_button").attr("disabled","disabled");
         $.post("/games/invite/create",$("#invite_form").serialize(),function(_return){
-            alert(_return.msg);
             $("#invite_submit_button").removeAttr("disabled");
             layer.closeAll();
+            layer.alert(_return.msg);
             $("#invite_box").hide();
         },"json");
     });
 
-    $("#draw_button").click(function(){
-        if(window.confirm('您要提出和棋请求吗？'))
-        {
-            $.post('/games/games/offer_draw',{
-                game_id:gameObj.id,
-                "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
-            },function(data){
-                if(data.code != 200)
-                {
-                    layer.alert(data.msg);
-                }
-            },"json");
-        }
-    });
-
+    //交换
     $("#swap_button").click(function(){
         $.post('/games/games/swap',{
             game_id:gameObj.id,
@@ -324,9 +309,25 @@ $(document).ready(function () {
         },"json");
     });
 
+    //提和
+    $("#draw_button").click(function(){
+        layer.confirm('您要提出和棋请求吗？',{icon:3,title:'提和'},function(index){
+            $.post('/games/games/offer_draw',{
+                game_id:gameObj.id,
+                "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
+            },function(data){
+                if(data.code != 200)
+                {
+                    layer.alert(data.msg);
+                }
+            },"json");
+            layer.close(index);
+        });
+    });
+
+    //认输
     $("#resign_button").click(function(){
-        if(window.confirm('您确定要认输吗？'))
-        {
+        layer.confirm('您确定要认输吗？',{icon:5,title:'认输'},function(index){
             $.post('/games/games/resign',{
                 game_id:gameObj.id,
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
@@ -336,7 +337,8 @@ $(document).ready(function () {
                     layer.alert(data.msg);
                 }
             },"json");
-        }
+            layer.close(index);
+        });
     });
 
     if(typeof game_list != "undefined")
