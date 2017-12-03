@@ -126,28 +126,7 @@ var chat = function (){
 
 
     this.actionClient_list = function(_data){
-        $("#chat_user_list>ul").find("li:not(:first)").remove();
-        for(var i in _data.client_list)
-        {
-            var user = (typeof _data.client_list[i].user == "object") ? _data.client_list[i].user : null;
-            var new_li = $(document.createElement("li"));
-            var name_span = $(document.createElement('span'));
-            if(user)
-            {
-                name_span.attr({alt:user.intro,"data-uid":user.id}).click(function(){
-                    //TODO 如果是自己，则弹出修改intro
-                    pager.invite({user_id:$(this).attr("data-uid"),nickname:$(this).text()});
-                }).mouseover(function(){
-                    if($(this).attr("alt"))
-                    {
-                        layer.tips($(this).attr("alt"),this,{tips:1,time:1500});
-                    }
-                });
-            }
-            name_span.addClass("layui-col-xs7 name_tag").text(user ? user.nickname : "游客").appendTo(new_li);
-            $(document.createElement('span')).addClass("layui-col-xs5").text(user ? user.score : "0").appendTo(new_li);
-            new_li.appendTo($("#chat_user_list>ul"));
-        }
+        pager.show_user_list(_data.client_list);
     };
 
     this.actionGame_info = function(_data){

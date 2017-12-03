@@ -19,7 +19,7 @@ $this->registerJSFile('/js/index.js');
         <div id="cont_login" class="greybox grid_content">
             <div id="login">
                 <h3>用户登录</h3>
-                <?= Html::beginForm("/site/login","post",["onsubmit"=>"return false;"]) ?>
+                <?= Html::beginForm("/user/login","post",["onsubmit"=>"return false;"]) ?>
                     <ul>
                         <li><label>Email</label><input type="text" name="email" class="input" id="loginfocus" /></li>
                         <li><label>密码</label><input type="password" name="passwd" class="input" /></li>
@@ -33,7 +33,7 @@ $this->registerJSFile('/js/index.js');
                 <div id="login2">已经注册过了？请登录！</div>
                 <div id="reg">
                     <h3>用户注册</h3>
-                    <?= Html::beginForm("/site/reg","post",["onsubmit"=>"return false;"]) ?>
+                    <?= Html::beginForm("/user/reg","post",["onsubmit"=>"return false;"]) ?>
                         <ul>
                             <li><label>Email</label><input type="text" name="email" class="input" id="email" /></li>
                             <li><label>昵称</label><input type="text" name="nickname" class="input" /></li>

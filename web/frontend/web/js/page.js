@@ -139,6 +139,58 @@ var pager = {
             $("#global-audio").attr('src',this.sounds[_name]);
             $("#global-audio")[0].play();
         }
+    },
+    show_user_list : function(client_list){
+        $("#chat_user_list>ul").find("li:not(:first)").remove();
+        for(var i in client_list)
+        {
+            var user = (typeof client_list[i].user == "object") ? client_list[i].user : null;
+            var new_li = $(document.createElement("li"));
+            var name_span = $(document.createElement('span'));
+            if(user)
+            {
+                name_span.attr({alt:user.intro,"data-uid":user.id}).click(function(){
+                    //TODO 如果是自己，则弹出修改intro
+                    if(userinfo && userinfo.id != $(this).attr("data-uid"))
+                    {
+                        pager.invite({user_id:$(this).attr("data-uid"),nickname:$(this).text()});
+                    }
+                    else if(userinfo && userinfo.id == $(this).attr("data-uid"))
+                    {
+                        layer.prompt({
+                            formType: 0,
+                            value: $(this).attr("alt"),
+                            title: '请输入值'
+                        }, function(value, index, elem){
+                            $.post(
+                                "/user/edit",
+                                {
+                                    intro:value,
+                                    "_csrf-frontend":$("meta[name=csrf-token]").attr("content"),
+                                    game_id: typeof gameObj == "undefined" ? "HALL" : gameObj.id
+                                },
+                                function(_data){
+                                    if(_data.code != 200)
+                                    {
+                                        alert(_data.msg);
+                                    }
+                                },
+                                "json"
+                            );
+                            layer.close(index);
+                        });
+                    }
+                }).mouseover(function(){
+                    if($(this).attr("alt"))
+                    {
+                        layer.tips($(this).attr("alt"),this,{tips:1,time:1500});
+                    }
+                });
+            }
+            name_span.addClass("layui-col-xs7 name_tag").text(user ? user.nickname : "游客").appendTo(new_li);
+            $(document.createElement('span')).addClass("layui-col-xs5").text(user ? user.score : "0").appendTo(new_li);
+            new_li.appendTo($("#chat_user_list>ul"));
+        }
     }
 };
 
