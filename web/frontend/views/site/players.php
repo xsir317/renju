@@ -28,7 +28,7 @@ $this->title = "积分榜";
     <tr>
         <td><?= $k+1 ?></td>
         <td><?= $row['id'] ?></td>
-        <td><a href="/player/<?= $row['id'] ?>"><?= Html::encode($row['nickname']) ?></a></td>
+        <td><a href="/games/history/<?= $row['id'] ?>"><?= Html::encode($row['nickname']) ?></a></td>
         <td><?= $row['games'] ?></td>
         <td><?= $row['score'] ?></td>
         <td><?= Html::encode($row['intro']) ?></td>
