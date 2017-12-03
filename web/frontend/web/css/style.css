@@ -174,3 +174,8 @@ box-shadow:inset 0px 1px 2px rgba(0,0,0,0.05),0 1px 0 #fff}
 .about_content{padding:0 20px;}
 .about_content h3{font-weight: bold;margin-top:15px;}
 .about_content p{text-indent:2em;}
+
+/*对局历史列表。。。*/
+#games_list li{overflow: hidden;position: relative;line-height:28px;border:1px solid #eee;}
+#games_list li:hover{background-color:#F8F8FE;}
+#games_list .game_list_title{font-size: 16px; font-weight:bold;}

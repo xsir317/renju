@@ -14,6 +14,7 @@ use common\components\ForbiddenPointFinder;
 use common\components\Gateway;
 use common\components\MsgHelper;
 use common\models\Games;
+use common\models\Player;
 use common\services\GameService;
 use common\services\UserService;
 use frontend\components\Controller;
@@ -388,5 +389,43 @@ class GamesController extends Controller
     public function actionPlay_board()
     {
 
+    }
+
+    public function actionHistory()
+    {
+        $per_page = 12;
+        $player_id = intval($this->get('player_id'));
+        $player = UserService::renderUser($player_id);
+        if(!$player)
+        {
+            return $this->redirect('/');
+        }
+        if(\Yii::$app->request->isAjax)
+        {
+            $page = intval($this->get('page',1));
+            $games = Games::find()
+                ->select(['id','black_id','white_id','game_record','status','rule','comment'])
+                ->where("black_id={$player_id} or white_id={$player_id}")
+                ->asArray()
+                ->limit($per_page + 1)
+                ->offset($per_page * ($page - 1))
+                ->orderBy('id desc')
+                ->all();
+            $has_next = count($games) > $per_page ;
+            if($has_next)
+            {
+                unset($games[$per_page]);
+            }
+            UserService::render($games,'black_id','black');
+            UserService::render($games,'white_id','white');
+            return $this->renderJSON([
+                'games' => $games,
+                'has_next' => $has_next
+            ]);
+        }
+        else
+        {
+            return $this->render("history",['player' => $player]);
+        }
     }
 }

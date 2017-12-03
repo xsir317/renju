@@ -1,6 +1,4 @@
 <?php
-use common\services\GameService;
-
 $this->title = '大厅';
 
 //websocket连接
@@ -50,10 +48,7 @@ $this->registerJSFile('/js/websocket.js');
         </div>
     </div>
 <script type="text/javascript">
-    var result_defines = <?php echo json_encode(GameService::$status_define) ?>;
-
     var ws_token = <?php echo json_encode($ws_token);?>;
     var userinfo = <?php echo json_encode($userinfo);?>;
-    var ts_delta = <?php echo time() ?> - Math.round(new Date().getTime()/1000);
     var game_list = <?php echo json_encode($game_list);?>;
 </script>
