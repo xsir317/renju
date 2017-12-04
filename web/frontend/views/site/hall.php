@@ -48,8 +48,8 @@ $this->registerJSFile('/js/websocket.js');
         </div>
     </div>
 <script type="text/javascript">
-    var ws_token = <?php echo json_encode($ws_token);?>;
-    var userinfo = <?php echo json_encode($userinfo);?>;
-    var game_list = <?php echo json_encode($game_list);?>;
+    const ws_token = (<?php echo json_encode($ws_token);?>);
+    const userinfo = (<?php echo json_encode($userinfo);?>);
+    const game_list = (<?php echo json_encode($game_list);?>);
 </script>
 <?php $this->registerJs('pager.show_msg(\'<span style="color: #3367d6;">欢迎，请点击他人昵称邀请对局，休闲对局请选择<strong style="color: #2050c0;">无禁手</strong>规则。</span>\');'); ?>

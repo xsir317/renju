@@ -88,8 +88,8 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
 <audio src="" id="global-audio"></audio>
 <script src="/layui/layui.all.js" charset="utf-8"></script>
 <script type="text/javascript">
-var _debug_mode = <?php echo intval(YII_DEBUG);?>;
-var debug_log = function(log){
+const _debug_mode = (<?php echo intval(YII_DEBUG);?>);
+let debug_log = function(log){
     if (typeof console == "undefined") return false;
     if(_debug_mode)
     {
@@ -100,12 +100,12 @@ layui.config({
     base: '/layui/'
 });
 
-var result_defines = <?php echo json_encode(GameService::$status_define) ?>;
-var rule_defines = <?php echo json_encode(Yii::$app->params['rules']) ?>;
+const result_defines = (<?php echo json_encode(GameService::$status_define) ?>);
+const rule_defines = (<?php echo json_encode(Yii::$app->params['rules']) ?>);
 
-var ts_delta = <?php echo time() ?> - Math.round(new Date().getTime()/1000);
+const ts_delta = (<?php echo time() ?> - Math.round(new Date().getTime()/1000));
 </script>
-<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
+<script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
 <script src="/js/page.js" charset="utf-8"></script>
 <?php $this->endBody() ?>
 </body>
