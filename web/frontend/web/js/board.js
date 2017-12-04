@@ -2,12 +2,12 @@
  * @author xsir317@gmail.com
  * @license http://creativecommons.org/licenses/by-sa/3.0/deed.zh
  */
-var boardObj = function()
+let boardObj = function()
 {
     //棋盘的DOM对象，基本上棋子、棋盘逻辑都在这里面。
-    var board = $("#board_main");
+    let board = $("#board_main");
 
-    var _obj = this;
+    let _obj = this;
 
     //整个游戏的数据结构，包括对局进程、状态、双方等等。会通过页面变量或者Websocket推过来。
     _obj.gameData = {};
@@ -31,7 +31,7 @@ var boardObj = function()
     //load 一个游戏数据。
     _obj.load = function( game_data ){
         //为了播放声音，这里对比一下旧盘面和新load的盘面，决定是否播放一次声音
-        var play_sound = (_obj.currgame != game_data.game_record);
+        let play_sound = (_obj.currgame != game_data.game_record);
         _obj.gameData = game_data;
         _obj.show_origin();
         if(play_sound)
@@ -48,26 +48,26 @@ var boardObj = function()
      * 这是一个闭包结构。timer_handler在闭包里。
      */
     _obj.timer = (function(){
-        var timer_handler = 0;
+        let timer_handler = 0;
 
         return (function(){
             //首先，获取当前时间，当前游戏的双方剩余时间
-            var render_time = function(seconds,player)
+            let render_time = function(seconds,player)
             {
                 seconds = (seconds > 0) ? seconds : 0;
-                var hours = parseInt(seconds/3600).toString();
+                let hours = parseInt(seconds/3600).toString();
                 if(hours.length == 1) {hours = '0' + hours}
-                var minutes = parseInt( (seconds%3600) /60).toString();
+                let minutes = parseInt( (seconds%3600) /60).toString();
                 if(minutes.length == 1) {minutes = '0' + minutes}
-                var seconds_display = parseInt(seconds % 60).toString();
+                let seconds_display = parseInt(seconds % 60).toString();
                 if(seconds_display.length == 1) {seconds_display = '0' + seconds_display}
 
-                var display_obj = player ? $("#black_time_display") : $("#white_time_display");
+                let display_obj = player ? $("#black_time_display") : $("#white_time_display");
                 display_obj.html(hours + ':' + minutes + ':' + seconds_display);
             };
 
             // 记录当前时间。
-            var timer_start = new Date().getTime();
+            let timer_start = new Date().getTime();
             //先render双方时间显示
             render_time(_obj.gameData.black_time,1);
             render_time(_obj.gameData.white_time,0);
@@ -81,10 +81,10 @@ var boardObj = function()
             if(_obj.gameData.status == 1)
             {
                 timer_handler = setInterval(function(){
-                    var current = new Date().getTime();
+                    let current = new Date().getTime();
 
-                    var delta_time = current - timer_start;
-                    var time_left = (_obj.gameData.turn ? _obj.gameData.black_time : _obj.gameData.white_time) - parseInt(delta_time/1000);
+                    let delta_time = current - timer_start;
+                    let time_left = (_obj.gameData.turn ? _obj.gameData.black_time : _obj.gameData.white_time) - parseInt(delta_time/1000);
                     render_time(time_left,_obj.gameData.turn);
                     if(time_left <= 0)
                     {
@@ -104,7 +104,7 @@ var boardObj = function()
      * @returns {boolean}
      */
     _obj.place_stone = function(coordinate,play_sound){
-        var target_cell = board.find('.'+coordinate);
+        let target_cell = board.find('.'+coordinate);
         if(!target_cell.hasClass('blank'))
         {
             return false;
@@ -113,7 +113,7 @@ var boardObj = function()
         //这里的逻辑解释一下： 如果是轮到我下，而且是完全展示棋局的状态，那么就是“落子状态”。
         //如果是落子状态，就可以不按照之前的记录落下新的一个棋子。
         //如果不是落子状态，则对对局双方作出限制：只能按照之前的记录去落子，不能拿这个棋盘来拆棋。
-        var playing = (_obj.is_my_turn && _obj.currgame == _obj.gameData.game_record && _obj.gameData.waiting_for_a5_numbers == 0);
+        let playing = (_obj.is_my_turn && _obj.currgame == _obj.gameData.game_record && _obj.gameData.waiting_for_a5_numbers == 0);
         if(_obj.is_my_game && !playing && _obj.gameData.status == 1)
         {
             if(coordinate != _obj.endgame.substr(_obj.currgame.length,2))
@@ -187,9 +187,9 @@ var boardObj = function()
     _obj.move_pre = function(){
         if(_obj.currgame)
         {
-            var last_move = _obj.currgame.substr(_obj.currgame.length-2,2);
+            let last_move = _obj.currgame.substr(_obj.currgame.length-2,2);
             //这个棋子拿起来。。。
-            var target_cell = board.find('.'+last_move);
+            let target_cell = board.find('.'+last_move);
             target_cell.removeClass('black white').addClass('blank').html('');
             _obj.curr_step --;
             _obj.curr_color = (_obj.curr_color == 'black' ? 'white':'black');
@@ -215,7 +215,7 @@ var boardObj = function()
     _obj.move_next = function(){
         if(_obj.currgame != _obj.endgame)
         {
-            var nextstep = _obj.endgame.substr(_obj.currgame.length,2);
+            let nextstep = _obj.endgame.substr(_obj.currgame.length,2);
             _obj.place_stone(nextstep);
             return true;
         }
@@ -309,10 +309,10 @@ var boardObj = function()
         {
             return false;
         }
-        var stones = _obj.gameData.game_record.length / 2;
-        var tips = "轮到您下第" + (stones + 1) + "手";
+        let stones = _obj.gameData.game_record.length / 2;
+        let tips = "轮到您下第" + (stones + 1) + "手";
         //按照不同规则去写提示。
-        var show_swap = false;
+        let show_swap = false;
         switch (_obj.gameData.rule)
         {
             case 'RIF':
@@ -388,8 +388,8 @@ var boardObj = function()
     _obj.show_a5 = function(){
         if(_obj.gameData.a5_pos == '')
             return false;
-        var a5_points = '.' + _obj.gameData.a5_pos.substr(0,2);
-        for(var sub = 2;sub<_obj.gameData.a5_pos.length;sub += 2)
+        let a5_points = '.' + _obj.gameData.a5_pos.substr(0,2);
+        for(let sub = 2;sub<_obj.gameData.a5_pos.length;sub += 2)
         {
             a5_points += ',.';
             a5_points += _obj.gameData.a5_pos.substr(sub,2);
@@ -400,7 +400,7 @@ var boardObj = function()
         $(".a5stone").removeClass('black a5stone').html('');
     };
     _obj.show_rule = function () {
-        var rule_description = {
+        const rule_description = {
             Yamaguchi:"山口规则：<br /><p>1.先手方下3个棋子（黑1，白2，黑3），同时指定第五手的打点数量N；</p><p>2.后手方可以选择执白或者执黑。</p> <p>3.白方下第四手；</p> <p>4.黑方按照约定的五手打点数量放上N个棋子，白方指定其中的一个为实战的第五手，然后白方下第六手；</p> <p>5.双方轮流行棋。</p> <p>注意：先手方的开局仅限26种开局。</p>",
             RIF:"RIF规则：<br /><p>1.先手方下3个棋子（黑1，白2，黑3）；</p> <p>2.后手方可以选择执白或者执黑。</p> <p>3.白方下第四手；</p> <p>4.黑方放上2个棋子，白方指定其中的一个为实战的第五手，然后白方下第六手；</p> <p>5.双方轮流行棋。</p> <p>注意：先手方的开局仅限26种开局。</p>",
             Soosyrv8:"索索夫8规则：<br /><p>1.先手方下3个棋子（黑1，白2，黑3，26种开局）；</p> <p>2.后手方可以选择执白或者执黑。</p> <p>3.白方下第四手，同时指定第五手的打点数量N（N<=8）；</p> <p>4.黑方可以选择交换，或者按照约定的五手打点数量放上N个棋子，白方指定其中的一个为实战的第五手，然后白方下第六手；</p> <p>5.双方轮流行棋。</p>",
@@ -431,15 +431,15 @@ var boardObj = function()
             }
         });
         board.bind("contextmenu", function() { return false; });
-        for(var i=1;i<=15;i++)
+        for(let i=1;i<=15;i++)
         {
             //insert a row
-            var newrow = $(document.createElement("div"));
+            let newrow = $(document.createElement("div"));
             newrow.addClass('row');
-            for(var j=1;j<=15;j++)
+            for(let j=1;j<=15;j++)
             {
                 //insert a cross point
-                var newcell = $(document.createElement("div"));
+                let newcell = $(document.createElement("div"));
                 newcell.addClass(i.toString(16) + j.toString(16));
                 newcell.attr('alt',i.toString(16) + j.toString(16));
                 newcell.addClass('blank');
@@ -452,7 +452,7 @@ var boardObj = function()
             return true;
         });
         //生成控制按钮
-        var controlbar = $(document.createElement("div"));
+        let controlbar = $(document.createElement("div"));
         controlbar.addClass('controlbar');
         board.after(controlbar);
         //按钮
@@ -465,7 +465,7 @@ var boardObj = function()
 };
 
 //1.new出对象
-var board = new boardObj();
+let board = new boardObj();
 
 $(document).ready(function(){
 //页面初始化时对棋盘的操作：

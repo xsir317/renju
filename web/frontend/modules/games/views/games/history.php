@@ -21,7 +21,7 @@ layui.flow.load({
     elem: '#games_list',
     done: function(page, next){
         $.getJSON('/games/history/".$player['id']."?page=' + page,{},function(_data){
-            var list = [];
+            let list = [];
             $.each(_data.data.games, function(index, item){
                 list.push('<li><a href=\"/game/'+ item.id +'\" target=\"_blank\">'
                     + '<span class=\"layui-col-xs1\">' + item.id + '</span>'

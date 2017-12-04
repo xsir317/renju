@@ -1,7 +1,7 @@
 //websocket
 Object.keys = Object.keys || function(obj){/**兼容IE**/
-    var result = [];
-        for(var key in obj )
+    let result = [];
+        for(let key in obj )
             if(({}).hasOwnProperty.call(obj,key)){
                 result.push(key) ;
             }
@@ -9,11 +9,11 @@ Object.keys = Object.keys || function(obj){/**兼容IE**/
     };
 WEB_SOCKET_SWF_LOCATION = "/swf/WebSocketMain.swf?time="+new Date().getTime();
 WEB_SOCKET_DEBUG = true;
-var ws;
+let ws = null;
 
-var global_current_client_id = '';
-var chat = function (){
-    var that=this;
+let global_current_client_id = '';
+let chat = function (){
+    let that=this;
     // 连接服务端
     this.connect = function () {
         // 创建websocket
@@ -31,9 +31,9 @@ var chat = function (){
         };
     };
     this.object_md5 = function (obj) {
-        var keys = Object.keys(obj).sort();
-        var stringfy = '', prop;
-        for (var i = 0; i < keys.length; i++) {
+        let keys = Object.keys(obj).sort();
+        let stringfy = '', prop;
+        for (let i = 0; i < keys.length; i++) {
             prop = keys[i];
             if(stringfy != '') stringfy += '&';
             stringfy += (prop + '=' + obj[prop]);
@@ -45,7 +45,7 @@ var chat = function (){
     // 连接建立时发送WEBSOCKET登录信息
     this.onopen = function ()
     {
-        var login_data = {
+        let login_data = {
             type:"login",
             game_id:typeof gameObj == 'undefined' ? 'HALL' : gameObj.id,
             uid:userinfo ?　userinfo.id : 0,
@@ -58,14 +58,14 @@ var chat = function (){
     this.onmessage = function (e)
     {
         debug_log("on message:"+e.data);
-        var data = JSON.parse(e.data);
+        let data = JSON.parse(e.data);
         that.agentDistribute(data);
     };
 
 
     this.sendMsg = function(data){
         debug_log("do send 原始数据"+JSON.stringify(data));
-        var string_data = '';
+        let string_data = '';
         switch (typeof data)
         {
             case 'string':
@@ -74,7 +74,7 @@ var chat = function (){
             case 'object':
                 data['_token'] = ws_token['token'];
                 data['_timestamp'] = ts_delta + Math.round(new Date().getTime()/1000);
-                var full_data_obj = JSON.parse(JSON.stringify(data));//copy
+                let full_data_obj = JSON.parse(JSON.stringify(data));//copy
                 full_data_obj['_secret'] = ws_token['secret'];//secret 不会打包进数据
                 data['_checksum'] = this.object_md5(full_data_obj);
                 string_data = JSON.stringify(data);
@@ -92,7 +92,7 @@ var chat = function (){
         {
             return;
         }
-        var function_name = 'action'+data['type'].charAt(0).toUpperCase() + data['type'].slice(1);
+        let function_name = 'action'+data['type'].charAt(0).toUpperCase() + data['type'].slice(1);
         if(typeof that[function_name] == 'function')
         {
             return that[function_name](data);
@@ -105,7 +105,7 @@ var chat = function (){
     };
     // 服务端ping客户端
     this.actionLogin = function(_data){
-        var new_li = $(document.createElement("li"));
+        let new_li = $(document.createElement("li"));
         $(document.createElement('span')).text(_data.user.nickname + " 进入了房间").appendTo(new_li);
         new_li.appendTo($("#chat_content"));
         //滚动。
@@ -118,7 +118,7 @@ var chat = function (){
     {
         global_current_client_id = _data['client_id'];
         if(_data!=null && _data['history_msg']!=null&&_data['history_msg'].length>0){
-            for(var i in _data['history_msg']){
+            for(let i in _data['history_msg']){
                 that.agentDistribute(_data['history_msg'][i]);
             }
         }
@@ -182,7 +182,7 @@ var chat = function (){
     }
 };
 
-var  _chat={
+let  _chat={
     chatObj:null,
     getChat:function(){
         if(this.chatObj==null)this.chatObj = new chat();
