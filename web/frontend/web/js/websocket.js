@@ -49,7 +49,6 @@ var chat = function (){
             type:"login",
             game_id:typeof gameObj == 'undefined' ? 'HALL' : gameObj.id,
             uid:userinfo ?　userinfo.id : 0,
-            score:userinfo ?　userinfo.score : 0,
             nickname:userinfo ? userinfo.nickname : ''//直接传给服务端，避免websocket读DB了。
         };
         that.sendMsg(login_data);
@@ -127,22 +126,7 @@ var chat = function (){
 
 
     this.actionClient_list = function(_data){
-        $("#chat_user_list>ul").find("li:not(:first)").remove();
-        for(var i in _data.client_list)
-        {
-            var user = (typeof _data.client_list[i].user == "object") ? _data.client_list[i].user : null;
-            var new_li = $(document.createElement("li"));
-            var name_span = $(document.createElement('span'));
-            if(user)
-            {
-                name_span.attr({alt:"点击邀请对局","data-uid":user.id}).click(function(){
-                    pager.invite({user_id:$(this).attr("data-uid"),nickname:$(this).text()});
-                });
-            }
-            name_span.addClass("layui-col-xs7").text(user ? user.nickname : "游客").appendTo(new_li);
-            $(document.createElement('span')).addClass("layui-col-xs5").text(user ? user.score : "0").appendTo(new_li);
-            new_li.appendTo($("#chat_user_list>ul"));
-        }
+        pager.show_user_list(_data.client_list);
     };
 
     this.actionGame_info = function(_data){
@@ -166,6 +150,7 @@ var chat = function (){
 
     this.actionInvite = function(_data){
         pager.invite(_data.invite);
+        pager.play_sound("Invitation");
     };
 
     this.actionGame_start = function(_data){
@@ -179,6 +164,10 @@ var chat = function (){
 
     this.actionNotice = function(_data){
         pager.show_msg(_data.content);
+    };
+    this.actionGame_over = function(_data){
+        pager.show_msg('<span style="color: #3367d6;font-weight:bold;">' +_data.content + '</span>');
+        pager.play_sound("GameOver");
     };
 
     this.actionShutdown = function(_data)

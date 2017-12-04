@@ -79,7 +79,7 @@ var pager = {
                 }
                 else
                 {
-                    alert(_data.msg);
+                    layer.alert(_data.msg);
                     board.show_origin();
                 }
             },"json");
@@ -126,6 +126,80 @@ var pager = {
             $(document.createElement('span')).addClass("layui-col-xs2").html("<a href='/game/"+games[i].id+"'>进入</a>").appendTo(new_li);
             new_li.appendTo($("#hall_games>ul"));
         }
+    },
+    sounds:{
+        'GameOver' : "/sound/GameOver.wav",
+        'Invitation' : "/sound/Invitation.wav",
+        'Move' : "/sound/Move.wav",
+        'Back' : "/sound/Back.wav"
+    },
+    play_sound : function(_name){
+        if(typeof this.sounds[_name] == "string")
+        {
+            $("#global-audio").attr('src',this.sounds[_name]);
+            $("#global-audio")[0].play();
+        }
+    },
+    show_user_list : function(client_list){
+        $("#chat_user_list>ul").find("li:not(:first)").remove();
+        for(var i in client_list)
+        {
+            var user = (typeof client_list[i].user == "object") ? client_list[i].user : null;
+            var new_li = $(document.createElement("li"));
+            var name_span = $(document.createElement('span'));
+            var score_span = $(document.createElement('span'));
+            if(user)
+            {
+                name_span.attr({alt:user.intro,"data-uid":user.id})
+                    .click(function(){
+                        if(userinfo && userinfo.id != $(this).attr("data-uid"))
+                        {
+                            pager.invite({user_id:$(this).attr("data-uid"),nickname:$(this).text()});
+                        }
+                        else if(userinfo && userinfo.id == $(this).attr("data-uid"))
+                        {
+                            layer.prompt({
+                                formType: 0,
+                                value: $(this).attr("alt"),
+                                title: '编辑个人简介'
+                            }, function(value, index, elem){
+                                $.post(
+                                    "/user/edit",
+                                    {
+                                        intro:value,
+                                        "_csrf-frontend":$("meta[name=csrf-token]").attr("content"),
+                                        game_id: typeof gameObj == "undefined" ? "HALL" : gameObj.id
+                                    },
+                                    function(_data){
+                                        if(_data.code != 200)
+                                        {
+                                            layer.alert(_data.msg);
+                                        }
+                                    },
+                                    "json"
+                                );
+                                layer.close(index);
+                            });
+                        }
+                    })
+                    .mouseover(function(){
+                        if($(this).attr("alt"))
+                        {
+                            layer.tips($(this).attr("alt"),this,{tips:1,time:1500});
+                        }
+                    })
+                    .text(user.nickname);
+                score_span.html($("<a>").attr({href:'/games/history/'+user.id,target:'_blank'}).text(user.score));
+            }
+            else
+            {
+                name_span.text("游客");
+                score_span.text('0');
+            }
+            name_span.addClass("layui-col-xs7 name_tag").appendTo(new_li);
+            score_span.addClass("layui-col-xs5").appendTo(new_li);
+            new_li.appendTo($("#chat_user_list>ul"));
+        }
     }
 };
 
@@ -147,7 +221,7 @@ $(document).ready(function () {
             function(_data){
                 if(_data.code != 200)
                 {
-                    alert(_data.msg);
+                    layer.alert(_data.msg);
                 }
                 $("#msg").val("");
             },
@@ -215,28 +289,14 @@ $(document).ready(function () {
     $("#invite_submit_button").click(function () {
         $("#invite_submit_button").attr("disabled","disabled");
         $.post("/games/invite/create",$("#invite_form").serialize(),function(_return){
-            alert(_return.msg);
             $("#invite_submit_button").removeAttr("disabled");
             layer.closeAll();
+            layer.alert(_return.msg);
             $("#invite_box").hide();
         },"json");
     });
 
-    $("#draw_button").click(function(){
-        if(window.confirm('您要提出和棋请求吗？'))
-        {
-            $.post('/games/games/offer_draw',{
-                game_id:gameObj.id,
-                "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
-            },function(data){
-                if(data.code != 200)
-                {
-                    layer.alert(data.msg);
-                }
-            },"json");
-        }
-    });
-
+    //交换
     $("#swap_button").click(function(){
         $.post('/games/games/swap',{
             game_id:gameObj.id,
@@ -249,9 +309,25 @@ $(document).ready(function () {
         },"json");
     });
 
+    //提和
+    $("#draw_button").click(function(){
+        layer.confirm('您要提出和棋请求吗？',{icon:3,title:'提和'},function(index){
+            $.post('/games/games/offer_draw',{
+                game_id:gameObj.id,
+                "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
+            },function(data){
+                if(data.code != 200)
+                {
+                    layer.alert(data.msg);
+                }
+            },"json");
+            layer.close(index);
+        });
+    });
+
+    //认输
     $("#resign_button").click(function(){
-        if(window.confirm('您确定要认输吗？'))
-        {
+        layer.confirm('您确定要认输吗？',{icon:5,title:'认输'},function(index){
             $.post('/games/games/resign',{
                 game_id:gameObj.id,
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
@@ -261,7 +337,8 @@ $(document).ready(function () {
                     layer.alert(data.msg);
                 }
             },"json");
-        }
+            layer.close(index);
+        });
     });
 
     if(typeof game_list != "undefined")

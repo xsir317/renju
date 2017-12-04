@@ -129,6 +129,18 @@ class MsgHelper
             'content' => $params['content']
         ];
     }
+    private static function buildGame_over($params)
+    {
+        if(empty($params['content']))
+        {
+            throw new MsgException('缺少提示内容');
+        }
+
+        return [
+            'type' => 'game_over',
+            'content' => $params['content']
+        ];
+    }
 
     private static function buildInvite($params)
     {
@@ -160,46 +172,6 @@ class MsgHelper
             'time' => date('Y-m-d H:i:s'),
         ];
         return $return;
-    }
-
-    private static function buildBroadcast($params)
-    {
-        if(empty($params['content']))
-        {
-            throw new MsgException('缺少参数content');
-        }
-        if(empty($params['author']))
-        {
-            throw new MsgException('缺少参数author');
-        }
-        $return = [
-            'type' => 'broadcast',
-            'content' => $params['content'],
-            'author' => $params['author'],
-            'time' => date('Y-m-d H:i:s'),
-        ];
-        return $return;
-    }
-
-
-    private static function buildGlobal_announce($params)
-    {
-        if(empty($params['user']))
-        {
-            throw new MsgException('缺少参数user');
-        }
-        if(empty($params['content']))
-        {
-            throw new MsgException('缺少参数content');
-        }
-
-        return [
-            'type' => 'global_announce',
-            'room_id' => isset($params['room_id']) ? $params['room_id']:0,
-            'user' => $params['user'],
-            'content' => $params['content'],
-            'time' => date('Y-m-d H:i:s'),
-        ];
     }
 
     private static function buildLogout($params)
