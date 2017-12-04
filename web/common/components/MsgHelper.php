@@ -44,7 +44,7 @@ class MsgHelper
     {
         $return =  \Yii::$app->redis->zRange(
             self::getRoomMsgKey($room_id),
-            -10,
+            -5,
             -1
         );
         foreach ($return as &$item)

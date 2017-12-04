@@ -52,4 +52,4 @@ $this->registerJSFile('/js/websocket.js');
     var userinfo = <?php echo json_encode($userinfo);?>;
     var game_list = <?php echo json_encode($game_list);?>;
 </script>
-<?php $this->registerJs('pager.show_msg(\'<span style="color: #3367d6;font-weight:bold;">欢迎，请点击他人昵称邀请对局。</span>\');'); ?>
+<?php $this->registerJs('pager.show_msg(\'<span style="color: #3367d6;">欢迎，请点击他人昵称邀请对局，休闲对局请选择<strong style="color: #2050c0;">无禁手</strong>规则。</span>\');'); ?>
