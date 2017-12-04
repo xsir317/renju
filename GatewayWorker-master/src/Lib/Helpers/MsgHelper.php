@@ -42,7 +42,7 @@ class MsgHelper
     {
         $return =  RedisConnection::_get_instance()->zRange(
             self::getRoomMsgKey($room_id),
-            -10,
+            -5,
             -1
         );
         foreach ($return as &$item)
