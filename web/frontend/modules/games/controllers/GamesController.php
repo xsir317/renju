@@ -382,6 +382,16 @@ class GamesController extends Controller
         }
         return $this->renderJSON([],'thanks');
     }
+
+    public function actionInfo()
+    {
+        $game_id = intval($this->get('id'));
+        if(!$game_id)
+        {
+            return $this->renderJSON([],'指定游戏不存在');
+        }
+        return $this->renderJSON(['game' => GameService::renderGame($game_id)]);
+    }
     /**
      * 一个演示板，用于教学、沟通；
      * 就是一个不判断胜负的没有时间限制的演示功能；新建者可落子，可授权给他人落子。

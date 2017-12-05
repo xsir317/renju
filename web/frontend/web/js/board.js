@@ -257,52 +257,68 @@ let boardObj = function()
      * 展示除了棋盘之外的其他文字信息和对局相关的提示信息。
      * 也负责计算轮到谁落子。
      */
-    _obj.render_game_info = function(){
-        //计算当前是否是“我”落子的回合。
-        _obj.is_my_game = false;
-        _obj.is_my_turn = false;
-        
-        if(userinfo != null)
-        {
-            _obj.is_my_game = (userinfo.id == _obj.gameData.black_id || userinfo.id == _obj.gameData.white_id);
-            _obj.is_my_turn = (_obj.gameData.whom_to_play == userinfo.id);
-        }
-        $(".black_name>ins").html(_obj.gameData.bplayer.nickname);
-        $(".white_name>ins").html(_obj.gameData.wplayer.nickname);
-        $(".current_player_name>ins").html(_obj.gameData.turn ? _obj.gameData.bplayer.nickname : _obj.gameData.wplayer.nickname);
-        $(".a5_numbers>ins").html(_obj.gameData.a5_numbers);
-        $(".is_swap>ins").html(_obj.gameData.swap ? "是":"否");
-        $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
-        if(_obj.is_my_turn)
-        {
-            _obj.playing_tips();
-        }
-        else
-        {
-            $(".turn_to_play_tips").hide();
-            $(".swap_button").hide();
-        }
+    _obj.render_game_info = (function(){
+        let check_game_timer = 0;
+        return function(){
+            //计算当前是否是“我”落子的回合。
+            _obj.is_my_game = false;
+            _obj.is_my_turn = false;
 
-        if(_obj.is_my_game && _obj.gameData.status == 1)
-        {
-            $(".draw_button,.resign_button").show();
-        }
-        else
-        {
-            $(".draw_button,.resign_button").hide();
-        }
+            if(userinfo != null)
+            {
+                _obj.is_my_game = (userinfo.id == _obj.gameData.black_id || userinfo.id == _obj.gameData.white_id);
+                _obj.is_my_turn = (_obj.gameData.whom_to_play == userinfo.id);
+            }
+            $(".black_name>ins").html(_obj.gameData.bplayer.nickname);
+            $(".white_name>ins").html(_obj.gameData.wplayer.nickname);
+            $(".current_player_name>ins").html(_obj.gameData.turn ? _obj.gameData.bplayer.nickname : _obj.gameData.wplayer.nickname);
+            $(".a5_numbers>ins").html(_obj.gameData.a5_numbers);
+            $(".is_swap>ins").html(_obj.gameData.swap ? "是":"否");
+            $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
+            if(_obj.is_my_turn)
+            {
+                _obj.playing_tips();
+            }
+            else
+            {
+                $(".turn_to_play_tips").hide();
+                $(".swap_button").hide();
+            }
 
-        if(_obj.is_my_game && _obj.gameData.status == 1 && _obj.gameData.offer_draw >0 && _obj.gameData.offer_draw != userinfo.id)
-        {
-            $(".offer_draw_tips").show();
-        }
-        else
-        {
-            $(".offer_draw_tips").hide();
-        }
-        //计时
-        _obj.timer();
-    };
+            if(_obj.is_my_game && _obj.gameData.status == 1)
+            {
+                $(".draw_button,.resign_button").show();
+            }
+            else
+            {
+                $(".draw_button,.resign_button").hide();
+            }
+
+            if(_obj.is_my_game && _obj.gameData.status == 1 && _obj.gameData.offer_draw >0 && _obj.gameData.offer_draw != userinfo.id)
+            {
+                $(".offer_draw_tips").show();
+            }
+            else
+            {
+                $(".offer_draw_tips").hide();
+            }
+            if(check_game_timer)
+            {
+                clearInterval(check_game_timer);
+            }
+            //仅在我是对局者，但当前不轮到我落子的时候，每隔一段时间进行一次检查。这是为了防止Websocket通知失败时，对局者等待导致超时。
+            if(_obj.is_my_game && !_obj.is_my_turn)
+            {
+                check_game_timer = setInterval(function(){
+                    $.getJSON("/games/games/info",{id:_obj.gameData.id},function (_data) {
+                        _obj.load(_data.data.game);
+                    });
+                },15 * 1000);
+            }
+            //计时
+            _obj.timer();
+        };
+    })();
 
     _obj.playing_tips = function(){
         if(!_obj.is_my_turn)
