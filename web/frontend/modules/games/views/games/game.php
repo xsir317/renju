@@ -84,7 +84,7 @@ $this->registerJSFile('/js/websocket.js');
     </div>
 <!-- TODO 聊天部分需要emoji 参考 https://juejin.im/entry/596dbc68f265da6c2810e6ac-->
 <script type="text/javascript">
-    var userinfo = <?php echo json_encode($userinfo);?>;
-    var gameObj = <?php echo json_encode($game);?>;
-    var ws_token = <?php echo json_encode($ws_token);?>;
+    const userinfo = (<?php echo json_encode($userinfo);?>);
+    const gameObj = (<?php echo json_encode($game);?>);
+    const ws_token = (<?php echo json_encode($ws_token);?>);
 </script>
