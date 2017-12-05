@@ -307,7 +307,7 @@ let boardObj = function()
                 clearInterval(check_game_timer);
             }
             //仅在我是对局者，但当前不轮到我落子的时候，每隔一段时间进行一次检查。这是为了防止Websocket通知失败时，对局者等待导致超时。
-            if(_obj.is_my_game && !_obj.is_my_turn)
+            if(_obj.is_my_game && !_obj.is_my_turn && _obj.gameData.status == 1)
             {
                 check_game_timer = setInterval(function(){
                     $.getJSON("/games/games/info",{id:_obj.gameData.id},function (_data) {
