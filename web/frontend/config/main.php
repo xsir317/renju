@@ -23,7 +23,7 @@ return [
         ],
         'user' => [
             'identityClass' => 'common\models\Player',
-            'enableAutoLogin' => false,
+            'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
         'session' => [
@@ -54,6 +54,15 @@ return [
                 '/about.html' => '/site/about',
             ],
         ],
+        'cache' => [
+            'class' => 'common\components\RedisCache',
+            'redis' => [
+                'database' => 0,
+                'host' => '127.0.0.1',
+                'port' => 6379,
+                'prefix' => 'cache::',
+            ]
+        ]
     ],
     'params' => $params,
 ];
