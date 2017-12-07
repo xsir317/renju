@@ -96,6 +96,29 @@ let boardObj = function()
         });
     })();
 
+    //自动切换模式。
+    _obj.switch_mode = (function(){
+        let _mode = 'game';// game or analyze
+        return function(mode){
+            if(mode == _mode)
+            {
+                return false;
+            }
+            switch(mode)
+            {
+                case 'game':
+                    _obj.board.removeClass("mode_analyze").addClass("mode_game");
+                    break;
+                case 'analyze':
+                    pager.show_msg("已经切换到分析模式，可以自由落子。");
+                    _obj.board.removeClass("mode_game").addClass("mode_analyze");
+                    break;
+                default:
+                    break;
+            }
+        };
+    })();
+
     /**
      * @description 在指定位置放置一枚棋子。当操作者是行棋一方时，会转交给make_move来处理。
      * 当操作者是玩家之一时，不可以拿棋盘来拆棋，只能按照对局记录前进后退。
@@ -113,7 +136,7 @@ let boardObj = function()
         //这里的逻辑解释一下： 如果是轮到我下，而且是完全展示棋局的状态，那么就是“落子状态”。
         //如果是落子状态，就可以不按照之前的记录落下新的一个棋子。
         //如果不是落子状态，则对对局双方作出限制：只能按照之前的记录去落子，不能拿这个棋盘来拆棋。
-        let playing = (_obj.is_my_turn && _obj.currgame == _obj.gameData.game_record && _obj.gameData.waiting_for_a5_numbers == 0);
+        let playing = (_obj.is_my_turn && _obj.currgame == _obj.gameData.game_record && !_obj.gameData.waiting_for_a5_number);
         if(_obj.is_my_game && !playing && _obj.gameData.status == 1)
         {
             if(coordinate != _obj.endgame.substr(_obj.currgame.length,2))
@@ -136,6 +159,11 @@ let boardObj = function()
         if(_obj.currgame != _obj.endgame.substr(0,_obj.currgame.length))
         {
             _obj.endgame = _obj.currgame;
+            //在改变了endgame时，如果不是playing ,则都进入研究模式。
+            if(!playing)
+            {
+                _obj.switch_mode('analyze');
+            }
         }
         if(play_sound)
         {
@@ -248,6 +276,7 @@ let boardObj = function()
     _obj.show_origin = function(){
         _obj.render_game_info();
 
+        _obj.switch_mode('game');
         _obj.board_clean();
         _obj.endgame = _obj.gameData.game_record;
         _obj.board_end();
@@ -381,7 +410,7 @@ let boardObj = function()
                 break;
         }
 
-        if(_obj.gameData.waiting_for_a5_numbers)
+        if(_obj.gameData.waiting_for_a5_number)
         {
             tips = "请输入打点数量";
             pager.ask_for_a5();

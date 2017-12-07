@@ -41,7 +41,7 @@ class GameService extends BaseService
             return null;
         }
         //是否在等待打点数输入，默认0
-        $waiting_for_a5_numbers = 0;
+        $waiting_for_a5_number = 0;
         //turn
         $turn = 0;
         //分不同规则来算turn，差别较大的规则不共用逻辑，否则会把手数和规则掺合起来，导致混乱
@@ -58,7 +58,7 @@ class GameService extends BaseService
                 elseif ($stones == 3 && $game->a5_numbers == 0 && $game->rule == 'Yamaguchi')
                 {
                     $turn = 1;//这里是要写打点而不是要落子。
-                    $waiting_for_a5_numbers = 1;
+                    $waiting_for_a5_number = 1;
                 }
                 elseif($stones == 4 && $game->a5_numbers == (strlen($game->a5_pos)/2))//打点摆完了，等白棋选。
                 {
@@ -79,7 +79,7 @@ class GameService extends BaseService
                     if($game->a5_numbers == 0)
                     {
                         $turn = 0;//这里是要写打点而不是要落子。
-                        $waiting_for_a5_numbers = 1;
+                        $waiting_for_a5_number = 1;
                     }
                     elseif ($game->a5_numbers == (strlen($game->a5_pos)/2))
                     {
@@ -115,7 +115,7 @@ class GameService extends BaseService
         $return['wplayer'] = UserService::renderUser($game->white_id);
         $return['turn'] = $turn;
         $return['whom_to_play'] = $whom_to_play;
-        $return['waiting_for_a5_numbers'] = $waiting_for_a5_numbers;
+        $return['waiting_for_a5_number'] = $waiting_for_a5_number;
         return $return;
     }
 
