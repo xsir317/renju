@@ -104,14 +104,15 @@ let boardObj = function()
             {
                 return false;
             }
+            _mode = mode;
             switch(mode)
             {
                 case 'game':
-                    _obj.board.removeClass("mode_analyze").addClass("mode_game");
+                    board.removeClass("mode_analyze").addClass("mode_game");
                     break;
                 case 'analyze':
                     pager.show_msg("已经切换到分析模式，可以自由落子。");
-                    _obj.board.removeClass("mode_game").addClass("mode_analyze");
+                    board.removeClass("mode_game").addClass("mode_analyze");
                     break;
                 default:
                     break;
