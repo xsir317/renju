@@ -200,12 +200,8 @@ let pager = {
             score_span.addClass("layui-col-xs5").appendTo(new_li);
             new_li.appendTo($("#chat_user_list>ul"));
         }
-    }
-};
-
-$(document).ready(function () {
-    //聊天
-    let send_chat = function(){
+    },
+    send_chat : function(){
         let content = $("#msg").val().trim();
         if(!content)
         {
@@ -227,11 +223,15 @@ $(document).ready(function () {
             },
             "json"
         );
-    };
+    }
+};
+
+$(document).ready(function () {
+    //聊天
     $("#msg").keydown(function(event){
         if(event.keyCode == 13)
         {
-            send_chat();
+            pager.send_chat();
         }
     });
     $("#chat_operate_area .send").click(send_chat);
