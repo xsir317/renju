@@ -108,11 +108,13 @@ let boardObj = function()
             switch(mode)
             {
                 case 'game':
-                    board.removeClass("mode_analyze").addClass("mode_game");
+                    //board.removeClass("mode_analyze").addClass("mode_game");
+                    board.css("background-image","url(/images/board.png)");
                     break;
                 case 'analyze':
                     pager.show_msg("已经切换到分析模式，可以自由落子。");
-                    board.removeClass("mode_game").addClass("mode_analyze");
+                    board.css("background-image","url(/images/board-grey.png)");
+                    //board.removeClass("mode_game").addClass("mode_analyze");
                     break;
                 default:
                     break;

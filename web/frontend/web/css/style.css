@@ -49,14 +49,6 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 	-moz-user-select: none;
 -webkit-user-select: none; 
 }
-#board_main .mode_analyze
-{
-	background:url('/images/board-grey.png') 0 -3px no-repeat;
-}
-#board_main .mode_game
-{
-	background:url('/images/board.png') 0 -3px no-repeat;
-}
 .blank:hover
 {
 	height:35px;
