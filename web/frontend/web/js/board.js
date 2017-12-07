@@ -96,6 +96,29 @@ let boardObj = function()
         });
     })();
 
+    //自动切换模式。
+    _obj.switch_mode = (function(){
+        let _mode = 'game';// game or analyze
+        return function(mode){
+            if(mode == _mode)
+            {
+                return false;
+            }
+            switch(mode)
+            {
+                case 'game':
+                    _obj.board.removeClass("mode_analyze").addClass("mode_game");
+                    break;
+                case 'analyze':
+                    pager.show_msg("已经切换到分析模式，可以自由落子。");
+                    _obj.board.removeClass("mode_game").addClass("mode_analyze");
+                    break;
+                default:
+                    break;
+            }
+        };
+    })();
+
     /**
      * @description 在指定位置放置一枚棋子。当操作者是行棋一方时，会转交给make_move来处理。
      * 当操作者是玩家之一时，不可以拿棋盘来拆棋，只能按照对局记录前进后退。
@@ -113,7 +136,7 @@ let boardObj = function()
         //这里的逻辑解释一下： 如果是轮到我下，而且是完全展示棋局的状态，那么就是“落子状态”。
         //如果是落子状态，就可以不按照之前的记录落下新的一个棋子。
         //如果不是落子状态，则对对局双方作出限制：只能按照之前的记录去落子，不能拿这个棋盘来拆棋。
-        let playing = (_obj.is_my_turn && _obj.currgame == _obj.gameData.game_record && _obj.gameData.waiting_for_a5_numbers == 0);
+        let playing = (_obj.is_my_turn && _obj.currgame == _obj.gameData.game_record && !_obj.gameData.waiting_for_a5_number);
         if(_obj.is_my_game && !playing && _obj.gameData.status == 1)
         {
             if(coordinate != _obj.endgame.substr(_obj.currgame.length,2))
@@ -136,6 +159,11 @@ let boardObj = function()
         if(_obj.currgame != _obj.endgame.substr(0,_obj.currgame.length))
         {
             _obj.endgame = _obj.currgame;
+            //在改变了endgame时，如果不是playing ,则都进入研究模式。
+            if(!playing)
+            {
+                _obj.switch_mode('analyze');
+            }
         }
         if(play_sound)
         {
@@ -248,6 +276,7 @@ let boardObj = function()
     _obj.show_origin = function(){
         _obj.render_game_info();
 
+        _obj.switch_mode('game');
         _obj.board_clean();
         _obj.endgame = _obj.gameData.game_record;
         _obj.board_end();
@@ -257,52 +286,68 @@ let boardObj = function()
      * 展示除了棋盘之外的其他文字信息和对局相关的提示信息。
      * 也负责计算轮到谁落子。
      */
-    _obj.render_game_info = function(){
-        //计算当前是否是“我”落子的回合。
-        _obj.is_my_game = false;
-        _obj.is_my_turn = false;
-        
-        if(userinfo != null)
-        {
-            _obj.is_my_game = (userinfo.id == _obj.gameData.black_id || userinfo.id == _obj.gameData.white_id);
-            _obj.is_my_turn = (_obj.gameData.whom_to_play == userinfo.id);
-        }
-        $(".black_name>ins").html(_obj.gameData.bplayer.nickname);
-        $(".white_name>ins").html(_obj.gameData.wplayer.nickname);
-        $(".current_player_name>ins").html(_obj.gameData.turn ? _obj.gameData.bplayer.nickname : _obj.gameData.wplayer.nickname);
-        $(".a5_numbers>ins").html(_obj.gameData.a5_numbers);
-        $(".is_swap>ins").html(_obj.gameData.swap ? "是":"否");
-        $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
-        if(_obj.is_my_turn)
-        {
-            _obj.playing_tips();
-        }
-        else
-        {
-            $(".turn_to_play_tips").hide();
-            $(".swap_button").hide();
-        }
+    _obj.render_game_info = (function(){
+        let check_game_timer = 0;
+        return function(){
+            //计算当前是否是“我”落子的回合。
+            _obj.is_my_game = false;
+            _obj.is_my_turn = false;
 
-        if(_obj.is_my_game && _obj.gameData.status == 1)
-        {
-            $(".draw_button,.resign_button").show();
-        }
-        else
-        {
-            $(".draw_button,.resign_button").hide();
-        }
+            if(userinfo != null)
+            {
+                _obj.is_my_game = (userinfo.id == _obj.gameData.black_id || userinfo.id == _obj.gameData.white_id);
+                _obj.is_my_turn = (_obj.gameData.whom_to_play == userinfo.id);
+            }
+            $(".black_name>ins").html(_obj.gameData.bplayer.nickname);
+            $(".white_name>ins").html(_obj.gameData.wplayer.nickname);
+            $(".current_player_name>ins").html(_obj.gameData.turn ? _obj.gameData.bplayer.nickname : _obj.gameData.wplayer.nickname);
+            $(".a5_numbers>ins").html(_obj.gameData.a5_numbers);
+            $(".is_swap>ins").html(_obj.gameData.swap ? "是":"否");
+            $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
+            if(_obj.is_my_turn)
+            {
+                _obj.playing_tips();
+            }
+            else
+            {
+                $(".turn_to_play_tips").hide();
+                $(".swap_button").hide();
+            }
 
-        if(_obj.is_my_game && _obj.gameData.status == 1 && _obj.gameData.offer_draw >0 && _obj.gameData.offer_draw != userinfo.id)
-        {
-            $(".offer_draw_tips").show();
-        }
-        else
-        {
-            $(".offer_draw_tips").hide();
-        }
-        //计时
-        _obj.timer();
-    };
+            if(_obj.is_my_game && _obj.gameData.status == 1)
+            {
+                $(".draw_button,.resign_button").show();
+            }
+            else
+            {
+                $(".draw_button,.resign_button").hide();
+            }
+
+            if(_obj.is_my_game && _obj.gameData.status == 1 && _obj.gameData.offer_draw >0 && _obj.gameData.offer_draw != userinfo.id)
+            {
+                $(".offer_draw_tips").show();
+            }
+            else
+            {
+                $(".offer_draw_tips").hide();
+            }
+            if(check_game_timer)
+            {
+                clearInterval(check_game_timer);
+            }
+            //仅在我是对局者，但当前不轮到我落子的时候，每隔一段时间进行一次检查。这是为了防止Websocket通知失败时，对局者等待导致超时。
+            if(_obj.is_my_game && !_obj.is_my_turn && _obj.gameData.status == 1)
+            {
+                check_game_timer = setInterval(function(){
+                    $.getJSON("/games/games/info",{id:_obj.gameData.id},function (_data) {
+                        _obj.load(_data.data.game);
+                    });
+                },15 * 1000);
+            }
+            //计时
+            _obj.timer();
+        };
+    })();
 
     _obj.playing_tips = function(){
         if(!_obj.is_my_turn)
@@ -365,7 +410,7 @@ let boardObj = function()
                 break;
         }
 
-        if(_obj.gameData.waiting_for_a5_numbers)
+        if(_obj.gameData.waiting_for_a5_number)
         {
             tips = "请输入打点数量";
             pager.ask_for_a5();

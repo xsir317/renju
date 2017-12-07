@@ -1,7 +1,7 @@
 <?php
 $this->title = '对局';
 //棋盘
-$this->registerJSFile('/js/board.js');
+$this->registerJSFile('/js/board.js?v=1');
 
 //websocket连接
 $this->registerJSFile('/js/swfobject.js');

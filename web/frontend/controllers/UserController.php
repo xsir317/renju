@@ -16,7 +16,6 @@ use common\services\QueueService;
 
 class UserController extends Controller
 {
-
     public function actionLogin()
     {
         $req = \Yii::$app->request;
