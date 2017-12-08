@@ -12,6 +12,7 @@ namespace frontend\modules\games\controllers;
 use common\components\BoardTool;
 use common\components\Gateway;
 use common\components\MsgHelper;
+use common\services\CommonService;
 use common\services\UserService;
 use frontend\components\Controller;
 
@@ -71,6 +72,8 @@ class ChatController extends Controller
             'content' => $content,
             'board' => $board_str
         ];
+        //日志
+        CommonService::file_log(\Yii::$app->getRuntimePath().'/chat.'.date('ymd').'.log',sprintf("IP:%s , UID:%s, Room:%s, content:%s",CommonService::getIP(),$this->_user()->id,$game_id,$content));
         $send_msg = MsgHelper::build('say',$new_message);
         //TODO 放到队列里？考虑下是否要异步处理。
         try{
