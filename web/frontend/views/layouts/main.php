@@ -17,7 +17,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?>--Web五子棋</title>
-    <link href="/css/style.css?v=2" type="text/css" media="screen" rel="stylesheet" />
+    <link href="/css/style.css?v=3" type="text/css" media="screen" rel="stylesheet" />
     <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
     <?php $this->head() ?>
 </head>
@@ -106,7 +106,7 @@ const rule_defines = (<?php echo json_encode(Yii::$app->params['rules']) ?>);
 const ts_delta = (<?php echo time() ?> - Math.round(new Date().getTime()/1000));
 </script>
 <script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-<script src="/js/page.js" charset="utf-8"></script>
+<script src="/js/page.js?v=1" charset="utf-8"></script>
 <?php $this->endBody() ?>
 </body>
 </html>

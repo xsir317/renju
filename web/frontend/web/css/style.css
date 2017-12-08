@@ -11,9 +11,7 @@ p{font-size:14px;margin:0 0 5px 0;line-height:22px;}
 ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 .odd{background:#E8E8E8}
 #page-top{background:#e8e8e8;border-bottom: 1px solid rgba(0, 0, 2, 0.1);border-top: 1px solid #FDFDFF;box-shadow: 0 1px 0 rgba(253, 253, 255, 0.5);margin-bottom:10px;}
-#toolbar{clear: both;overflow:hidden;font-size: 12px;
-    line-height: 24px;
-    padding: 5px;text-shadow: 0 1px 0 #FDFDFF;}
+#toolbar{clear: both;overflow:hidden;font-size: 12px;line-height: 24px;padding: 5px;text-shadow: 0 1px 0 #FDFDFF;}
 #toolbar ul{float:right;color: #99999B;}
 #toolbar ul li{float:left;padding:0 5px;}
 #toolbar ul li a{color: #4C9FEB;padding-left:5px;}
@@ -47,7 +45,7 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 	padding-top:3px;
 	user-select:none;
 	-moz-user-select: none;
--webkit-user-select: none; 
+	-webkit-user-select: none;
 }
 .blank:hover
 {
@@ -93,6 +91,8 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 /*聊天*/
 .chat_area{float:left;width:175px;overflow: hidden;}
 #chat_content_list,#chat_operate_area{padding:10px 0 0 0;}
+#chat_content_list a{color:#2F78B7;text-decoration:underline;font-weight:bold;}
+#chat_content_list .user_nickname{color:#2F78B7;}
 #chat_user_list {height:125px;overflow-y:auto;}
 #chat_user_list ul li,#hall_games ul li{overflow: hidden;line-height: 25px;}
 #chat_user_list .user_title,.hall_game_title{font-weight:bold;}
@@ -100,11 +100,11 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 #chat_operate_area{padding: 12px 8px;box-sizing: border-box;width: 100%;height: 140px;}
 #chat_operate_area  .to-name{position: relative;display: inline-block;}
 #chat_operate_area>div>span{vertical-align: middle;}
-#chat_operate_area  .to-name>span{display: inline-block;width: 78px;height: 20px;border: 1px solid #5B545B;box-sizing: border-box;background-color: #463A42;vertical-align: middle;color: #FFFFFF;font-size: 12px;padding: 0 5px;overflow: hidden;white-space: nowrap;}
-#chat_operate_area  .to-name a{width: 15px;display: inline-block;height: 20px;text-align:center;line-height: 16px;border: 1px solid #5B545B; border-left: none;box-sizing: border-box;vertical-align: middle;}
-#chat_operate_area  .to-emjo{display: inline-block;}
-#chat_operate_area  .to-emjo a{}
-#chat_operate_area  .to-emjo a>i{display:block;height:24px;width:24px;background-image:url(http://static.live.xiguapi.tv/faces/qq_default/MRF_100000.gif);}
+#chat_operate_area  .to-emoji{display: inline-block;}
+#chat_operate_area  .to-emoji a>i{display:block;height:24px;width:24px;background:url(http://static.live.xiguapi.tv/faces/qq_default/MRF_100000.gif) no-repeat;}
+#chat_operate_area  .to-board_icon{display: inline-block;}
+#chat_operate_area  .to-board_icon a>i{display:block;height:24px;width:24px;background:url(/images/taiji-24.jpg) no-repeat;}
+#chat_operate_area  .to-board_icon a>.checked{background:url(/images/sign_check.png) no-repeat;}
 #chat_operate_area  .component-send{padding-bottom: 5px;}
 #chat_operate_area  .component-send textarea{resize: none;height: 58px;width: 83.6%;border-radius: 4px 0 0 4px;box-sizing: border-box;border: 1px solid #51484f;background-color: #3a2e37;color: #FFFFFF;vertical-align: middle;padding: 0.42em 0.85em;overflow: hidden;transition:border 0.2s,background-color 0.2s;-webkit-transition:border 0.2s,background-color 0.2s; }
 #chat_operate_area  .component-send textarea:hover,.custom-bar .custom-tab-oper .component-send textarea:focus{border: 1px solid #686066;background-color: #2f1c27;}

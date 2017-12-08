@@ -99,8 +99,12 @@ let boardObj = function()
     //自动切换模式。
     _obj.switch_mode = (function(){
         let _mode = 'game';// game or analyze
-        return function(mode){
+        return function(mode,do_switch){
             if(mode == _mode)
+            {
+                return true;
+            }
+            if(typeof do_switch == 'boolean' && !do_switch)
             {
                 return false;
             }
@@ -180,6 +184,22 @@ let boardObj = function()
         }
 
         return true;
+    };
+
+    _obj.show_analyze = function(board_str){
+        //不允许对弈棋手使用此方法。
+        if(_obj.is_my_game && _obj.gameData.status == 1)
+        {
+            return false;
+        }
+        _obj.switch_mode('analyze');
+        _obj.board_clean();
+        _obj.endgame = board_str;
+        _obj.board_end();
+    };
+
+    _obj.get_current_board = function () {
+        return _obj.currgame;
     };
 
     /**
@@ -460,6 +480,7 @@ let boardObj = function()
             pager.show_msg(rule_description[gameObj.rule]);
         }
     };
+
 
     /**
      * 画棋盘和按钮。绑定右键事件。
