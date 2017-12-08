@@ -169,6 +169,7 @@ class MsgHelper
             'type' => 'say',
             'from_user' => $params['from_user'],
             'content' => $params['content'],
+            'board' => isset($params['board']) ? $params['board'] : '',
             'time' => date('Y-m-d H:i:s'),
         ];
         return $return;

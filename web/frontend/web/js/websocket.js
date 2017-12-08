@@ -135,7 +135,7 @@ let chat = function (){
 
     // 接收发言消息
     this.actionSay = function(_data){
-        pager.show_msg("<span>" + _data.from_user.nickname +  "</span> 说：<span>" + _data.content + "</span>");
+        pager.show_msg(_data.content,_data.from_user,(typeof _data.board == 'string' ? _data.board : ''));
     };
 
     this.actionGames = function(_data)

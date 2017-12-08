@@ -85,10 +85,11 @@ let pager = {
             },"json");
         });
     },
-    show_msg: function(content){
-        if($("#chat_content").find("li").length > 150)
+    show_msg: function(content,user,board_str){
+        const chat_container = $("#chat_content");
+        if(chat_container.find("li").length > 150)
         {
-            $("#chat_content").empty();
+            chat_container.empty();
         }
         let new_li = $(document.createElement("li"));
         /** 处理表情**/
@@ -109,7 +110,16 @@ let pager = {
             console.log(e);
         }
         //表情结束
-        new_li.html(content).appendTo($("#chat_content"));
+        if(typeof user == "object")
+        {
+            new_li.append("<span class='user_nickname'>" + user.nickname +  "</span> 说：");
+        }
+        new_li.append("<span class='chat_content'>" + content + "</span>").appendTo(chat_container);
+        //+board
+        if(typeof board_str == 'string' && board_str != '')
+        {
+            $("<a href='javascript:void(0);'>[我的分析]</a>").click(function(){board.show_analyze(board_str)}).appendTo(new_li);
+        }
         //滚动。
         $("#chat_content_list").scrollTop($("#chat_content_list")[0].scrollHeight - $("#chat_content_list").height());
     },
@@ -205,12 +215,14 @@ let pager = {
         let content = $("#msg").val().trim();
         if(!content)
         {
+            layer.tips("请勿发布空内容",$("#chat_operate_area .send"),{tips:1,time:1000});
             return false;
         }
         $.post(
             "/games/chat/say",
             {
                 content:content,
+                board:$("#chat_operate_area .icon-board").attr('data-board'),
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content"),
                 game_id: typeof gameObj == "undefined" ? "HALL" : gameObj.id
             },
@@ -219,7 +231,11 @@ let pager = {
                 {
                     layer.alert(_data.msg);
                 }
-                $("#msg").val("");
+                else
+                {
+                    $("#msg").val("");
+                    $("#chat_operate_area .icon-board").attr("data-board","").removeClass("checked");
+                }
             },
             "json"
         );
@@ -234,11 +250,24 @@ $(document).ready(function () {
             pager.send_chat();
         }
     });
-    $("#chat_operate_area .send").click(send_chat);
-    $("#chat_operate_area .icon-emjo").click(function(){
-        let _pos = $("#chat_operate_area .icon-emjo").position();
+    $("#chat_operate_area .send").click(pager.send_chat);
+    $("#chat_operate_area .icon-emoji").click(function(){
+        let _pos = $("#chat_operate_area .icon-emoji").position();
         $("#face_pop").css({top:_pos.top - 288,left:0,opacity:1}).toggle();
         face_render(faces.group);
+    });
+    $("#chat_operate_area .icon-board").click(function(){
+        if($(this).hasClass('checked'))
+        {
+            $(this).attr("data-board","").removeClass("checked");
+        }
+        else
+        {
+            if(board.switch_mode('analyze',false))
+            {
+                $(this).attr("data-board",board.get_current_board()).addClass("checked");
+            }
+        }
     });
 
     //表情

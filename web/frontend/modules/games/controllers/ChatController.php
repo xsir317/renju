@@ -9,6 +9,7 @@
 namespace frontend\modules\games\controllers;
 
 
+use common\components\BoardTool;
 use common\components\Gateway;
 use common\components\MsgHelper;
 use common\services\UserService;
@@ -22,6 +23,11 @@ class ChatController extends Controller
         //TODO 按照关键词屏蔽内容
         $game_id = $this->post('game_id');
         $content = strip_tags(trim($this->post('content')));
+        $board_str = trim($this->post('board'));//用于复盘讨论的board。
+        if(!$board_str || !BoardTool::board_correct($board_str) || !intval($game_id))
+        {
+            $board_str = '';
+        }
 
         if(!$this->_user())
         {
@@ -63,6 +69,7 @@ class ChatController extends Controller
         $new_message = [
             'from_user' => $from_user,
             'content' => $content,
+            'board' => $board_str
         ];
         $send_msg = MsgHelper::build('say',$new_message);
         //TODO 放到队列里？考虑下是否要异步处理。

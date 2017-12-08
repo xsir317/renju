@@ -1,13 +1,13 @@
 <?php
 $this->title = '对局';
 //棋盘
-$this->registerJSFile('/js/board.js?v=1');
+$this->registerJSFile('/js/board.js?v=2');
 
 //websocket连接
 $this->registerJSFile('/js/swfobject.js');
 $this->registerJSFile('/js/web_socket.js');
 $this->registerJSFile('/js/md5.min.js');
-$this->registerJSFile('/js/websocket.js');
+$this->registerJSFile('/js/websocket.js?v=1');
 ?>
     <div class="layui-col-xs6"><div id="board_main"></div></div>
     <div id="gameinfo" class="layui-col-xs3" style="padding: 0 5px 0 20px;">
@@ -68,9 +68,12 @@ $this->registerJSFile('/js/websocket.js');
         </div>
         <div id="chat_operate_area" class="custom-tab-oper">
             <div>
-                        <span class="to-emjo">
-                            <a><i class="icon-menu-2 icon-emjo icon-room-custom-bar"></i></a>
-                        </span>
+                <span class="to-emoji">
+                    <a><i class="icon-menu-2 icon-emoji icon-room-custom-bar" title="表情"></i></a>
+                </span>
+                <span class="to-board_icon">
+                    <a><i class="icon-menu-2 icon-board icon-room-custom-bar" title="发送当前局面"></i></a>
+                </span>
             </div>
             <div class="component-send">
                 <textarea id="msg" placeholder="你怎么看……" maxlength="100"></textarea><a class="send">发送</a>

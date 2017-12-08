@@ -33,8 +33,8 @@ $this->registerJSFile('/js/websocket.js');
         </div>
         <div id="chat_operate_area" class="custom-tab-oper grid_content">
             <div>
-                <span class="to-emjo">
-                    <a><i class="icon-menu-2 icon-emjo icon-room-custom-bar"></i></a>
+                <span class="to-emoji">
+                    <a><i class="icon-menu-2 icon-emoji icon-room-custom-bar"></i></a>
                 </span>
             </div>
             <div class="component-send">
