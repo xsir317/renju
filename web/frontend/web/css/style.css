@@ -103,8 +103,8 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 #chat_operate_area  .to-emoji{display: inline-block;}
 #chat_operate_area  .to-emoji a>i{display:block;height:24px;width:24px;background:url(http://static.live.xiguapi.tv/faces/qq_default/MRF_100000.gif) no-repeat;}
 #chat_operate_area  .to-board_icon{display: inline-block;}
-#chat_operate_area  .to-board_icon a>i{display:block;height:24px;width:24px;background:url(/images/taiji-24.jpg) no-repeat;}
-#chat_operate_area  .to-board_icon a>.checked{background:url(/images/sign_check.png) no-repeat;}
+#chat_operate_area  .to-board_icon a>i{display:block;height:24px;width:24px;background:url(/images/send_board_btn.png) 0 0 no-repeat;}
+#chat_operate_area  .to-board_icon a>.checked{background-position:-24px 0;}
 #chat_operate_area  .component-send{padding-bottom: 5px;}
 #chat_operate_area  .component-send textarea{resize: none;height: 58px;width: 83.6%;border-radius: 4px 0 0 4px;box-sizing: border-box;border: 1px solid #51484f;background-color: #3a2e37;color: #FFFFFF;vertical-align: middle;padding: 0.42em 0.85em;overflow: hidden;transition:border 0.2s,background-color 0.2s;-webkit-transition:border 0.2s,background-color 0.2s; }
 #chat_operate_area  .component-send textarea:hover,.custom-bar .custom-tab-oper .component-send textarea:focus{border: 1px solid #686066;background-color: #2f1c27;}

@@ -17,7 +17,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?>--Web五子棋</title>
-    <link href="/css/style.css?v=3" type="text/css" media="screen" rel="stylesheet" />
+    <link href="/css/style.css?v=4" type="text/css" media="screen" rel="stylesheet" />
     <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
     <?php $this->head() ?>
 </head>
