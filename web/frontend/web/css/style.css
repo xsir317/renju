@@ -39,7 +39,7 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 .leftbar .current a,.leftbar a:hover{background:#E8E8E8}
 #board_main
 {
-	background:url('/images/board.png') 0 -3px no-repeat;
+	background:url('/images/board-0.png') 0 -3px no-repeat;
 	height:583px;
 	width:590px;
 	padding-top:3px;

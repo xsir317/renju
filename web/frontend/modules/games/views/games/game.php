@@ -1,13 +1,7 @@
 <?php
 $this->title = '对局';
-//棋盘
-$this->registerJSFile('/js/board.js?v=2');
 
-//websocket连接
-$this->registerJSFile('/js/swfobject.js');
-$this->registerJSFile('/js/web_socket.js');
-$this->registerJSFile('/js/md5.min.js');
-$this->registerJSFile('/js/websocket.js?v=1');
+$this->registerJSFile('/js/all.js');
 ?>
     <div class="layui-col-xs6"><div id="board_main"></div></div>
     <div id="gameinfo" class="layui-col-xs3" style="padding: 0 5px 0 20px;">

@@ -1,11 +1,7 @@
 <?php
 $this->title = '大厅';
 
-//websocket连接
-$this->registerJSFile('/js/swfobject.js');
-$this->registerJSFile('/js/web_socket.js');
-$this->registerJSFile('/js/md5.min.js');
-$this->registerJSFile('/js/websocket.js');
+$this->registerJSFile('/js/all.js');
 ?>
     <div id="hall_games" class="layui-col-xs9">
         <ul class="grid_content">
