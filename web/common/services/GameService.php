@@ -116,7 +116,15 @@ class GameService extends BaseService
         $return['turn'] = $turn;
         $return['whom_to_play'] = $whom_to_play;
         $return['waiting_for_a5_number'] = $waiting_for_a5_number;
+
+        //附加信息：悔棋
+
+        //附加信息：悔棋 end
         return $return;
+    }
+
+    public static function renderUndo($game_id)
+    {
     }
 
     public static function newToken()

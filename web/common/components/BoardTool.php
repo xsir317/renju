@@ -2,6 +2,7 @@
 namespace common\components;
 
 use common\models\Games;
+use common\models\GameUndoLog;
 use common\models\Player;
 use common\models\ScoreLog;
 use common\services\GameService;
@@ -198,6 +199,8 @@ class BoardTool
 		{
 			return false;
 		}
+		//悔棋申请全部作废
+        GameUndoLog::updateAll(['status' => -1],['game_id' => $game_id , 'status' => 0]);
 		$moves = strlen($game->game_record)/2;
 		$black_player = Player::findOne($game->black_id);
 		$white_player = Player::findOne($game->white_id);
