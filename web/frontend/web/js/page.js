@@ -239,6 +239,15 @@ let pager = {
             },
             "json"
         );
+    },
+
+    show_undo : function(undo_data){
+        layer.confirm("您的对手申请悔棋到第" + undo_data.to_step + "步",
+            {icon: 3, title:'提示'},
+            function(index){},
+            function(index){}
+        );
+
     }
 };
 

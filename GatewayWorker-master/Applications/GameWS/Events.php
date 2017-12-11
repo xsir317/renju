@@ -103,6 +103,7 @@ class Events
         {
             throw new \Exception("\$message_data['game_id'] not set. client_ip:{$_SERVER['REMOTE_ADDR']} \$message:".json_encode($msg));
         }
+        $is_reconnect = !empty($msg['reconnect']);
 
         //默认
         $game_id = $msg['game_id'];
@@ -123,14 +124,16 @@ class Events
         // 获取房间内所有用户列表
         Gateway::sendToCurrentClient(MsgHelper::build('enter',[
             'client_id' => $client_id,
-            'history_msg' => MsgHelper::getRecentMsgs($game_id),
+            'history_msg' => $is_reconnect ? [] : MsgHelper::getRecentMsgs($game_id),
         ]));
 
-        Gateway::sendToGroup($game_id, MsgHelper::build('login',['user' => [
-            'uid' => $uid,
-            'nickname' => $nickname,
-        ]]));
-        //TODO 用队列去发client list，或者triggerWeb端去发。
+        if(!$is_reconnect)
+        {
+            Gateway::sendToGroup($game_id, MsgHelper::build('login',['user' => [
+                'uid' => $uid,
+                'nickname' => $nickname,
+            ]]));
+        }
         QueueService::insert('client_list',['game_id' => $game_id]);
         return;
     }
