@@ -68,7 +68,7 @@ let pager = {
             value: '2',
             title: '请输入打点数量'
         }, function(value, index, elem){
-            $.post("/games/games/a5_number",{
+            $.post("/games/play/a5_number",{
                 number:value,
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content"),
                 game_id:gameObj.id
@@ -327,7 +327,7 @@ $(document).ready(function () {
 
     //交换
     $("#swap_button").click(function(){
-        $.post('/games/games/swap',{
+        $.post('/games/play/swap',{
             game_id:gameObj.id,
             "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
         },function(data){
@@ -341,7 +341,7 @@ $(document).ready(function () {
     //提和
     $("#draw_button").click(function(){
         layer.confirm('您要提出和棋请求吗？',{icon:3,title:'提和'},function(index){
-            $.post('/games/games/offer_draw',{
+            $.post('/games/play/offer_draw',{
                 game_id:gameObj.id,
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
             },function(data){
@@ -357,7 +357,7 @@ $(document).ready(function () {
     //认输
     $("#resign_button").click(function(){
         layer.confirm('您确定要认输吗？',{icon:5,title:'认输'},function(index){
-            $.post('/games/games/resign',{
+            $.post('/games/play/resign',{
                 game_id:gameObj.id,
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
             },function(data){

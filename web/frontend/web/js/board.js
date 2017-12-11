@@ -213,7 +213,7 @@ let boardObj = function()
             return false;
         }
         $.post(
-            "/games/games/play",
+            "/games/play/play",
             {
                 coordinate:coordinate,
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content"),
