@@ -14,6 +14,7 @@ use common\components\ForbiddenPointFinder;
 use common\components\Gateway;
 use common\components\MsgHelper;
 use common\models\Games;
+use common\models\GameUndoLog;
 use common\models\Player;
 use common\services\GameService;
 use common\services\UserService;
@@ -22,6 +23,11 @@ use yii\web\HttpException;
 
 class GamesController extends Controller
 {
+    /**
+     * 展示对局网页。
+     * @return string
+     * @throws HttpException
+     */
     public function actionGame()
     {
         $game_id = intval($this->get('id'));
@@ -38,6 +44,9 @@ class GamesController extends Controller
         ]);
     }
 
+    /**
+     * 输入五手打点数量
+     */
     public function actionA5_number()
     {
         $number = abs(intval($this->post('number')));
@@ -102,6 +111,9 @@ class GamesController extends Controller
     }
 
     //TODO 研究一下怎么引入transaction，棋局的计时、计算输赢需要事务处理，冲突了就跪了
+    /**
+     * 落子
+     */
     public function actionPlay()
     {
         if(!$this->_user())
@@ -215,6 +227,9 @@ class GamesController extends Controller
         return $this->renderJSON([]);
     }
 
+    /**
+     * 交换
+     */
     public function actionSwap()
     {
         $game_id = intval($this->post('game_id'));
@@ -287,6 +302,9 @@ class GamesController extends Controller
         }
     }
 
+    /**
+     * 提和、同意
+     */
     public function actionOffer_draw()
     {
         $game_id = intval($this->post('game_id'));
@@ -305,6 +323,11 @@ class GamesController extends Controller
             return $this->renderJSON([],'这不是您的对局',-1);
         }
         $opponent_id = $this->_user()->id == $game_info['black_id'] ? $game_info['white_id'] : $game_info['black_id'];
+
+        if($game_info['status'] != GameService::PLAYING)
+        {
+            return $this->renderJSON([],'棋局不是对局状态，不能进行操作。',-1);
+        }
 
         $game_object = Games::findOne($game_id);
         if($game_object->offer_draw == 0)
@@ -338,6 +361,9 @@ class GamesController extends Controller
         }
     }
 
+    /**
+     * 认输
+     */
     public function actionResign()
     {
         $game_id = intval($this->post('game_id'));
@@ -355,12 +381,106 @@ class GamesController extends Controller
         {
             return $this->renderJSON([],'这不是您的对局',-1);
         }
+
+        if($game_info['status'] != GameService::PLAYING)
+        {
+            return $this->renderJSON([],'棋局不是对局状态，不能进行操作。',-1);
+        }
+
         $game_result = $this->_user()->id == $game_info['black_id'] ? 0 : 1 ;//黑认输则白胜
         BoardTool::do_over($game_id,$game_result);
         Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
             'content' => ($game_result ? "白":"黑") . "方认输。"
         ]));
         return $this->renderJSON([]);
+    }
+
+    /**
+     * 提出悔棋申请
+     * 悔棋申请提出时 记录当前局面，提出者id，时间，回到第几手。
+     * 不能提出涉及前5手的悔棋。
+     * render棋局时，如果是正在进行的棋局，则先update悔棋记录，检查状态0的悔棋申请，和当前盘面不一致的全部-1掉。 将最新的有效的悔棋申请附在数据结构里。
+     * 同意：验证盘面与申请时一致，然后恢复到指定手数，render，然后发广播通知。
+     * 同意的话，可以获得10%时间的补偿。
+     * 终局时清理所有未同意的悔棋申请。
+     */
+    public function actionUndo_create()
+    {
+        $game_id = intval($this->post('game_id'));
+        //悔棋到第几手。 最终会保留前$to_step - 1手
+        $to_step = intval($this->post('to_step'));
+        $comment = trim($this->post('comment'));
+
+        if(!$this->_user())
+        {
+            return $this->renderJSON([],'您尚未登录',-1);
+        }
+        $game_info = GameService::renderGame($game_id);
+        if(!$game_info)
+        {
+            return $this->renderJSON([],'棋局不存在',-1);
+        }
+        if($game_info['black_id'] != $this->_user()->id && $game_info['white_id'] != $this->_user()->id)
+        {
+            return $this->renderJSON([],'这不是您的对局',-1);
+        }
+
+        if($game_info['status'] != GameService::PLAYING)
+        {
+            return $this->renderJSON([],'棋局不是对局状态，不能进行操作。',-1);
+        }
+        if($to_step <= 5)
+        {
+            return $this->renderJSON([],'最多只允许悔棋到第六手',-1);
+        }
+        if(strlen($game_info['game_record']) / 2 <= $to_step)
+        {
+            return $this->renderJSON([],'悔棋步数超出了当前棋局的范围',-1);
+        }
+
+        GameUndoLog::updateAll(['status' => -1],['game_id' => $game_id,'status' => 0,]);
+
+        $undo = new GameUndoLog();
+        $undo->game_id = $game_id;
+        $undo->uid = $this->_user()->id;
+        $undo->current_board = $game_info['game_record'];
+        $undo->to_number = $to_step;
+        $undo->comment = $comment;
+        $undo->status = 0;
+        $undo->created_time = date('Y-m-d H:i:s');
+        $undo->save(0);
+
+        Gateway::sendToUid(($game_info['black_id'] == $this->_user()->id ? $game_info['white_id'] : $game_info['black_id']),MsgHelper::build('undo',[
+            'undo_id' => $undo->id,
+        ]));
+        return $this->renderJSON([],'悔棋申请成功');
+
+    }
+
+    public function actionUndo_accept()
+    {
+        $undo_id = intval($this->post('undo_id'));
+/*
+        if(!$this->_user())
+        {
+            return $this->renderJSON([],'您尚未登录',-1);
+        }
+        $game_info = GameService::renderGame($game_id);
+        if(!$game_info)
+        {
+            return $this->renderJSON([],'棋局不存在',-1);
+        }
+        if($game_info['black_id'] != $this->_user()->id && $game_info['white_id'] != $this->_user()->id)
+        {
+            return $this->renderJSON([],'这不是您的对局',-1);
+        }
+
+        if($game_info['status'] != GameService::PLAYING)
+        {
+            return $this->renderJSON([],'棋局不是对局状态，不能进行操作。',-1);
+        }
+*/
+
     }
 
     public function actionTimeout()
