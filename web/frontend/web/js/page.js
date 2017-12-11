@@ -370,6 +370,30 @@ $(document).ready(function () {
         });
     });
 
+    //悔棋
+    $("#undo_button").click(function(){
+        layer.prompt({
+            formType: 0,
+            value: (board.get_current_board().length / 2) - 1,
+            title: '您想悔棋到第几步呢？'
+        }, function(value, index, elem){
+            $.post("/games/undo/create",{
+                to_step:value,
+                "_csrf-frontend":$("meta[name=csrf-token]").attr("content"),
+                game_id:gameObj.id
+            },function(_data){
+                if(_data.code == 200)
+                {
+                    layer.close(index);
+                }
+                else
+                {
+                    layer.alert(_data.msg);
+                }
+            },"json");
+        });
+    });
+
     if(typeof game_list != "undefined")
     {
         pager.show_game_list(game_list);

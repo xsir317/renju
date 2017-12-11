@@ -45,6 +45,7 @@ $this->registerJSFile('/js/all.js');
             <li class="draw_button" style="display: none;"><span>提和：</span><input type="button" value="和棋" class="button" id="draw_button" /></li>
             <li class="swap_button" style="display: none;"><span>交换：</span><input type="button" value="交换" class="button" id="swap_button" /></li>
             <li class="resign_button" style="display: none;"><span>认输：</span><input type="button" value="认输" class="button" id="resign_button" /></li>
+            <li class="undo_button" style="display: none;"><span>悔棋：</span><input type="button" value="悔棋" class="button" id="undo_button" /></li>
             <li class="offer_draw_tips" style="display: none;"><span style="color:#ff3333">您的对手向您提和，如果您同意，请点击和棋按钮。</span></li>
         </ul>
     </div>

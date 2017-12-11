@@ -339,11 +339,11 @@ let boardObj = function()
 
             if(_obj.is_my_game && _obj.gameData.status == 1)
             {
-                $(".draw_button,.resign_button").show();
+                $(".draw_button,.resign_button,.undo_button").show();
             }
             else
             {
-                $(".draw_button,.resign_button").hide();
+                $(".draw_button,.resign_button,.undo_button").hide();
             }
 
             if(_obj.is_my_game && _obj.gameData.status == 1 && _obj.gameData.offer_draw >0 && _obj.gameData.offer_draw != userinfo.id)
