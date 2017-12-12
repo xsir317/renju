@@ -103,7 +103,7 @@ class Events
         {
             throw new \Exception("\$message_data['game_id'] not set. client_ip:{$_SERVER['REMOTE_ADDR']} \$message:".json_encode($msg));
         }
-        $is_reconnect = !empty($msg['reconnect']);
+        $is_reconnect = (!empty($msg['reconnect']) && $msg['reconnect'] == '1');
 
         //默认
         $game_id = $msg['game_id'];

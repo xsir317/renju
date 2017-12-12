@@ -137,19 +137,26 @@ let pager = {
             new_li.appendTo($("#hall_games>ul"));
         }
     },
-    sounds:{
-        'GameOver' : "/sound/GameOver.wav",
-        'Invitation' : "/sound/Invitation.wav",
-        'Move' : "/sound/Move.wav",
-        'Back' : "/sound/Back.wav"
-    },
-    play_sound : function(_name){
-        if(typeof this.sounds[_name] == "string")
-        {
-            $("#global-audio").attr('src',this.sounds[_name]);
-            $("#global-audio")[0].play();
+    play_sound : (function(){
+        const _audio = $("#global-audio");
+        const sounds = {
+            'GameOver' : "/sound/GameOver.wav",
+            'Invitation' : "/sound/Invitation.wav",
+            'Move' : "/sound/Move.wav",
+            'Back' : "/sound/Back.wav"
+        };
+        return function(_name){
+            if(typeof sounds[_name] == "string")
+            {
+                _audio[0].pause();
+                if(sounds[_name] != _audio.attr('src'))
+                {
+                    _audio.attr('src',sounds[_name]);
+                }
+                _audio[0].play();
+            }
         }
-    },
+    })(),
     show_user_list : function(client_list){
         $("#chat_user_list>ul").find("li:not(:first)").remove();
         for(let i in client_list)
@@ -243,9 +250,33 @@ let pager = {
 
     show_undo : function(undo_data){
         layer.confirm("您的对手申请悔棋到第" + undo_data.to_step + "步",
-            {icon: 3, title:'提示'},
-            function(index){},
-            function(index){}
+            {icon: 3, title:'请求悔棋'},
+            function(index){
+                $.post('/games/undo/reply',{
+                    undo_id:undo_data.id,
+                    action:'accept',
+                    "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
+                },function(data){
+                    if(data.code != 200)
+                    {
+                        layer.alert(data.msg);
+                    }
+                },"json");
+                layer.close(index);
+            },
+            function(index){
+                $.post('/games/undo/reply',{
+                    undo_id:undo_data.id,
+                    action:'reject',
+                    "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
+                },function(data){
+                    if(data.code != 200)
+                    {
+                        layer.alert(data.msg);
+                    }
+                },"json");
+                layer.close(index);
+            }
         );
 
     }

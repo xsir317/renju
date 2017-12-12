@@ -63,7 +63,7 @@ class UndoController extends Controller
         {
             return $this->renderJSON([],'最多只允许悔棋到第六手',-1);
         }
-        if(strlen($game_info['game_record']) / 2 <= $to_step)
+        if(strlen($game_info['game_record']) / 2 < $to_step)
         {
             return $this->renderJSON([],'悔棋步数超出了当前棋局的范围',-1);
         }
@@ -80,13 +80,13 @@ class UndoController extends Controller
         $undo->created_time = date('Y-m-d H:i:s');
         $undo->save(0);
 
-        Gateway::sendToUid(($game_info['black_id'] == $this->_user()->id ? $game_info['white_id'] : $game_info['black_id']),MsgHelper::build('undo',[
-            'undo_id' => $undo->id,
+        Gateway::sendToGroup($game_id,MsgHelper::build('game_info',[
+            'game' => GameService::renderGame($game_id)
         ]));
         return $this->renderJSON([],'悔棋申请成功');
     }
 
-    public function actionAccept()
+    public function actionReply()
     {
         if(!$this->_user())
         {
@@ -94,6 +94,7 @@ class UndoController extends Controller
         }
 
         $undo_id = intval($this->post('undo_id'));
+        $action = trim($this->post('action'));
         $log = GameUndoLog::findOne(['id' => $undo_id,'status' => 0]);
 
         if(!$log || $log->uid == $this->_user()->id)
@@ -116,38 +117,49 @@ class UndoController extends Controller
             return $this->renderJSON([],'棋局不是对局状态，不能进行操作。',-1);
         }
 
-        //校验数据
-        if($log->current_board != $game_info['game_record'])
+        if($action == 'accept')
         {
-            $log->status = -1;
+            //校验数据
+            if($log->current_board != $game_info['game_record'])
+            {
+                $log->status = -1;
+                $log->save(0);
+                return $this->renderJSON([],'悔棋申请已经失效，请对方重新申请',-1);
+            }
+            if($log->to_number <= 5 || $log->to_number > (strlen($log->current_board)/2))
+            {
+                $log->status = -1;
+                $log->save(0);
+                return $this->renderJSON([],'悔棋申请数据有误，请对方重新申请',-1);
+            }
+            //校验数据end
+            //接受悔棋，退回盘面，给当前玩家增加时间。
+            $game = Games::findOne($log->game_id);
+            $game->game_record = substr($game->game_record,0,(2*($log->to_number-1)));
+            $game->movetime = date('Y-m-d H:i:s');
+            if($this->_user()->id == $game->black_id)
+            {
+                $game->black_time += intval(0.1 * $game->totaltime);
+            }
+            else
+            {
+                $game->white_time += intval(0.1 * $game->totaltime);
+            }
+            $game->save(0);
+
+            $log->status = 1;
             $log->save(0);
-            return $this->renderJSON([],'悔棋申请已经失效，请对方重新申请',-1);
-        }
-        if($log->to_number <= 5 || $log->to_number >= (strlen($log->current_board)/2))
-        {
-            $log->status = -1;
-            $log->save(0);
-            return $this->renderJSON([],'悔棋申请数据有误，请对方重新申请',-1);
-        }
-        //校验数据end
-        //接受悔棋，退回盘面，给当前玩家增加时间。
-        $game = Games::findOne($log->game_id);
-        $game->game_record = substr($game->game_record,0,(2*($log->to_number-1)));
-        $game->movetime = date('Y-m-d H:i:s');
-        if($this->_user()->id == $game->black_id)
-        {
-            $game->black_time += intval(0.1 * $game->totaltime);
+            //render游戏，进行广播。
+            Gateway::sendToGroup($game->id,MsgHelper::build('game_info',[
+                'game' => GameService::renderGame($game->id)
+            ]));
+            GameService::sendGamesList();
         }
         else
         {
-            $game->white_time += intval(0.1 * $game->totaltime);
+            $log->status = -1;
+            $log->save(0);
         }
-        $game->save(0);
-        //render游戏，进行广播。
-        Gateway::sendToGroup($game->id,MsgHelper::build('game_info',[
-            'game' => GameService::renderGame($game->id)
-        ]));
-        GameService::sendGamesList();
         return $this->renderJSON([]);
     }
 }

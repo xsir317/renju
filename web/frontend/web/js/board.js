@@ -2,6 +2,7 @@
  * @author xsir317@gmail.com
  * @license http://creativecommons.org/licenses/by-sa/3.0/deed.zh
  */
+let board = null;
 let boardObj = function()
 {
     //棋盘的DOM对象，基本上棋子、棋盘逻辑都在这里面。
@@ -354,6 +355,12 @@ let boardObj = function()
             {
                 $(".offer_draw_tips").hide();
             }
+            //悔棋
+            if(_obj.gameData.undo && _obj.is_my_game && _obj.gameData.status == 1 && _obj.gameData.undo.uid != userinfo.id)
+            {
+                pager.show_undo(_obj.gameData.undo);
+            }
+
             if(check_game_timer)
             {
                 clearInterval(check_game_timer);
@@ -533,14 +540,17 @@ let boardObj = function()
     };
 };
 
+if(typeof gameObj == 'object')
+{
 //1.new出对象
-let board = new boardObj();
+    board = new boardObj();
 
-$(document).ready(function(){
+    $(document).ready(function(){
 //页面初始化时对棋盘的操作：
 //2.调用其init方法
-    board.init_board();
+        board.init_board();
 //3.把web页输出的数据结构load进来。
-    board.load(gameObj);
-    board.show_rule();
-});
+        board.load(gameObj);
+        board.show_rule();
+    });
+}

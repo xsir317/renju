@@ -14,7 +14,7 @@ let ws = null;
 let global_current_client_id = '';
 let chat = function (){
     let that=this;
-    this.reconnect = false;
+    this.reconnect = '0';
     // 连接服务端
     this.connect = function () {
         // 创建websocket
@@ -54,7 +54,7 @@ let chat = function (){
             reconnect:that.reconnect
         };
         that.sendMsg(login_data);
-        that.reconnect = true;
+        that.reconnect = '1';
     };
 
 // 服务端发来消息时
@@ -134,10 +134,6 @@ let chat = function (){
 
     this.actionGame_info = function(_data){
         board.load(_data.game);
-    };
-
-    this.actionUndo = function(_data){
-        pager.show_undo(_data.undo);
     };
 
     // 接收发言消息

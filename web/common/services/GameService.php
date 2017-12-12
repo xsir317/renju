@@ -13,6 +13,7 @@ use common\components\BoardTool;
 use common\components\Gateway;
 use common\components\MsgHelper;
 use common\models\Games;
+use common\models\GameUndoLog;
 
 class GameService extends BaseService
 {
@@ -116,15 +117,36 @@ class GameService extends BaseService
         $return['turn'] = $turn;
         $return['whom_to_play'] = $whom_to_play;
         $return['waiting_for_a5_number'] = $waiting_for_a5_number;
+        $return['undo'] = null;
 
         //附加信息：悔棋
-
+        if($game->status == self::PLAYING)
+        {
+            $return['undo'] = self::render_undo($game_id,$game->game_record);
+        }
         //附加信息：悔棋 end
         return $return;
     }
 
-    public static function renderUndo($game_id)
+    private static function render_undo($game_id,$board)
     {
+        GameUndoLog::getDb()->createCommand("Update game_undo_log set status=-1 where game_id={$game_id} and current_board<>'{$board}' and status=0")->execute();
+        $last_undo = GameUndoLog::find()
+            ->where(['game_id' => $game_id,'status' => 0])
+            ->orderBy('id desc')
+            ->limit(1)
+            ->one();
+        if($last_undo)
+        {
+            return [
+                'id' => $last_undo->id,
+                'uid' => $last_undo->uid,
+                'game_id' => $last_undo->game_id,
+                'to_step' => $last_undo->to_number,
+                'comment' => $last_undo->comment,
+            ];
+        }
+        return null;
     }
 
     public static function newToken()
