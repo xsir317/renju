@@ -39,6 +39,9 @@ $this->registerJSFile('/js/all.js?v=1');
             <li>
                 <span>白方剩余时间:</span><ins style="width:135px;" id="white_time_display">00:00:00</ins>
             </li>
+            <li class="undo_records" style="display: none;">
+                <select style="margin: 0 0 0 10px;max-width:230px;"><option value="">====悔棋记录====</option></select>
+            </li>
             <li class="turn_to_play_tips" style="display: none;color: #3367d6;font-weight:bold;">
                 <span>轮到您下第<?php echo strlen($game['game_record'])/2 +1?>手</span>
             </li>

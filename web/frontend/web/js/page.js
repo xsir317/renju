@@ -436,6 +436,14 @@ $(document).ready(function () {
         });
     });
 
+    //悔棋记录的展示
+    $(".undo_records select").change(function(){
+        if($(this).val())
+        {
+            board.show_analyze($(this).val());
+        }
+    });
+
     if(typeof game_list != "undefined")
     {
         pager.show_game_list(game_list);

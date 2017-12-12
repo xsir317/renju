@@ -155,6 +155,7 @@ class UndoController extends Controller
 
             $log->status = 1;
             $log->save(0);
+            \Yii::$app->cache->delete('undo_log_cache::'.$game->id);
             //render游戏，进行广播。
             Gateway::sendToGroup($game->id,MsgHelper::build('game_info',[
                 'game' => GameService::renderGame($game->id)

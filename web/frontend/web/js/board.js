@@ -355,6 +355,24 @@ let boardObj = function()
             {
                 $(".undo_button").hide();
             }
+            //undo logs
+            if(_obj.gameData.undo_log.length > 0)
+            {
+                for(let i in _obj.gameData.undo_log)
+                {
+                    $(".undo_records>select").find("option:not(:first)").remove();
+                    $("<option>").text(
+                        _obj.gameData.undo_log[i].user.nickname
+                        + ' ' + (_obj.gameData.undo_log[i].current_board.length/2)
+                        + ' >> ' +  _obj.gameData.undo_log[i].to_number
+                    ).val(_obj.gameData.undo_log[i].current_board).appendTo($(".undo_records>select"));
+                }
+                $(".undo_records").show();
+            }
+            else
+            {
+                $(".undo_records").hide();
+            }
 
             if(_obj.is_my_game && _obj.gameData.status == 1 && _obj.gameData.offer_draw >0 && _obj.gameData.offer_draw != userinfo.id)
             {
