@@ -358,9 +358,9 @@ let boardObj = function()
             //undo logs
             if(_obj.gameData.undo_log.length > 0)
             {
+                $(".undo_records>select").find("option:not(:first)").remove();
                 for(let i in _obj.gameData.undo_log)
                 {
-                    $(".undo_records>select").find("option:not(:first)").remove();
                     $("<option>").text(
                         _obj.gameData.undo_log[i].user.nickname
                         + ' ' + (_obj.gameData.undo_log[i].current_board.length/2)
