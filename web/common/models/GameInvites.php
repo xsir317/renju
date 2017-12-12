@@ -15,6 +15,7 @@ use Yii;
  * @property integer $totaltime
  * @property string $rule
  * @property integer $free_opening
+ * @property integer $allow_undo
  * @property integer $status
  * @property integer $game_id
  * @property string $updtime
@@ -36,7 +37,7 @@ class GameInvites extends \yii\db\ActiveRecord
     {
         return [
             [['from', 'to', 'black_id', 'message', 'totaltime', 'free_opening'], 'required'],
-            [['from', 'to', 'black_id', 'totaltime', 'free_opening', 'status', 'game_id'], 'integer'],
+            [['from', 'to', 'black_id', 'totaltime', 'free_opening', 'allow_undo', 'status', 'game_id'], 'integer'],
             [['rule'], 'string'],
             [['updtime'], 'safe'],
             [['message'], 'string', 'max' => 64],
@@ -57,6 +58,7 @@ class GameInvites extends \yii\db\ActiveRecord
             'totaltime' => 'Totaltime',
             'rule' => 'Rule',
             'free_opening' => 'Free Opening',
+            'allow_undo' => 'Allow Undo',
             'status' => 'Status',
             'game_id' => 'Game ID',
             'updtime' => 'Updtime',

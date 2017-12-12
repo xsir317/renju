@@ -14,6 +14,7 @@ let ws = null;
 let global_current_client_id = '';
 let chat = function (){
     let that=this;
+    this.reconnect = '0';
     // 连接服务端
     this.connect = function () {
         // 创建websocket
@@ -49,9 +50,11 @@ let chat = function (){
             type:"login",
             game_id:typeof gameObj == 'undefined' ? 'HALL' : gameObj.id,
             uid:userinfo ?　userinfo.id : 0,
-            nickname:userinfo ? userinfo.nickname : ''//直接传给服务端，避免websocket读DB了。
+            nickname:userinfo ? userinfo.nickname : '',//直接传给服务端，避免websocket读DB了。
+            reconnect:that.reconnect
         };
         that.sendMsg(login_data);
+        that.reconnect = '1';
     };
 
 // 服务端发来消息时
@@ -143,10 +146,6 @@ let chat = function (){
         pager.show_game_list(_data.games);
     };
 
-
-    //系统公告
-    this.actionGlobal_announce = function(_data){
-    };
 
     this.actionInvite = function(_data){
         pager.invite(_data.invite);

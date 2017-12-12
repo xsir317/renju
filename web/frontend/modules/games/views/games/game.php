@@ -1,7 +1,7 @@
 <?php
 $this->title = '对局';
 
-$this->registerJSFile('/js/all.js');
+$this->registerJSFile('/js/all.js?v=1');
 ?>
     <div class="layui-col-xs6"><div id="board_main"></div></div>
     <div id="gameinfo" class="layui-col-xs3" style="padding: 0 5px 0 20px;">
@@ -39,12 +39,16 @@ $this->registerJSFile('/js/all.js');
             <li>
                 <span>白方剩余时间:</span><ins style="width:135px;" id="white_time_display">00:00:00</ins>
             </li>
+            <li class="undo_records" style="display: none;">
+                <select style="margin: 0 0 0 10px;max-width:230px;"><option value="">====悔棋记录====</option></select>
+            </li>
             <li class="turn_to_play_tips" style="display: none;color: #3367d6;font-weight:bold;">
                 <span>轮到您下第<?php echo strlen($game['game_record'])/2 +1?>手</span>
             </li>
             <li class="draw_button" style="display: none;"><span>提和：</span><input type="button" value="和棋" class="button" id="draw_button" /></li>
             <li class="swap_button" style="display: none;"><span>交换：</span><input type="button" value="交换" class="button" id="swap_button" /></li>
             <li class="resign_button" style="display: none;"><span>认输：</span><input type="button" value="认输" class="button" id="resign_button" /></li>
+            <li class="undo_button" style="display: none;"><span>悔棋：</span><input type="button" value="悔棋" class="button" id="undo_button" /></li>
             <li class="offer_draw_tips" style="display: none;"><span style="color:#ff3333">您的对手向您提和，如果您同意，请点击和棋按钮。</span></li>
         </ul>
     </div>

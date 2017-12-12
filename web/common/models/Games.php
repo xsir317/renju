@@ -14,6 +14,7 @@ use Yii;
  * @property integer $offer_draw
  * @property string $rule
  * @property integer $free_opening
+ * @property integer $allow_undo
  * @property string $game_record
  * @property integer $black_time
  * @property integer $white_time
@@ -45,7 +46,7 @@ class Games extends \yii\db\ActiveRecord
     {
         return [
             [['black_id', 'white_id', 'black_time', 'white_time', 'totaltime', 'swap', 'a5_numbers', 'comment'], 'required'],
-            [['black_id', 'white_id', 'status', 'offer_draw', 'free_opening', 'black_time', 'white_time', 'totaltime', 'swap', 'soosyrv_swap', 'a5_numbers', 'tid'], 'integer'],
+            [['black_id', 'white_id', 'status', 'offer_draw', 'free_opening', 'allow_undo', 'black_time', 'white_time', 'totaltime', 'swap', 'soosyrv_swap', 'a5_numbers', 'tid'], 'integer'],
             [['rule'], 'string'],
             [['updtime', 'movetime', 'create_time'], 'safe'],
             [['game_record'], 'string', 'max' => 450],
@@ -67,6 +68,7 @@ class Games extends \yii\db\ActiveRecord
             'offer_draw' => 'Offer Draw',
             'rule' => 'Rule',
             'free_opening' => 'Free Opening',
+            'allow_undo' => 'Allow Undo',
             'game_record' => 'Game Record',
             'black_time' => 'Black Time',
             'white_time' => 'White Time',

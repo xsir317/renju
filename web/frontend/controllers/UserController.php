@@ -64,6 +64,10 @@ class UserController extends Controller
             {
                 return $this->renderJSON([],'请完整填写注册信息！',-1);
             }
+            if(mb_strlen($nickname) >= 10)
+            {
+                return $this->renderJSON([],'昵称请限制在10个字以内',-1);
+            }
             if(!preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i',$email))
             {
                 return $this->renderJSON([],'Email格式不合法。',-1);

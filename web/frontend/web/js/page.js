@@ -26,6 +26,7 @@ let pager = {
             invite_form.find("select[name=rule]").val("Yamaguchi");
             invite_form.find("input[name=comment]").val("");
             invite_form.find("input[name=free_open]").prop("checked",false);
+            invite_form.find("input[name=allow_undo]").prop("checked",true);
             invite_btn.val("发出邀请");
         }
         else// 被人邀请，弹出被邀请的窗口
@@ -49,6 +50,7 @@ let pager = {
             invite_form.find("select[name=rule]").val(_data.rule);
             invite_form.find("input[name=comment]").val(_data.message);
             invite_form.find("input[name=free_open]").prop("checked",(_data.free_opening == "1"));
+            invite_form.find("input[name=allow_undo]").prop("checked",(_data.allow_undo == "1"));
             invite_btn.val("接受邀请");
         }
         layer.open({
@@ -68,7 +70,7 @@ let pager = {
             value: '2',
             title: '请输入打点数量'
         }, function(value, index, elem){
-            $.post("/games/games/a5_number",{
+            $.post("/games/play/a5_number",{
                 number:value,
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content"),
                 game_id:gameObj.id
@@ -137,19 +139,26 @@ let pager = {
             new_li.appendTo($("#hall_games>ul"));
         }
     },
-    sounds:{
-        'GameOver' : "/sound/GameOver.wav",
-        'Invitation' : "/sound/Invitation.wav",
-        'Move' : "/sound/Move.wav",
-        'Back' : "/sound/Back.wav"
-    },
-    play_sound : function(_name){
-        if(typeof this.sounds[_name] == "string")
-        {
-            $("#global-audio").attr('src',this.sounds[_name]);
-            $("#global-audio")[0].play();
+    play_sound : (function(){
+        const _audio = $("#global-audio");
+        const sounds = {
+            'GameOver' : "/sound/GameOver.wav",
+            'Invitation' : "/sound/Invitation.wav",
+            'Move' : "/sound/Move.wav",
+            'Back' : "/sound/Back.wav"
+        };
+        return function(_name){
+            if(typeof sounds[_name] == "string")
+            {
+                _audio[0].pause();
+                if(sounds[_name] != _audio.attr('src'))
+                {
+                    _audio.attr('src',sounds[_name]);
+                }
+                _audio[0].play();
+            }
         }
-    },
+    })(),
     show_user_list : function(client_list){
         $("#chat_user_list>ul").find("li:not(:first)").remove();
         for(let i in client_list)
@@ -239,6 +248,39 @@ let pager = {
             },
             "json"
         );
+    },
+
+    show_undo : function(undo_data){
+        layer.confirm("您的对手申请悔棋到第" + undo_data.to_step + "步",
+            {icon: 3, title:'请求悔棋'},
+            function(index){
+                $.post('/games/undo/reply',{
+                    undo_id:undo_data.id,
+                    action:'accept',
+                    "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
+                },function(data){
+                    if(data.code != 200)
+                    {
+                        layer.alert(data.msg);
+                    }
+                },"json");
+                layer.close(index);
+            },
+            function(index){
+                $.post('/games/undo/reply',{
+                    undo_id:undo_data.id,
+                    action:'reject',
+                    "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
+                },function(data){
+                    if(data.code != 200)
+                    {
+                        layer.alert(data.msg);
+                    }
+                },"json");
+                layer.close(index);
+            }
+        );
+
     }
 };
 
@@ -327,7 +369,7 @@ $(document).ready(function () {
 
     //交换
     $("#swap_button").click(function(){
-        $.post('/games/games/swap',{
+        $.post('/games/play/swap',{
             game_id:gameObj.id,
             "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
         },function(data){
@@ -341,7 +383,7 @@ $(document).ready(function () {
     //提和
     $("#draw_button").click(function(){
         layer.confirm('您要提出和棋请求吗？',{icon:3,title:'提和'},function(index){
-            $.post('/games/games/offer_draw',{
+            $.post('/games/play/offer_draw',{
                 game_id:gameObj.id,
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
             },function(data){
@@ -357,7 +399,7 @@ $(document).ready(function () {
     //认输
     $("#resign_button").click(function(){
         layer.confirm('您确定要认输吗？',{icon:5,title:'认输'},function(index){
-            $.post('/games/games/resign',{
+            $.post('/games/play/resign',{
                 game_id:gameObj.id,
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
             },function(data){
@@ -368,6 +410,38 @@ $(document).ready(function () {
             },"json");
             layer.close(index);
         });
+    });
+
+    //悔棋
+    $("#undo_button").click(function(){
+        layer.prompt({
+            formType: 0,
+            value: (board.get_current_board().length / 2) - 1,
+            title: '您想悔棋到第几步呢？'
+        }, function(value, index, elem){
+            $.post("/games/undo/create",{
+                to_step:value,
+                "_csrf-frontend":$("meta[name=csrf-token]").attr("content"),
+                game_id:gameObj.id
+            },function(_data){
+                if(_data.code == 200)
+                {
+                    layer.close(index);
+                }
+                else
+                {
+                    layer.alert(_data.msg);
+                }
+            },"json");
+        });
+    });
+
+    //悔棋记录的展示
+    $(".undo_records select").change(function(){
+        if($(this).val())
+        {
+            board.show_analyze($(this).val());
+        }
     });
 
     if(typeof game_list != "undefined")
