@@ -17,7 +17,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?>--Web五子棋</title>
-    <link href="/css/style.css?v=5" type="text/css" media="screen" rel="stylesheet" />
+    <link href="/css/style.css?v=6" type="text/css" media="screen" rel="stylesheet" />
     <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
     <?php $this->head() ?>
 </head>
@@ -80,8 +80,13 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
             <input name="comment" value="" />
         </div>
         <div class="field odd">
-            <span><a href="/about.html#freeopen">自由开局：</a></span>
-            <label><input name="free_open" value="1" type="checkbox" id="free_open" />（前三手无限制）</label></div>
+            <span>自由开局：</span>
+            <label><input name="free_open" value="1" type="checkbox" id="free_open" />（前三手无限制）</label>
+        </div>
+        <div class="field">
+            <span>允许申请悔棋：</span>
+            <label><input name="allow_undo" value="1" type="checkbox" id="allow_undo" /> </label>
+        </div>
             <input type="submit" class="button" value="发出邀请" id="invite_submit_button" />
     <?= Html::endForm();?>
 </div>

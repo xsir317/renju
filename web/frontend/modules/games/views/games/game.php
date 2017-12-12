@@ -1,7 +1,7 @@
 <?php
 $this->title = '对局';
 
-$this->registerJSFile('/js/all.js');
+$this->registerJSFile('/js/all.js?v=1');
 ?>
     <div class="layui-col-xs6"><div id="board_main"></div></div>
     <div id="gameinfo" class="layui-col-xs3" style="padding: 0 5px 0 20px;">

@@ -59,6 +59,12 @@ class UndoController extends Controller
         {
             return $this->renderJSON([],'棋局不是对局状态，不能进行操作。',-1);
         }
+
+        if(!$game_info['allow_undo'])
+        {
+            return $this->renderJSON([],'本局被设置为不允许悔棋。',-1);
+        }
+
         if($to_step <= 5)
         {
             return $this->renderJSON([],'最多只允许悔棋到第六手',-1);

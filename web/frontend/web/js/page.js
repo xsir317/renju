@@ -26,6 +26,7 @@ let pager = {
             invite_form.find("select[name=rule]").val("Yamaguchi");
             invite_form.find("input[name=comment]").val("");
             invite_form.find("input[name=free_open]").prop("checked",false);
+            invite_form.find("input[name=allow_undo]").prop("checked",true);
             invite_btn.val("发出邀请");
         }
         else// 被人邀请，弹出被邀请的窗口
@@ -49,6 +50,7 @@ let pager = {
             invite_form.find("select[name=rule]").val(_data.rule);
             invite_form.find("input[name=comment]").val(_data.message);
             invite_form.find("input[name=free_open]").prop("checked",(_data.free_opening == "1"));
+            invite_form.find("input[name=allow_undo]").prop("checked",(_data.allow_undo == "1"));
             invite_btn.val("接受邀请");
         }
         layer.open({
