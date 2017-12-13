@@ -564,6 +564,19 @@ let boardObj = function()
         $(document.createElement("button")).addClass('button').text('第一手')  .click(_obj.board_clean).appendTo(controlbar);
         $(document.createElement("button")).addClass('button').text('最后一手').click(_obj.board_end  ).appendTo(controlbar);
         $(document.createElement("button")).addClass('button').text('恢复')    .click(_obj.show_origin).appendTo(controlbar);
+        $(document.createElement("button")).addClass('button show').text('隐藏数字').click(function(){
+            let _btn = $(this);
+            if(_btn.hasClass("show"))
+            {
+                _btn.text("显示数字").removeClass('show');
+                $("<style>").attr("id",'hide_number').html('.row div{text-indent:-999px;overflow:hidden;}').appendTo("head");
+            }
+            else
+            {
+                _btn.text("隐藏数字").addClass('show');
+                $("#hide_number").remove();
+            }
+        }).appendTo(controlbar);
     };
 };
 

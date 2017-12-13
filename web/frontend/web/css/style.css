@@ -81,6 +81,7 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 	font-weight:bold;
 	font-size:18px;
 	cursor:pointer;
+	overflow:hidden;
 }
 .controlbar{width: 550px;}
 .controlbar button{margin-left:25px;}
