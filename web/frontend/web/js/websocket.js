@@ -49,7 +49,7 @@ let chat = function (){
         let login_data = {
             type:"login",
             game_id:typeof gameObj == 'undefined' ? 'HALL' : gameObj.id,
-            uid:userinfo ?　userinfo.id : 0,
+            //uid:userinfo ?　userinfo.id : 0,//这个不需要了，服务端存在secret一起了。 其实nickname也可以存，但是nickname并不敏感，不存也行。
             nickname:userinfo ? userinfo.nickname : '',//直接传给服务端，避免websocket读DB了。
             reconnect:that.reconnect
         };

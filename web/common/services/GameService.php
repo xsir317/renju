@@ -168,12 +168,15 @@ class GameService extends BaseService
         return $logs;
     }
 
-    public static function newToken()
+    public static function newToken($user_id)
     {
         $return = [];
         $return['token'] = \Yii::$app->security->generateRandomString();
         $return['secret'] = \Yii::$app->security->generateRandomString();
-        \Yii::$app->redis->setEx($return['token'],600,$return['secret']);
+        \Yii::$app->redis->setEx($return['token'],600,json_encode([
+            'secret' => $return['secret'],
+            'uid' => $user_id
+        ]));
         \Yii::$app->session['chat_token'] = $return['token'];
         return $return;
     }
