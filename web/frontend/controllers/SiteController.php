@@ -32,7 +32,7 @@ class SiteController extends Controller
         if($this->_user())
         {
             return $this->render('hall',[
-                'ws_token' => GameService::newToken(),
+                'ws_token' => GameService::newToken($this->_user()->id),
                 'userinfo' => UserService::renderUser($this->_user()->id ),
                 'game_list' => GameService::getRecentGameList()
             ]);

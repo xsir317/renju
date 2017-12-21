@@ -65,8 +65,7 @@ class Events
            return;
        }
        //进行安全性检查
-       $security = new Security($message_data);
-       if(!$security->verifyRequest())
+       if( !Security::verifyRequest($message_data))
        {
            Gateway::sendToCurrentClient(MsgHelper::build('shutdown',['content' => '校验错误，请刷新页面']));
            Gateway::closeCurrentClient();
@@ -107,7 +106,7 @@ class Events
 
         //默认
         $game_id = $msg['game_id'];
-        $uid = isset($msg['uid']) ? intval($msg['uid']) : 0;
+        $uid = Security::getUid();
         $nickname = !empty($msg['nickname']) ? $msg['nickname'] : '游客';
 
         if($uid)

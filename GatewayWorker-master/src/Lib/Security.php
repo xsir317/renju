@@ -11,37 +11,42 @@ namespace GatewayWorker\Lib;
 
 class Security
 {
-    private $_data = null;
+    private static $_data = null;
+    private static $_uid = 0;
 
-    public function __construct($data)
+    public static function verifyRequest($data)
     {
-        $this->_data = $data;
-    }
-    public function verifyRequest()
-    {
-        return $this->verifyTimestamp() && $this->verifyToken();
+        self::$_data = $data;
+        return self::verifyTimestamp() && self::verifyToken();
     }
 
-    private function verifyTimestamp()
+    private static function verifyTimestamp()
     {
-        if(isset($this->_data['_timestamp']))
+        if(isset(self::$_data['_timestamp']))
         {
-            return abs(intval($this->_data['_timestamp']) - time()) <= 60;
+            return abs(intval(self::$_data['_timestamp']) - time()) <= 60;
         }
         return false;
     }
 
-    private function verifyToken()
+    private static function verifyToken()
     {
-        if(isset($this->_data['_token']) && isset($this->_data['_checksum']))
+        if(isset(self::$_data['_token']) && isset(self::$_data['_checksum']))
         {
             $redis = RedisConnection::_get_instance();
-            $secret = $redis->get($this->_data['_token']);
-            if($secret)
+            $encoded_secret = $redis->get(self::$_data['_token']);
+            if($encoded_secret)
             {
-                $redis->setTimeout($this->_data['_token'],600);
+                $redis->setTimeout(self::$_data['_token'],600);
             }
-            $checksum_data = $this->_data;
+            $tmp_decode = @json_decode($encoded_secret,1);
+            if(!isset($tmp_decode['secret']))
+            {
+                return false;
+            }
+            $secret = $tmp_decode['secret'];
+            self::$_uid = $tmp_decode['uid'];
+            $checksum_data = self::$_data;
             unset($checksum_data['_checksum']);
             $checksum_data['_secret'] = $secret;
 
@@ -56,12 +61,12 @@ class Security
                 $stringfy .= "{$k}={$v}";
             }
             $server_md5 = md5($stringfy);
-            echo "md5 $stringfy  {$this->_data['_checksum']} {$server_md5}\n";
-            if(strtoupper($this->_data['_checksum']) !== strtoupper($server_md5))
+            echo "md5 $stringfy  ".self::$_data['_checksum']." {$server_md5}\n";
+            if(strtoupper(self::$_data['_checksum']) !== strtoupper($server_md5))
             {
                 file_put_contents(
                     "./checksum.log.".date('ymd'),
-                    date('H:i:s')." data : ".var_export($this->_data)."\n stringfy: {$stringfy} \n server md5: {$server_md5},client md5 {$this->_data['_checksum']} \n",
+                    date('H:i:s')." data : ".var_export(self::$_data)."\n stringfy: {$stringfy} \n server md5: {$server_md5} \n",
                     FILE_APPEND);
                 return false;
             }
@@ -71,5 +76,10 @@ class Security
             }
         }
         return false;
+    }
+
+    public static function getUid()
+    {
+        return self::$_uid;
     }
 }
