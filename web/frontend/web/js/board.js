@@ -396,7 +396,7 @@ let boardObj = function()
             if(_obj.is_my_game && !_obj.is_my_turn && _obj.gameData.status == 1)
             {
                 check_game_timer = setInterval(function(){
-                    $.getJSON("/games/games/info",{id:_obj.gameData.id},function (_data) {
+                    $.getJSON("/games/games/info",{id:_obj.gameData.id,_time:new Date().getTime()},function (_data) {
                         _obj.load(_data.data.game);
                     });
                 },15 * 1000);

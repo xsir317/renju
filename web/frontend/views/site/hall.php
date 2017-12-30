@@ -1,7 +1,7 @@
 <?php
 $this->title = '大厅';
 
-$this->registerJSFile('/js/all.js?v=2');
+$this->registerJSFile('/js/all.js?v=3');
 ?>
     <div id="hall_games" class="layui-col-xs9">
         <ul class="grid_content">
