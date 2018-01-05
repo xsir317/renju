@@ -1,4 +1,5 @@
 <?php
+use common\services\CommonService;
 use common\services\GameService;
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
@@ -42,10 +43,10 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
                 </li>
                 <li class="layui-nav-item">
                     <!--<span class="layui-badge-dot" style="margin: -4px 3px 0;"></span>-->
-                    <a href="javascript:void(0);">语言</a>
+                    <a href="javascript:void(0);"><?= Yii::t('app','language')?></a>
                     <dl class="layui-nav-child">
                     <?php foreach (Yii::$app->params['languages'] as $k => $name):?>
-                        <dd><a href="javascript:void(0);" onclick="switch_language('<?= $k ?>');"><?= $name ?></a></dd>
+                        <dd><a href="javascript:void(0);" onclick="pager.switch_language('<?= $k ?>');"><?= $name ?></a></dd>
                     <?php endforeach;?>
                     </dl>
                 </li>
@@ -53,7 +54,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
         </div>
     </div>
 </div>
-<div class="layui-main site-inline" style="margin-top: 20px;">
+<div class="layui-main site-inline" style="margin-top: 20px;overflow: hidden;">
     <?php echo $content?>
 </div>
 <div class="layui-footer footer footer-doc">
@@ -71,32 +72,32 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
             <span><?= Yii::t('app','opponent')?>: </span><span class="opponent_name"></span>
         </div>
         <div class="field">
-            <label><input type="radio" name="use_black" value="1" id="use_black" /><img src="/images/black.png" /><span>我使用黑棋</span></label>
+            <label><input type="radio" name="use_black" value="1" id="use_black" /><img src="/images/black.png" /><span><?= Yii::t('app','i_use_black')?></span></label>
         </div>
         <div class="field odd">
-            <label><input type="radio" name="use_black" value="0" id="use_white" /><img src="/images/white.png" /><span>我使用白棋</span></label>
+            <label><input type="radio" name="use_black" value="0" id="use_white" /><img src="/images/white.png" /><span><?= Yii::t('app','i_use_white')?></span></label>
         </div>
         <div class="field">
-            <span>时间：</span><label>
+            <span><?= Yii::t('app','time')?>: </span><label>
             <label><input name="hours" value="" style="width: 22px;" /><?= Yii::t('app','hour')?></label>
             <label><input name="minutes" value="" style="width: 22px;" /><?= Yii::t('app','minute')?></label>
         </div>
         <div class="field odd"><span><a href="/about.html"><?= Yii::t('app','rule')?>: </a></span>
-            <?= Html::dropDownList('rule',null,Yii::$app->params['rules']) ?>
+            <?= Html::dropDownList('rule',null,CommonService::getRules()) ?>
         </div>
         <div class="field">
-            <span>备注：</span>
+            <span><?= Yii::t('app','comment')?>: </span>
             <input name="comment" value="" />
         </div>
         <div class="field odd">
-            <span>自由开局：</span>
-            <label><input name="free_open" value="1" type="checkbox" id="free_open" />（前三手无限制）</label>
+            <span><?= Yii::t('app','free_opening')?>: </span>
+            <label><input name="free_open" value="1" type="checkbox" id="free_open" /><?= Yii::t('app','free_opening_cmt')?></label>
         </div>
         <div class="field">
-            <span>允许申请悔棋：</span>
+            <span><?= Yii::t('app','allow_undo')?>: </span>
             <label><input name="allow_undo" value="1" type="checkbox" id="allow_undo" /> </label>
         </div>
-            <input type="submit" class="button" value="发出邀请" id="invite_submit_button" />
+            <input type="submit" class="button" value="<?= Yii::t('app','send_invite')?>" id="invite_submit_button" />
     <?= Html::endForm();?>
 </div>
 <audio src="" id="global-audio"></audio>
@@ -115,7 +116,7 @@ layui.config({
 });
 
 const result_defines = (<?php echo json_encode(GameService::$status_define) ?>);
-const rule_defines = (<?php echo json_encode(Yii::$app->params['rules']) ?>);
+const rule_defines = (<?php echo json_encode(CommonService::getRules()) ?>);
 
 const ts_delta = (<?php echo time() ?> - Math.round(new Date().getTime()/1000));
 </script>

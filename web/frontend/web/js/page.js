@@ -280,7 +280,21 @@ let pager = {
                 layer.close(index);
             }
         );
-
+    },
+    switch_language : function(language){
+        $.post("/site/switch_language",{
+            language:language,
+            "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
+        },function(_data){
+            if(_data.code != 200)
+            {
+                layer.alert(_data.msg);
+            }
+            else
+            {
+                window.location.reload();
+            }
+        },"json");
     }
 };
 

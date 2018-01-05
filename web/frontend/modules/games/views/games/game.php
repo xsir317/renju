@@ -1,4 +1,6 @@
 <?php
+use common\services\CommonService;
+
 $this->title = '对局';
 
 $this->registerJSFile('/js/all.js?v=3');
@@ -16,7 +18,7 @@ $this->registerJSFile('/js/all.js?v=3');
                 <span>开始时间:</span><ins style="width:140px;"><?php echo substr($game['create_time'],0,16)?></ins>
             </li>
             <li class="rule_name">
-                <span>规则:</span><ins><?php echo Yii::$app->params['rules'][$game['rule']]?></ins>
+                <span>规则:</span><ins><?= CommonService::getRules($game['rule']) ?></ins>
             </li>
             <li class="a5_numbers">
                 <span>五手打点数:</span><ins><?php echo $game['a5_numbers']?></ins>

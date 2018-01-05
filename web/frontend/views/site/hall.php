@@ -1,5 +1,5 @@
 <?php
-$this->title = '大厅';
+$this->title = Yii::t('app','hall');
 
 $this->registerJSFile('/js/all.js?v=3');
 ?>
@@ -7,11 +7,11 @@ $this->registerJSFile('/js/all.js?v=3');
         <ul class="grid_content">
             <li class="hall_game_title">
                 <span class="game_id layui-col-xs2">ID</span>
-                <span class="black_name layui-col-xs2">执黑方</span>
-                <span class="white_name layui-col-xs2">执白方</span>
-                <span class="current_step layui-col-xs2">手数</span>
-                <span class="game_result layui-col-xs2">结果</span>
-                <span class="view_game layui-col-xs2">旁观游戏</span>
+                <span class="black_name layui-col-xs2"><?= Yii::t('app','black')?></span>
+                <span class="white_name layui-col-xs2"><?= Yii::t('app','white')?></span>
+                <span class="current_step layui-col-xs2"><?= Yii::t('app','stones')?></span>
+                <span class="game_result layui-col-xs2"><?= Yii::t('app','result')?></span>
+                <span class="view_game layui-col-xs2"><?= Yii::t('app','observe')?></span>
             </li>
         </ul>
     </div>
@@ -19,8 +19,8 @@ $this->registerJSFile('/js/all.js?v=3');
         <div id="chat_user_list" class="grid_content">
             <ul>
                 <li class="user_title">
-                    <span class="ulist_name layui-col-xs7">昵称（点击邀请）</span>
-                    <span class="ulist_score layui-col-xs5">等级分</span>
+                    <span class="ulist_name layui-col-xs7"><?= Yii::t('app','nickname')?></span>
+                    <span class="ulist_score layui-col-xs5"><?= Yii::t('app','ranking')?></span>
                 </li>
             </ul>
         </div>

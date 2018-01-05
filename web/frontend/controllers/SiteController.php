@@ -75,6 +75,16 @@ class SiteController extends Controller
         return $this->render('players',['players' => $users]);
     }
 
+    public function actionSwitch_language()
+    {
+        $language = trim($this->post('language'));
+        if(isset(\Yii::$app->params['languages'][$language]))
+        {
+            \Yii::$app->session['language'] = $language;
+        }
+        return $this->renderJSON();
+    }
+
     public function actionLanguages()
     {
         return $this->renderJSON(
