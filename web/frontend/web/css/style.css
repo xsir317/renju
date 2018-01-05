@@ -4,7 +4,7 @@ body
 	font-family: "微软雅黑",Arial,Helvetica,sans-serif;
 	background-color: #EFEEF7;
 }
-.layui-main {overflow:hidden;width:1140px;margin:0 auto;}
+.layui-main {width:1140px;margin:0 auto;}
 img{border:none;}
 h1,h2,h3{margin:0;}
 p{font-size:14px;margin:0 0 5px 0;line-height:22px;}

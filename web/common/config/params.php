@@ -9,5 +9,10 @@ return [
         'Soosyrv8' => '索索夫8',
         'Renju' => '有禁手',
         'Gomoku' => '无禁手',
-    ]
+    ],
+    'languages' => [
+        'en-US' => 'English',
+        'zh-CN' => '简体中文',
+        'ja-JP' => '日本語',
+    ],
 ];

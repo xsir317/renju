@@ -40,6 +40,15 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
                 <li class="layui-nav-item">
                     <a href="/site/top100">TOP100</a>
                 </li>
+                <li class="layui-nav-item">
+                    <!--<span class="layui-badge-dot" style="margin: -4px 3px 0;"></span>-->
+                    <a href="javascript:void(0);">语言</a>
+                    <dl class="layui-nav-child">
+                    <?php foreach (Yii::$app->params['languages'] as $k => $name):?>
+                        <dd><a href="javascript:void(0);" onclick="switch_language('<?= $k ?>');"><?= $name ?></a></dd>
+                    <?php endforeach;?>
+                    </dl>
+                </li>
             </ul>
         </div>
     </div>
