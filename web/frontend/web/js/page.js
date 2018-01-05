@@ -295,6 +295,9 @@ let pager = {
                 window.location.reload();
             }
         },"json");
+    },
+    t : function(message){
+        return (typeof lang_map[message] == 'string') ? lang_map[message] : message;
     }
 };
 

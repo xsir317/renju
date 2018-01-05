@@ -102,6 +102,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
 </div>
 <audio src="" id="global-audio"></audio>
 <script src="/layui/layui.all.js" charset="utf-8"></script>
+<script type="text/javascript" src="/site/languages?language=<?= \Yii::$app->session['language'] ?>"></script>
 <script type="text/javascript">
 const _debug_mode = (<?php echo intval(YII_DEBUG);?>);
 let debug_log = function(log){

@@ -87,8 +87,14 @@ class SiteController extends Controller
 
     public function actionLanguages()
     {
-        return $this->renderJSON(
-            []
-        );
+        header("Content-type: application/javascript");
+        $language = trim($this->get('language','zh-CN'));
+        if(isset(\Yii::$app->params['languages'][$language]))
+        {
+            $return = include "@common/languages/{$language}/app.php";
+            return 'let lang_map = '.json_encode($return).';';
+        }
+
+        return '';
     }
 }
