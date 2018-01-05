@@ -16,7 +16,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?>--Web五子棋</title>
+    <title><?= Html::encode($this->title) ?>--OnlineRenjuCommunity</title>
     <link href="/css/style.css?v=7" type="text/css" media="screen" rel="stylesheet" />
     <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
     <?php $this->head() ?>
@@ -27,15 +27,15 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
     <div class="layui-header header header-doc">
         <div class="layui-main" style="width: 1140px;margin: 0 auto;">
             <ul class="layui-nav">
-                <?php if(!Yii::$app->user->isGuest):?><li class="layui-nav-item">欢迎你，<?php echo Html::encode(Yii::$app->user->identity->nickname);?>。</li><?php endif;?>
+                <?php if(!Yii::$app->user->isGuest):?><li class="layui-nav-item"><?= Yii::t('app','welcome')?> ,<?php echo Html::encode(Yii::$app->user->identity->nickname);?>。</li><?php endif;?>
                 <li class="layui-nav-item ">
-                    <a href="/">大厅</a>
+                    <a href="/"><?= Yii::t('app','hall')?></a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="mailto:xsir317@gmail.com">联系我们</a>
+                    <a href="mailto:xsir317@gmail.com"><?= Yii::t('app','contact')?></a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="/about.html">关于规则和等级分</a>
+                    <a href="/about.html"><?= Yii::t('app','rules_and_ELO')?></a>
                 </li>
                 <li class="layui-nav-item">
                     <a href="/site/top100">TOP100</a>
@@ -59,7 +59,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
         <input type="hidden" value="" name="to_user" />
         <input type="hidden" value="" name="id" />
         <div class="field odd">
-            <span>对手：</span><span class="opponent_name"></span>
+            <span><?= Yii::t('app','opponent')?>: </span><span class="opponent_name"></span>
         </div>
         <div class="field">
             <label><input type="radio" name="use_black" value="1" id="use_black" /><img src="/images/black.png" /><span>我使用黑棋</span></label>
@@ -69,10 +69,10 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
         </div>
         <div class="field">
             <span>时间：</span><label>
-            <label><input name="hours" value="" style="width: 22px;" />小时</label>
-            <label><input name="minutes" value="" style="width: 22px;" />分</label>
+            <label><input name="hours" value="" style="width: 22px;" /><?= Yii::t('app','hour')?></label>
+            <label><input name="minutes" value="" style="width: 22px;" /><?= Yii::t('app','minute')?></label>
         </div>
-        <div class="field odd"><span><a href="/about.html#yamaguchi">规则：</a></span>
+        <div class="field odd"><span><a href="/about.html"><?= Yii::t('app','rule')?>: </a></span>
             <?= Html::dropDownList('rule',null,Yii::$app->params['rules']) ?>
         </div>
         <div class="field">

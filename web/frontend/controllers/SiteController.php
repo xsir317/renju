@@ -75,4 +75,10 @@ class SiteController extends Controller
         return $this->render('players',['players' => $users]);
     }
 
+    public function actionLanguages()
+    {
+        return $this->renderJSON(
+            []
+        );
+    }
 }
