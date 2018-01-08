@@ -4,7 +4,7 @@ return [
 
     //通用
     'hello' => '你好',
-    'welcome' => '欢迎',
+    'welcome' => 'ようこそ',
     'hall' => '大厅',
     'contact' => '联系我们',
     'rules_and_ELO' => '规则和等级分',

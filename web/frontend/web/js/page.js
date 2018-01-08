@@ -9,7 +9,7 @@ let pager = {
         debug_log(_data);
         if(!userinfo)
         {
-            layer.alert("请先登录");
+            layer.alert(pager.t("notice_login"));
             return false;
         }
         let invite_form = $("#invite_form");
@@ -27,7 +27,7 @@ let pager = {
             invite_form.find("input[name=comment]").val("");
             invite_form.find("input[name=free_open]").prop("checked",false);
             invite_form.find("input[name=allow_undo]").prop("checked",true);
-            invite_btn.val("发出邀请");
+            invite_btn.val(pager.t("send_invite"));
         }
         else// 被人邀请，弹出被邀请的窗口
         {
@@ -51,7 +51,7 @@ let pager = {
             invite_form.find("input[name=comment]").val(_data.message);
             invite_form.find("input[name=free_open]").prop("checked",(_data.free_opening == "1"));
             invite_form.find("input[name=allow_undo]").prop("checked",(_data.allow_undo == "1"));
-            invite_btn.val("接受邀请");
+            invite_btn.val(pager.t("accept_invite"));
         }
         layer.open({
             type:1,
@@ -180,7 +180,7 @@ let pager = {
                             layer.prompt({
                                 formType: 0,
                                 value: $(this).attr("alt"),
-                                title: '编辑个人简介'
+                                title: pager.t("edit_personal_intro"),
                             }, function(value, index, elem){
                                 $.post(
                                     "/user/edit",

@@ -38,5 +38,8 @@ return [
 
     //棋盘
     //交互提示
+    "notice_login" => "Please login first.",
+    "accept_invite" => "Accept the invitation.",
+    "edit_personal_intro" => "Edit personal Introduction",
     //规则、文字说明以及其他
 ];

@@ -91,7 +91,7 @@ class SiteController extends Controller
         $language = trim($this->get('language','zh-CN'));
         if(isset(\Yii::$app->params['languages'][$language]))
         {
-            $return = include "@common/languages/{$language}/app.php";
+            $return = require \Yii::getAlias("@common/languages/{$language}/app.php");
             return 'let lang_map = '.json_encode($return).';';
         }
 
