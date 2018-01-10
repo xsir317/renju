@@ -84,6 +84,8 @@ return [
     'You want to offer a draw?' => '你想要提和吗？',
     'Offer draw' => '提和',
     'Offers draw' => '提出和棋',
+    'You already offered draw, please wait.' => '您已经提和了，请等待对方回应',
+    ' Accepts the offer, it\'s a draw.' => '同意和棋，对局结束。',
     'Resign' => '认输',
     'You sure you want resign?' => '您确定要认输吗？',
     'Where do you want to Undo to?' => '您想悔棋到哪一步？',
@@ -91,6 +93,7 @@ return [
     'Enter' => '进入',
     ' has joined.' => ' 进入了房间',
     'Game doesn\'t exist' => '棋局不存在',
+    'This game is currently not playing' => '棋局不在进行中，不能操作',
     'This is not your game' => '这不是您的对局',
     'Your opponent offers draw,press the "Draw" button if you accept it.' => '您的对手向您提和，如果同意，请点击和棋按钮。',
     'Please input the correct number' => '请输入正确的打点数',
@@ -104,10 +107,16 @@ return [
     'Please choose from Black A5 points' => '请在黑方的打点中选择',
     'Black and white has swapped.' => '双方先后手已交换',
     'Black wins' => '黑方获胜',
+    'Black resigns' => '黑方认输',
     'White wins' => '白方获胜',
+    'White resigns' => '白方认输',
     'Five' => '连五',
     'Black forbidden move' => '黑方禁手',
     'Board is full, Draw' => '满局，和棋。',
+
+
+
+    'System error, please contact the administrator.' => '发生错误，请联系管理员',
 
     //规则、文字说明以及其他
 ];

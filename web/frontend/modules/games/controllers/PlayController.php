@@ -308,7 +308,7 @@ class PlayController extends Controller
 
         if($game_info['status'] != GameService::PLAYING)
         {
-            return $this->renderJSON([],'棋局不是对局状态，不能进行操作。',-1);
+            return $this->renderJSON([],\Yii::t('app',"This game is currently not playing"),-1);
         }
 
         $game_object = Games::findOne($game_id);
@@ -327,19 +327,19 @@ class PlayController extends Controller
         }
         elseif ($game_object->offer_draw == $this->_user()->id)
         {
-            return $this->renderJSON([],'您已经提和了，请等待对方回应',-1);
+            return $this->renderJSON([],\Yii::t('app',"You already offered draw, please wait."),-1);
         }
         elseif ($game_object->offer_draw == $opponent_id)
         {
             BoardTool::do_over($game_id,0.5);
             Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
-                'content' => $this->_user()->nickname. "同意和棋，对局结束。"
+                'content' => $this->_user()->nickname. \Yii::t('app'," Accepts the offer, it's a draw.")
             ]));
             return $this->renderJSON([]);
         }
         else
         {
-            return $this->renderJSON([],'发生错误，请联系管理员',-1);
+            return $this->renderJSON([],\Yii::t('app',"System error, please contact the administrator."),-1);
         }
     }
 
@@ -366,13 +366,13 @@ class PlayController extends Controller
 
         if($game_info['status'] != GameService::PLAYING)
         {
-            return $this->renderJSON([],'棋局不是对局状态，不能进行操作。',-1);
+            return $this->renderJSON([],\Yii::t('app',"This game is currently not playing"),-1);
         }
 
         $game_result = $this->_user()->id == $game_info['black_id'] ? 0 : 1 ;//黑认输则白胜
         BoardTool::do_over($game_id,$game_result);
         Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
-            'content' => ($game_result ? "白方认输。":"黑方认输。")
+            'content' => ($game_result ? \Yii::t('app',"Black resigns") : \Yii::t('app',"White resigns"))
         ]));
         return $this->renderJSON([]);
     }
