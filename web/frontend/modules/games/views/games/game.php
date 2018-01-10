@@ -47,19 +47,19 @@ $this->registerJSFile('/js/all.js?v=3');
             <li class="turn_to_play_tips" style="display: none;color: #3367d6;font-weight:bold;">
                 <span></span>
             </li>
-            <li class="draw_button" style="display: none;"><span>提和：</span><input type="button" value="和棋" class="button" id="draw_button" /></li>
-            <li class="swap_button" style="display: none;"><span>交换：</span><input type="button" value="交换" class="button" id="swap_button" /></li>
-            <li class="resign_button" style="display: none;"><span>认输：</span><input type="button" value="认输" class="button" id="resign_button" /></li>
-            <li class="undo_button" style="display: none;"><span>悔棋：</span><input type="button" value="悔棋" class="button" id="undo_button" /></li>
-            <li class="offer_draw_tips" style="display: none;"><span style="color:#ff3333">您的对手向您提和，如果您同意，请点击和棋按钮。</span></li>
+            <li class="draw_button" style="display: none;"><span><?= Yii::t('app','Offer Draw') ?>: </span><input type="button" value="<?= Yii::t('app','Draw') ?>" class="button" id="draw_button" /></li>
+            <li class="swap_button" style="display: none;"><span><?= Yii::t('app','Swap') ?>: </span><input type="button" value="<?= Yii::t('app','Swap') ?>" class="button" id="swap_button" /></li>
+            <li class="resign_button" style="display: none;"><span><?= Yii::t('app','Resign') ?>: </span><input type="button" value="<?= Yii::t('app','Resign') ?>" class="button" id="resign_button" /></li>
+            <li class="undo_button" style="display: none;"><span><?= Yii::t('app','Undo') ?>: </span><input type="button" value="<?= Yii::t('app','Undo') ?>" class="button" id="undo_button" /></li>
+            <li class="offer_draw_tips" style="display: none;"><span style="color:#ff3333"><?= Yii::t('app','Your opponent offers draw,press the "Draw" button if you accept it.') ?></span></li>
         </ul>
     </div>
     <div class="chat_area layui-col-xs3" style="padding: 0 5px 0 10px;">
         <div id="chat_user_list">
             <ul>
                 <li class="user_title">
-                    <span class="layui-col-xs7">昵称（点击邀请）</span>
-                    <span class="layui-col-xs5">等级分</span>
+                    <span class="layui-col-xs7"><?= Yii::t('app','Nickname(Invite)') ?></span>
+                    <span class="layui-col-xs5"><?= Yii::t('app','Ranking') ?></span>
                 </li>
             </ul>
         </div>
@@ -72,11 +72,11 @@ $this->registerJSFile('/js/all.js?v=3');
                     <a><i class="icon-menu-2 icon-emoji icon-room-custom-bar" title="表情"></i></a>
                 </span>
                 <span class="to-board_icon">
-                    <a><i class="icon-menu-2 icon-board icon-room-custom-bar" title="发送当前局面"></i></a>
+                    <a><i class="icon-menu-2 icon-board icon-room-custom-bar" title="<?= Yii::t('app','Post current board') ?>"></i></a>
                 </span>
             </div>
             <div class="component-send">
-                <textarea id="msg" placeholder="你怎么看……" maxlength="100"></textarea><a class="send">发送</a>
+                <textarea id="msg" placeholder="你怎么看……" maxlength="100"></textarea><a class="send"><?= Yii::t('app','Send') ?></a>
             </div>
         </div>
         <div id="face_pop" class="face-pop">

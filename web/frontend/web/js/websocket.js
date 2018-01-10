@@ -109,7 +109,7 @@ let chat = function (){
     // 服务端ping客户端
     this.actionLogin = function(_data){
         let new_li = $(document.createElement("li"));
-        $(document.createElement('span')).text(_data.user.nickname + " 进入了房间").appendTo(new_li);
+        $(document.createElement('span')).text(_data.user.nickname + pager.t(' has joined.')).appendTo(new_li);
         new_li.appendTo($("#chat_content"));
         //滚动。
         $("#chat_content_list").scrollTop($("#chat_content_list")[0].scrollHeight - $("#chat_content_list").height());

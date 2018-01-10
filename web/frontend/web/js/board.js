@@ -327,7 +327,7 @@ let boardObj = function()
             $(".current_player_name>ins").html(_obj.gameData.turn ? _obj.gameData.bplayer.nickname : _obj.gameData.wplayer.nickname);
             $(".a5_numbers>ins").html(_obj.gameData.a5_numbers);
             $(".is_swap>ins").html(_obj.gameData.swap ? pager.t('Yes'):pager.t('No'));
-            $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
+            $(".game_result>ins>strong").html(pager.t(result_defines[_obj.gameData.status]));
             if(_obj.is_my_turn)
             {
                 _obj.playing_tips();

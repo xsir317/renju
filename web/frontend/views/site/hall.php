@@ -34,7 +34,7 @@ $this->registerJSFile('/js/all.js?v=3');
                 </span>
             </div>
             <div class="component-send">
-                <textarea id="msg" placeholder="你怎么看……" maxlength="100"></textarea><a class="send">发送</a>
+                <textarea id="msg" placeholder="你怎么看……" maxlength="100"></textarea><a class="send"><?= Yii::t('app','Send') ?></a>
             </div>
         </div>
         <div id="face_pop" class="face-pop">

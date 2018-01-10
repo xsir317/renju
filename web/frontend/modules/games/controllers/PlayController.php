@@ -35,25 +35,25 @@ class PlayController extends Controller
         $game_id = intval($this->post('game_id'));
         if(!$number)
         {
-            return $this->renderJSON([],'填写的打点数不正确',-1);
+            return $this->renderJSON([],\Yii::t('app','Please input the correct number'),-1);
         }
 
         if(!$this->_user())
         {
-            return $this->renderJSON([],'您尚未登录',-1);
+            return $this->renderJSON([],\Yii::t('app','Please Login'),-1);
         }
         $game_info = GameService::renderGame($game_id);
         if(!$game_info)
         {
-            return $this->renderJSON([],'棋局不存在',-1);
+            return $this->renderJSON([],\Yii::t('app',"Game doesn't exist"),-1);
         }
         if($game_info['whom_to_play'] != $this->_user()->id)
         {
-            return $this->renderJSON([],'当前不轮到您下棋',-1);
+            return $this->renderJSON([],\Yii::t('app','Not your turn to play'),-1);
         }
         if($game_info['a5_numbers'] > 0)
         {
-            return $this->renderJSON([],'当前不是指定打点的回合',-1);
+            return $this->renderJSON([],\Yii::t('app','A5 number already set'),-1);
         }
 
         $stones = strlen($game_info['game_record'])/2;
@@ -82,7 +82,7 @@ class PlayController extends Controller
                 'game' => GameService::renderGame($game_id)
             ]));
             Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
-                'content' => "打点数设置为" . $game_object->a5_numbers . '。'
+                'content' => \Yii::t('app','A5 number has been set to ') . $game_object->a5_numbers . ' .'
             ]));
             return $this->renderJSON([]);
         }
@@ -100,24 +100,24 @@ class PlayController extends Controller
     {
         if(!$this->_user())
         {
-            return $this->renderJSON([],'您尚未登录',-1);
+            return $this->renderJSON([],\Yii::t('app','Please Login'),-1);
         }
         $game_id = intval($this->post("game_id"));
         $coordinate = trim($this->post('coordinate'));
         $game_info = GameService::renderGame($game_id);
         if(!$game_info)
         {
-            return $this->renderJSON([],'棋局不存在',-1);
+            return $this->renderJSON([],\Yii::t('app',"Game doesn't exist"),-1);
         }
         if($game_info['whom_to_play'] != $this->_user()->id)
         {
-            return $this->renderJSON([],'当前不轮到您下棋',-1);
+            return $this->renderJSON([],\Yii::t('app','Not your turn to play'),-1);
         }
         $stones = strlen($game_info['game_record'])/2;
         //特殊情况判断：如果是轮到输入打点的，提示玩家输入打点数目，而不是落子。在这时走进此逻辑的都不予执行，做个提示。
         if($game_info['a5_numbers'] == 0 && (($game_info['rule'] == 'Yamaguchi' && $stones == 3) || ($game_info['rule'] == 'Soosyrv8' && $stones == 4)))
         {
-            return $this->renderJSON([],'当前请填写五手打点数量',-1);
+            return $this->renderJSON([],\Yii::t('app','Please input the A5 number'),-1);
         }
         //到这里，可以落子了。
         //是不是在下打点？
@@ -127,7 +127,7 @@ class PlayController extends Controller
         {
             if(($stones == 0 && $coordinate != '88') || ($stones == 1 && (!in_array($coordinate{0},[7,8,9]) || !in_array($coordinate{1},[7,8,9])) ) || ($stones == 2 && (!in_array($coordinate{0},[6,7,8,9,'a']) || !in_array($coordinate{1},[6,7,8,9,'a']))) )
             {
-                return $this->renderJSON([],'标准开局不允许26种开局以外的开局',-1);
+                return $this->renderJSON([],\Yii::t('app','This is not a standard opening'),-1);
             }
         }
         $game_object->offer_draw = 0;
@@ -140,11 +140,11 @@ class PlayController extends Controller
                 //落子进a5_pos
                 if(!BoardTool::board_correct($game_object->game_record . $game_object->a5_pos . $coordinate))
                 {
-                    return $this->renderJSON([],'您提交的数据不正确，请刷新页面重试。',-1);
+                    return $this->renderJSON([],\Yii::t('app','Data error,please refresh and try again'),-1);
                 }
                 if(BoardTool::a5_symmetry($game_object->game_record,$game_object->a5_pos . $coordinate))
                 {
-                    return $this->renderJSON([],'五手打点不可以对称，请重新选择。',-1);
+                    return $this->renderJSON([],\Yii::t('app','A5 points can not be symmetry'),-1);
                 }
                 $game_object->a5_pos = $game_object->a5_pos . $coordinate;
                 $game_object->movetime = date('Y-m-d H:i:s');
@@ -155,7 +155,7 @@ class PlayController extends Controller
                 //这是在选黑5，只能是在a5_pos范围内选点。
                 if(!in_array($coordinate, str_split($game_object->a5_pos,2)))
                 {
-                    return $this->renderJSON([],'请选择黑方的打点。',-1);
+                    return $this->renderJSON([],\Yii::t('app','Please choose from Black A5 points'),-1);
                 }
                 $game_object->game_record = $game_object->game_record . $coordinate;
                 $game_object->movetime = date('Y-m-d H:i:s');
@@ -166,7 +166,7 @@ class PlayController extends Controller
         {
             if(!BoardTool::board_correct($game_object->game_record . $coordinate))
             {
-                return $this->renderJSON([],'您提交的数据不正确，请刷新页面重试。',-1);
+                return $this->renderJSON([],\Yii::t('app','Data error,please refresh and try again'),-1);
             }
             $old_board = $game_object->game_record;
 
@@ -181,7 +181,7 @@ class PlayController extends Controller
                 //黑胜
                 BoardTool::do_over($game_id,1,false);
                 Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
-                    'content' => "黑方获胜"
+                    'content' => \Yii::t('app','Black wins')
                 ]));
             }
             elseif($result == WHITEFIVE || $result == BLACKFORBIDDEN)
@@ -189,7 +189,7 @@ class PlayController extends Controller
                 //白胜
                 BoardTool::do_over($game_id,0,false);
                 Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
-                    'content' => ($result == WHITEFIVE ? "连五" : "黑方禁手") . "，白方获胜"
+                    'content' => ($result == WHITEFIVE ? \Yii::t('app','Five') : \Yii::t('app','Black forbidden move')) . " ," . \Yii::t('app','White wins')
                 ]));
             }
             elseif($stones == 225)
@@ -197,7 +197,7 @@ class PlayController extends Controller
                 //和棋
                 BoardTool::do_over($game_id,0.5,false);
                 Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
-                    'content' => "满局，和棋。"
+                    'content' => \Yii::t('app','Board is full, Draw')
                 ]));
             }
         }
@@ -218,16 +218,16 @@ class PlayController extends Controller
 
         if(!$this->_user())
         {
-            return $this->renderJSON([],'您尚未登录',-1);
+            return $this->renderJSON([],\Yii::t('app','Please Login'),-1);
         }
         $game_info = GameService::renderGame($game_id);
         if(!$game_info)
         {
-            return $this->renderJSON([],'棋局不存在',-1);
+            return $this->renderJSON([],\Yii::t('app',"Game doesn't exist"),-1);
         }
         if($game_info['whom_to_play'] != $this->_user()->id)
         {
-            return $this->renderJSON([],'当前不轮到您下棋',-1);
+            return $this->renderJSON([],\Yii::t('app','Not your turn to play'),-1);
         }
 
         $stones = strlen($game_info['game_record'])/2;
@@ -274,13 +274,13 @@ class PlayController extends Controller
                 'game' => GameService::renderGame($game_id)
             ]));
             Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
-                'content' => "双方先后手已交换"
+                'content' => \Yii::t('app','Black and white has swapped.')
             ]));
             return $this->renderJSON([]);
         }
         else
         {
-            return $this->renderJSON([],'指定打点数量失败',-1);
+            return $this->renderJSON([],'当前不允许交换',-1);
         }
     }
 
@@ -293,16 +293,16 @@ class PlayController extends Controller
 
         if(!$this->_user())
         {
-            return $this->renderJSON([],'您尚未登录',-1);
+            return $this->renderJSON([],\Yii::t('app','Please Login'),-1);
         }
         $game_info = GameService::renderGame($game_id);
         if(!$game_info)
         {
-            return $this->renderJSON([],'棋局不存在',-1);
+            return $this->renderJSON([],\Yii::t('app',"Game doesn't exist"),-1);
         }
         if($game_info['black_id'] != $this->_user()->id && $game_info['white_id'] != $this->_user()->id)
         {
-            return $this->renderJSON([],'这不是您的对局',-1);
+            return $this->renderJSON([],\Yii::t('app',"This is not your game"),-1);
         }
         $opponent_id = $this->_user()->id == $game_info['black_id'] ? $game_info['white_id'] : $game_info['black_id'];
 
@@ -321,7 +321,7 @@ class PlayController extends Controller
                 'game' => GameService::renderGame($game_id)
             ]));
             Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
-                'content' => $this->_user()->nickname. "提出和棋"
+                'content' => $this->_user()->nickname. \Yii::t('app',"Offers draw")
             ]));
             return $this->renderJSON([]);
         }
@@ -352,16 +352,16 @@ class PlayController extends Controller
 
         if(!$this->_user())
         {
-            return $this->renderJSON([],'您尚未登录',-1);
+            return $this->renderJSON([],\Yii::t('app','Please Login'),-1);
         }
         $game_info = GameService::renderGame($game_id);
         if(!$game_info)
         {
-            return $this->renderJSON([],'棋局不存在',-1);
+            return $this->renderJSON([],\Yii::t('app',"Game doesn't exist"),-1);
         }
         if($game_info['black_id'] != $this->_user()->id && $game_info['white_id'] != $this->_user()->id)
         {
-            return $this->renderJSON([],'这不是您的对局',-1);
+            return $this->renderJSON([],\Yii::t('app',"This is not your game"),-1);
         }
 
         if($game_info['status'] != GameService::PLAYING)
@@ -372,7 +372,7 @@ class PlayController extends Controller
         $game_result = $this->_user()->id == $game_info['black_id'] ? 0 : 1 ;//黑认输则白胜
         BoardTool::do_over($game_id,$game_result);
         Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
-            'content' => ($game_result ? "白":"黑") . "方认输。"
+            'content' => ($game_result ? "白方认输。":"黑方认输。")
         ]));
         return $this->renderJSON([]);
     }

@@ -19,11 +19,11 @@ class GameService extends BaseService
 {
 
     public static $status_define = [
-        0 => '未开始',
-        1 => '进行中',
-        2 => '黑胜',
-        4 => '白胜',
-        8 => '和棋'
+        0 => 'Not started',
+        1 => 'Playing',
+        2 => 'Black win',
+        4 => 'White win',
+        8 => 'Draw'
     ];
     const NOT_STARTED = 0;
     const PLAYING = 1;
