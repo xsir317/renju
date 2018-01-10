@@ -25,6 +25,7 @@ use yii\web\IdentityInterface;
  * @property string $last_login_time
  * @property string $last_login_ip
  * @property string $score
+ * @property string $language
  * @property string $intro
  */
 class Player extends \yii\db\ActiveRecord implements IdentityInterface
@@ -50,6 +51,7 @@ class Player extends \yii\db\ActiveRecord implements IdentityInterface
             [['email'], 'string', 'max' => 64],
             [['nickname', 'password'], 'string', 'max' => 32],
             [['reg_ip', 'last_login_ip'], 'string', 'max' => 15],
+            [['language'], 'string', 'max' => 8],
             [['intro'], 'string', 'max' => 128],
         ];
     }
@@ -76,6 +78,7 @@ class Player extends \yii\db\ActiveRecord implements IdentityInterface
             'last_login_time' => 'Last Login Time',
             'last_login_ip' => 'Last Login Ip',
             'score' => 'Score',
+            'language' => 'Language',
             'intro' => 'Intro',
         ];
     }

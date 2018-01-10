@@ -1,5 +1,5 @@
 <?php
-$this->title = Yii::t('app','hall');
+$this->title = Yii::t('app','Hall');
 
 $this->registerJSFile('/js/all.js?v=3');
 ?>

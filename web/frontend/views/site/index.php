@@ -12,7 +12,7 @@ $this->registerJSFile('/js/index.js');
             </a>
         </div>
         <div id="intro_txt" class="grid_content">
-            <p>本系统是一个基于workerman和Yii2的Web五子棋系统，目前支持山口规则和RIF规则。</p>
+            <p></p>
         </div>
     </div>
     <div id="login_reg" class="layui-col-xs6">

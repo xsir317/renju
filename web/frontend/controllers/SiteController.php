@@ -81,6 +81,11 @@ class SiteController extends Controller
         if(isset(\Yii::$app->params['languages'][$language]))
         {
             \Yii::$app->session['language'] = $language;
+            if($this->_user())
+            {
+                $this->_user()->language = \Yii::$app->session['language'];
+                $this->_user()->save(0);
+            }
         }
         return $this->renderJSON();
     }
