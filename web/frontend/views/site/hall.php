@@ -1,7 +1,7 @@
 <?php
 $this->title = Yii::t('app','Hall');
 
-$this->registerJSFile('/js/all.js?v=3');
+$this->registerJSFile('/js/all.js?v=4');
 ?>
     <div id="hall_games" class="layui-col-xs9">
         <ul class="grid_content">

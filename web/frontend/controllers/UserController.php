@@ -23,7 +23,7 @@ class UserController extends Controller
         {
             if(!$this->check_abuse())
             {
-                return $this->renderJSON([],'您的操作频率太快，请稍后再试',-1);
+                return $this->renderJSON([],\Yii::t('app','You operate too fast,please try again later'),-1);
             }
             $email = trim($this->post('email'));
             $password = trim($this->post('passwd'));
@@ -36,7 +36,7 @@ class UserController extends Controller
             }
             else
             {
-                return $this->renderJSON([],'账号/密码错',-1);
+                return $this->renderJSON([],\Yii::t('app','Your password is incorrect'),-1);
             }
         }
         return $this->renderJSON([],'请求方式错误',-1);
@@ -49,7 +49,7 @@ class UserController extends Controller
         {
             if(!$this->check_abuse())
             {
-                return $this->renderJSON([],'您的操作频率太快，请稍后再试',-1);
+                return $this->renderJSON([],\Yii::t('app','You operate too fast,please try again later'),-1);
             }
             $email = trim($this->post('email'));
             $password = trim($this->post('passwd'));
@@ -58,19 +58,19 @@ class UserController extends Controller
             //验证密码
             if($user)
             {
-                return $this->renderJSON([],'这个Email已经被占用',-1);
+                return $this->renderJSON([],\Yii::t('app','This email is already registered'),-1);
             }
             if(!$email || !$password || !$nickname)
             {
-                return $this->renderJSON([],'请完整填写注册信息！',-1);
+                return $this->renderJSON([],\Yii::t('app','Please complete the form'),-1);
             }
             if(mb_strlen($nickname) >= 10)
             {
-                return $this->renderJSON([],'昵称请限制在10个字以内',-1);
+                return $this->renderJSON([],\Yii::t('app','Nickname shall be no more than 10 letters.'),-1);
             }
             if(!preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i',$email))
             {
-                return $this->renderJSON([],'Email格式不合法。',-1);
+                return $this->renderJSON([],\Yii::t('app','Email format incorrect'),-1);
             }
 
             $new_user = new Player();
@@ -101,7 +101,7 @@ class UserController extends Controller
     {
         if(!$this->_user())
         {
-            return $this->renderJSON([],'请先登录',-1);
+            return $this->renderJSON([],\Yii::t('app',"Please Login"),-1);
         }
 
         $intro = strip_tags(trim($this->post('intro')));

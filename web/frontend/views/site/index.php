@@ -12,34 +12,34 @@ $this->registerJSFile('/js/index.js');
             </a>
         </div>
         <div id="intro_txt" class="grid_content">
-            <p></p>
+            <p><?= Yii::t('app','This is a online renju game system, based on workerman and Yii2, now supports RIF, Yamaguchi,Soosyrv8,Gomoku and free renju.')?></p>
         </div>
     </div>
     <div id="login_reg" class="layui-col-xs6">
         <div id="cont_login" class="greybox grid_content">
             <div id="login">
-                <h3>用户登录</h3>
+                <h3><?= Yii::t('app','User Login') ?></h3>
                 <?= Html::beginForm("/user/login","post",["onsubmit"=>"return false;"]) ?>
                     <ul>
                         <li><label>Email</label><input type="text" name="email" class="input" id="loginfocus" /></li>
-                        <li><label>密码</label><input type="password" name="passwd" class="input" /></li>
-                        <li><input type="submit" id="loginsubmit" value="登录submit" class="button" /></li>
+                        <li><label><?= Yii::t('app','Password') ?></label><input type="password" name="passwd" class="input" /></li>
+                        <li><input type="submit" id="loginsubmit" value="<?= Yii::t('app','Login') ?>" class="button" /></li>
                     </ul>
                 <?= Html::endForm(); ?>
             </div>
-            <div id="reg2">还没有帐号？请注册！</div>
+            <div id="reg2"><?= Yii::t('app',"Don't have an account? Create your account!") ?></div>
         </div>
         <div id="cont_reg" style="display:none;" class="greybox grid_content">
-                <div id="login2">已经注册过了？请登录！</div>
+                <div id="login2"><?= Yii::t('app','Already have an account? Login here!') ?></div>
                 <div id="reg">
-                    <h3>用户注册</h3>
+                    <h3><?= Yii::t('app','New User') ?></h3>
                     <?= Html::beginForm("/user/reg","post",["onsubmit"=>"return false;"]) ?>
                         <ul>
                             <li><label>Email</label><input type="text" name="email" class="input" id="email" /></li>
-                            <li><label>昵称</label><input type="text" name="nickname" class="input" /></li>
-                            <li><label>密码</label><input type="password" name="passwd" class="input" /></li>
-                            <li><label>确认密码</label><input type="password" name="passwd2" class="input" /></li>
-                            <li><input type="submit" id="regsubmit" value="注册submit" class="button" /></li>
+                            <li><label><?= Yii::t('app','Nickname') ?></label><input type="text" name="nickname" class="input" /></li>
+                            <li><label><?= Yii::t('app','Password') ?></label><input type="password" name="passwd" class="input" /></li>
+                            <li><label><?= Yii::t('app','Repeat Password') ?></label><input type="password" name="passwd2" class="input" /></li>
+                            <li><input type="submit" id="regsubmit" value="<?= Yii::t('app','Register') ?>" class="button" /></li>
                         </ul>
                     <?= Html::endForm(); ?>
                 </div>

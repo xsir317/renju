@@ -1,18 +1,18 @@
 <?php
 use yii\helpers\Html;
 
-$this->title = $player['nickname'] . '的历史对局';
+$this->title = $player['nickname'] . Yii::t('app',"'s history games");
 ?>
-<h1><?= Html::encode($player['nickname']) ?>的历史对局</h1>
+<h1><?= Html::encode($player['nickname']) ?> <?= Yii::t('app',"'s history games") ?></h1>
 <ul id="games_list">
     <li>
         <span class="game_list_title layui-col-xs1">ID</span>
-        <span class="game_list_title layui-col-xs3">执黑</span>
-        <span class="game_list_title layui-col-xs3">执白</span>
-        <span class="game_list_title layui-col-xs1">规则</span>
-        <span class="game_list_title layui-col-xs1">手数</span>
-        <span class="game_list_title layui-col-xs1">结果</span>
-        <span class="game_list_title layui-col-xs2">备注</span>
+        <span class="game_list_title layui-col-xs3"><?= Yii::t('app','Black') ?></span>
+        <span class="game_list_title layui-col-xs3"><?= Yii::t('app','White') ?></span>
+        <span class="game_list_title layui-col-xs1"><?= Yii::t('app','Rule') ?></span>
+        <span class="game_list_title layui-col-xs1"><?= Yii::t('app','Stones') ?></span>
+        <span class="game_list_title layui-col-xs1"><?= Yii::t('app','Result') ?></span>
+        <span class="game_list_title layui-col-xs2"><?= Yii::t('app','Comment') ?></span>
     </li>
 </ul>
 <?php
@@ -29,7 +29,7 @@ layui.flow.load({
                     + '<span class=\"layui-col-xs3\">' + item.white.nickname + '</span>'
                     + '<span class=\"layui-col-xs1\">' + rule_defines[item.rule] + '</span>'
                     + '<span class=\"layui-col-xs1\">' + (item.game_record.length / 2) + '</span>'
-                    + '<span class=\"layui-col-xs1\">' + result_defines[item.status] + '</span>'
+                    + '<span class=\"layui-col-xs1\">' + pager.t(result_defines[item.status]) + '</span>'
                     + '<span class=\"layui-col-xs2\">' + (item.comment ? item.comment : '-') + '</span>'
                 + '</a></li>');
             }); 

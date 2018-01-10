@@ -32,7 +32,7 @@ class ChatController extends Controller
 
         if(!$this->_user())
         {
-            return $this->renderJSON([],'请先登录',-1);
+            return $this->renderJSON([],\Yii::t('app','Please Login'),-1);
         }
         //限制发言长度，检查发言重复等
         if(mb_strlen($content,'UTF-8') > 80)

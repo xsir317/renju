@@ -60,7 +60,10 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
 <div class="layui-footer footer footer-doc">
     <div class="layui-main">
         <p>
-            请使用Chrome或Firefox访问。项目代码地址：<a href="https://github.com/xsir317/renju" target="_blank">https://github.com/xsir317/renju</a>
+            <?= Yii::t('app','Please use Chrome or Firefox.')?>
+        </p>
+        <p>
+            <?= Yii::t('app','This is an open source project, project page at')?>: <a href="https://github.com/xsir317/renju" target="_blank">https://github.com/xsir317/renju</a>
         </p>
     </div>
 </div>

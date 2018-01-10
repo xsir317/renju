@@ -1,6 +1,7 @@
 
 <?php
-$this->title = "积分榜";
+use yii\helpers\Html;
+$this->title = Yii::t('app','Top Players') ;
 ?>
 <table class="layui-table" lay-skin="line">
     <colgroup>
@@ -14,16 +15,16 @@ $this->title = "积分榜";
     </colgroup>
     <thead>
     <tr>
-        <th>排名</th>
+        <th><?= Yii::t('app','Rank') ?></th>
         <th>ID</th>
-        <th>昵称</th>
-        <th>对局数</th>
-        <th>等级分</th>
-        <th>个人简介</th>
+        <th><?= Yii::t('app','Nickname') ?></th>
+        <th><?= Yii::t('app','Games') ?></th>
+        <th><?= Yii::t('app','ELO') ?></th>
+        <th><?= Yii::t('app','Intro') ?></th>
     </tr>
     </thead>
     <tbody>
-    <?php use yii\helpers\Html;
+    <?php
     foreach($players as $k=>$row): ?>
     <tr>
         <td><?= $k+1 ?></td>

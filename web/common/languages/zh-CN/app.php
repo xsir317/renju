@@ -1,8 +1,24 @@
 <?php
 return [
     //首页（注册登录）
-    '' => '本系统是一个基于workerman和Yii2的Web五子棋系统，目前支持山口、RIF、无禁、有禁和索索夫8 五种规则。',
+    'This is a online renju game system, based on workerman and Yii2, now supports RIF, Yamaguchi,Soosyrv8,Gomoku and free renju.' => '本系统是一个基于workerman和Yii2的Web五子棋系统，目前支持山口、RIF、无禁、有禁和索索夫8 五种规则。',
+    'User Login' => '用户登录',
+    'Password' => '密码',
+    'Repeat Password' => '确认密码',
+    'Login' => '登录',
+    'Register' => '注册',
+    'Nickname' => '昵称',
+    'New User' => '注册新用户',
+    'Already have an account? Login here!' => '已经有账号了？点此登录！',
+    'Don\'t have an account? Create your account!' => '还没有帐号？请注册！',
+    'Your password is incorrect' => '账号/密码错',
+    'You operate too fast,please try again later' => '您的操作太快，请稍后再试',
+    'This email is already registered' => '这个Email已经被占用',
+    'Nickname shall be no more than 10 letters.' => '昵称请限制在10个字以内',
+    'Email format incorrect' => 'Email格式不合法',
+    'Please complete the form' => '请完整填写注册信息！',
     //通用
+    'Top Players' => '等级分榜',
     'Hello' => '你好',
     'Welcome' => '欢迎',
     'Hall' => '大厅',
@@ -25,6 +41,7 @@ return [
     'Send Invite' => '发出邀请',
     'Start Time' => '开始时间',
     'Total Time' => '对局时限',
+    "'s history games" => '的历史对局',
     //rules
     'Yamaguchi' => '山口',
     'RIF' => 'RIF',
@@ -37,8 +54,10 @@ return [
     'Stones' => '手数',
     'Result' => '结果',
     'Observe' => '旁观游戏',
-    'Nickname' => '昵称（点击邀请）',
     'Ranking' => '等级分',
+    'Rank' => '排名',
+    'Games' => '对局数',
+    'ELO' => '等级分',
     'Turn' => '轮到',
     'Time left' => '时间剩余',
     'Not started' => '未开始',
@@ -68,6 +87,7 @@ return [
     "Please Login" => "请先登录。",
     "Accept Invite" => "接受邀请",
     "Edit Personal Intro" => "编辑个人简介",
+    "Intro" => "个人简介",
     "How many 5th would you offer" => "请输入打点数量",
     "Invite" => "邀请对局",
     "Says: " => "说：",
@@ -78,6 +98,11 @@ return [
     "My Analyze" => "我的分析",
     "Don't send empty content" => "请勿发布空内容",
     "Undo Apply" => "请求悔棋",
+    "Undo is not allowed in this game." => "本局游戏被设置为不允许悔棋",
+    "This undo is beyond the game itself" => "悔棋步数超出了当前棋局的范围",
+    "You can't undo to before 6th move" => "最多只允许悔棋到第六手",
+    "Undo apply successfully sent." => '悔棋申请成功',
+    "This undo apply is not available" => '悔棋申请不存在或已经失效',
     "Your opponent wants to Undo to " => "您的对手请求悔棋到第","th move" => "步",// this is ugly, we shall support parameters
     'Accept' => '同意',
     'Reject' => '拒绝',
@@ -115,7 +140,8 @@ return [
     'Board is full, Draw' => '满局，和棋。',
 
 
-
+    'Please use Chrome or Firefox.' => '请使用Chrome或Firefox访问。',
+    'This is an open source project, project page at' => '这是一个开源项目。项目代码地址',
     'System error, please contact the administrator.' => '发生错误，请联系管理员',
 
     //规则、文字说明以及其他
