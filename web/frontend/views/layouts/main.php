@@ -18,7 +18,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?>--OnlineRenjuCommunity</title>
-    <link href="/css/style.css?v=7" type="text/css" media="screen" rel="stylesheet" />
+    <link href="/css/style.css?v=10" type="text/css" media="screen" rel="stylesheet" />
     <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
     <?php $this->head() ?>
 </head>
@@ -125,7 +125,7 @@ const rule_defines = (<?php echo json_encode(CommonService::getRules()) ?>);
 const ts_delta = (<?php echo time() ?> - Math.round(new Date().getTime()/1000));
 </script>
 <script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-<script src="/js/all.js?v=4"  type="text/javascript" charset="utf-8"></script>
+<script src="/js/all.js?v=10"  type="text/javascript" charset="utf-8"></script>
 <?php $this->endBody() ?>
 </body>
 </html>
