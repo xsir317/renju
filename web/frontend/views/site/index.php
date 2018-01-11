@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 
-$this->title = '首页';
+$this->title = Yii::t('app','Welcome');
 $this->registerJSFile('/js/index.js');
 ?>
 <div class="layui-row">

@@ -77,7 +77,7 @@ return [
     ',Or swap' => '或选择交换',
     'Please choose one 5th point as the 5th move.' => '请选择一个黑5作为第五手',
     'Please choose ' => '请选择',
-    'points as 5th move' => '个点作为五手打点',
+    ' points as 5th move' => '个点作为五手打点',
     'Undo Record' => '悔棋记录',
     'Number of the 5th moves' => '五手打点数量',
     'Post current board' => '发送当前局面',

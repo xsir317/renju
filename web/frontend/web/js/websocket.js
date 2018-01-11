@@ -17,6 +17,10 @@ let chat = function (){
     this.reconnect = '0';
     // 连接服务端
     this.connect = function () {
+        if(typeof ws_token == "undefined")
+        {
+            return false;
+        }
         // 创建websocket
         ws = new WebSocket("ws://"+document.domain+":8282");
         // 当socket连接打开时，输入用户名
@@ -50,7 +54,7 @@ let chat = function (){
             type:"login",
             game_id:typeof gameObj == 'undefined' ? 'HALL' : gameObj.id,
             //uid:userinfo ?　userinfo.id : 0,//这个不需要了，服务端存在secret一起了。 其实nickname也可以存，但是nickname并不敏感，不存也行。
-            nickname:userinfo ? userinfo.nickname : '',//直接传给服务端，避免websocket读DB了。
+            nickname:typeof userinfo == 'object' ? userinfo.nickname : '',//直接传给服务端，避免websocket读DB了。
             reconnect:that.reconnect
         };
         that.sendMsg(login_data);
@@ -188,4 +192,7 @@ let  _chat={
         return this.chatObj;
     }
 };
-_chat.getChat().connect();
+if(typeof ws_token !== "undefined")
+{
+    _chat.getChat().connect();
+}

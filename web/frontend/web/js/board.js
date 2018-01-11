@@ -412,7 +412,7 @@ let boardObj = function()
             return false;
         }
         let stones = _obj.gameData.game_record.length / 2;
-        let tips = pager.t("Your turn to play") + (stones + 1) + pager.t("th move");
+        let tips = pager.t("Your turn to play") + " " + (stones + 1) + pager.t("th move");
         //按照不同规则去写提示。
         let show_swap = false;
         switch (_obj.gameData.rule)
@@ -434,7 +434,7 @@ let boardObj = function()
                 }
                 else if(stones == 4 && _obj.gameData.a5_numbers > (_obj.gameData.a5_pos.length/2))//打点没摆完
                 {
-                    tips = pager.t('Please choose ') + _obj.gameData.a5_numbers + pager.t('points as 5th move');
+                    tips = pager.t('Please choose ') + _obj.gameData.a5_numbers + pager.t(' points as 5th move');
                 }
                 break;
             case 'Soosyrv8'://索索夫规则描述 三手可交换，第四手时声明打点数量，可交换。其余略。
@@ -451,7 +451,7 @@ let boardObj = function()
                 {
                     if(_obj.gameData.a5_numbers > (_obj.gameData.a5_pos.length/2))
                     {
-                        tips = pager.t('Please choose ') + _obj.gameData.a5_numbers + pager.t('points as 5th move');
+                        tips = pager.t('Please choose ') + _obj.gameData.a5_numbers + pager.t(' points as 5th move');
                     }
                     if(_obj.gameData.a5_pos == '' && _obj.gameData.soosyrv_swap == 0)
                     {

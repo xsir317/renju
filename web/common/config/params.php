@@ -13,6 +13,6 @@ return [
     'languages' => [
         'en-US' => 'English',
         'zh-CN' => '简体中文',
-        'ja-JP' => '日本語',
+        //'ja-JP' => '日本語',
     ],
 ];
