@@ -117,7 +117,7 @@ let boardObj = function()
                     board.css("background-image","url(/images/board.png)");
                     break;
                 case 'analyze':
-                    pager.show_msg("已经切换到分析模式，可以自由落子。");
+                    pager.show_msg(pager.t('Switched to Analyze mode, you can use the board freely.'));
                     board.css("background-image","url(/images/board-grey.png)");
                     //board.removeClass("mode_game").addClass("mode_analyze");
                     break;
@@ -326,8 +326,8 @@ let boardObj = function()
             $(".white_name>ins").html(_obj.gameData.wplayer.nickname);
             $(".current_player_name>ins").html(_obj.gameData.turn ? _obj.gameData.bplayer.nickname : _obj.gameData.wplayer.nickname);
             $(".a5_numbers>ins").html(_obj.gameData.a5_numbers);
-            $(".is_swap>ins").html(_obj.gameData.swap ? "是":"否");
-            $(".game_result>ins>strong").html(result_defines[_obj.gameData.status]);
+            $(".is_swap>ins").html(_obj.gameData.swap ? pager.t('Yes'):pager.t('No'));
+            $(".game_result>ins>strong").html(pager.t(result_defines[_obj.gameData.status]));
             if(_obj.is_my_turn)
             {
                 _obj.playing_tips();
@@ -412,7 +412,7 @@ let boardObj = function()
             return false;
         }
         let stones = _obj.gameData.game_record.length / 2;
-        let tips = "轮到您下第" + (stones + 1) + "手";
+        let tips = pager.t("Your turn to play") + " " + (stones + 1) + pager.t("th move");
         //按照不同规则去写提示。
         let show_swap = false;
         switch (_obj.gameData.rule)
@@ -421,47 +421,47 @@ let boardObj = function()
             case 'Yamaguchi':
                 if(stones < 3)
                 {
-                    tips = "请下前三手";
+                    tips = pager.t('Please play the first 3 moves.');
                 }
                 else if (stones == 3 && _obj.gameData.a5_numbers > 0 && _obj.gameData.swap == 0)
                 {
-                    tips += "或选择交换";
+                    tips += pager.t(",Or swap");
                     show_swap = true;
                 }
                 else if(stones == 4 && _obj.gameData.a5_numbers == (_obj.gameData.a5_pos.length/2))//打点摆完了，等白棋选。
                 {
-                    tips = "请选择一个黑5作为第五手";
+                    tips = pager.t('Please choose one 5th point as the 5th move.');
                 }
                 else if(stones == 4 && _obj.gameData.a5_numbers > (_obj.gameData.a5_pos.length/2))//打点没摆完
                 {
-                    tips = "第五手请选择" + _obj.gameData.a5_numbers + "个点";
+                    tips = pager.t('Please choose ') + _obj.gameData.a5_numbers + pager.t(' points as 5th move');
                 }
                 break;
             case 'Soosyrv8'://索索夫规则描述 三手可交换，第四手时声明打点数量，可交换。其余略。
                 if(stones < 3)
                 {
-                    tips = "请下前三手";
+                    tips = pager.t('Please play the first 3 moves.');
                 }
                 else if (stones == 3 && _obj.gameData.swap == 0)
                 {
-                    tips += "或选择交换";
+                    tips += pager.t(",Or swap");
                     show_swap = true;
                 }
                 else if(stones == 4 && _obj.gameData.a5_numbers > 0 )
                 {
                     if(_obj.gameData.a5_numbers > (_obj.gameData.a5_pos.length/2))
                     {
-                        tips = "第五手请选择" + _obj.gameData.a5_numbers + "个点";
+                        tips = pager.t('Please choose ') + _obj.gameData.a5_numbers + pager.t(' points as 5th move');
                     }
                     if(_obj.gameData.a5_pos == '' && _obj.gameData.soosyrv_swap == 0)
                     {
-                        tips += "或选择交换";
+                        tips += pager.t(",Or swap");
                         show_swap = true;
                     }
 
                     if(_obj.gameData.a5_numbers == (_obj.gameData.a5_pos.length/2))
                     {
-                        tips = "请选择一个黑5作为第五手";
+                        tips = pager.t('Please choose one 5th point as the 5th move.');
                     }
                 }
                 break;
@@ -469,7 +469,7 @@ let boardObj = function()
 
         if(_obj.gameData.waiting_for_a5_number)
         {
-            tips = "请输入打点数量";
+            tips = pager.t("How many 5th would you offer");
             pager.ask_for_a5();
         }
         $(".turn_to_play_tips").text(tips).show();
@@ -502,7 +502,7 @@ let boardObj = function()
         $(".a5stone").removeClass('black a5stone').html('');
     };
     _obj.show_rule = function () {
-        const rule_description = {
+        const rule_description = { // 这里不影响游戏的先不翻译了。。。
             Yamaguchi:"山口规则：<br /><p>1.先手方下3个棋子（黑1，白2，黑3），同时指定第五手的打点数量N；</p><p>2.后手方可以选择执白或者执黑。</p> <p>3.白方下第四手；</p> <p>4.黑方按照约定的五手打点数量放上N个棋子，白方指定其中的一个为实战的第五手，然后白方下第六手；</p> <p>5.双方轮流行棋。</p> <p>注意：先手方的开局仅限26种开局。</p>",
             RIF:"RIF规则：<br /><p>1.先手方下3个棋子（黑1，白2，黑3）；</p> <p>2.后手方可以选择执白或者执黑。</p> <p>3.白方下第四手；</p> <p>4.黑方放上2个棋子，白方指定其中的一个为实战的第五手，然后白方下第六手；</p> <p>5.双方轮流行棋。</p> <p>注意：先手方的开局仅限26种开局。</p>",
             Soosyrv8:"索索夫8规则：<br /><p>1.先手方下3个棋子（黑1，白2，黑3，26种开局）；</p> <p>2.后手方可以选择执白或者执黑。</p> <p>3.白方下第四手，同时指定第五手的打点数量N（N<=8）；</p> <p>4.黑方可以选择交换，或者按照约定的五手打点数量放上N个棋子，白方指定其中的一个为实战的第五手，然后白方下第六手；</p> <p>5.双方轮流行棋。</p>",
@@ -559,21 +559,21 @@ let boardObj = function()
         controlbar.addClass('controlbar');
         board.after(controlbar);
         //按钮
-        $(document.createElement("button")).addClass('button').text('前一手')  .click(_obj.move_pre   ).appendTo(controlbar);
-        $(document.createElement("button")).addClass('button').text('后一手')  .click(_obj.move_next  ).appendTo(controlbar);
-        $(document.createElement("button")).addClass('button').text('第一手')  .click(_obj.board_clean).appendTo(controlbar);
-        $(document.createElement("button")).addClass('button').text('最后一手').click(_obj.board_end  ).appendTo(controlbar);
-        $(document.createElement("button")).addClass('button').text('恢复')    .click(_obj.show_origin).appendTo(controlbar);
-        $(document.createElement("button")).addClass('button show').text('隐藏数字').click(function(){
+        $(document.createElement("button")).addClass('button').text('<')  .click(_obj.move_pre   ).appendTo(controlbar);
+        $(document.createElement("button")).addClass('button').text('>')  .click(_obj.move_next  ).appendTo(controlbar);
+        $(document.createElement("button")).addClass('button').text('|<<')  .click(_obj.board_clean).appendTo(controlbar);
+        $(document.createElement("button")).addClass('button').text('>>|').click(_obj.board_end  ).appendTo(controlbar);
+        $(document.createElement("button")).addClass('button').text(pager.t('Restore'))    .click(_obj.show_origin).appendTo(controlbar);
+        $(document.createElement("button")).addClass('button show').text(pager.t('Hide Numbers')).click(function(){
             let _btn = $(this);
             if(_btn.hasClass("show"))
             {
-                _btn.text("显示数字").removeClass('show');
+                _btn.text(pager.t('Show Numbers')).removeClass('show');
                 $("<style>").attr("id",'hide_number').html('.row div{text-indent:-999px;overflow:hidden;}').appendTo("head");
             }
             else
             {
-                _btn.text("隐藏数字").addClass('show');
+                _btn.text(pager.t('Hide Numbers')).addClass('show');
                 $("#hide_number").remove();
             }
         }).appendTo(controlbar);

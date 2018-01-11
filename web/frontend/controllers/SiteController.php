@@ -75,4 +75,31 @@ class SiteController extends Controller
         return $this->render('players',['players' => $users]);
     }
 
+    public function actionSwitch_language()
+    {
+        $language = trim($this->post('language'));
+        if(isset(\Yii::$app->params['languages'][$language]))
+        {
+            \Yii::$app->session['language'] = $language;
+            if($this->_user())
+            {
+                $this->_user()->language = \Yii::$app->session['language'];
+                $this->_user()->save(0);
+            }
+        }
+        return $this->renderJSON();
+    }
+
+    public function actionLanguages()
+    {
+        header("Content-type: application/javascript");
+        $language = trim($this->get('language','zh-CN'));
+        if(isset(\Yii::$app->params['languages'][$language]))
+        {
+            $return = require \Yii::getAlias("@common/languages/{$language}/app.php");
+            return 'let lang_map = '.json_encode($return).';';
+        }
+
+        return '';
+    }
 }

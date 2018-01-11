@@ -11,6 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     "timezone" => "Asia/Shanghai",
+    'sourceLanguage' => 'en-US',
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
         'games' => [
@@ -32,6 +33,19 @@ return [
             'class' => 'yii\web\CacheSession',
             'timeout' => 864000,
             'useCookies' => true,
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/languages',
+                    //'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

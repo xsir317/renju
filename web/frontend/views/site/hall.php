@@ -1,17 +1,16 @@
 <?php
-$this->title = '大厅';
+$this->title = Yii::t('app','Hall');
 
-$this->registerJSFile('/js/all.js?v=3');
 ?>
     <div id="hall_games" class="layui-col-xs9">
         <ul class="grid_content">
             <li class="hall_game_title">
                 <span class="game_id layui-col-xs2">ID</span>
-                <span class="black_name layui-col-xs2">执黑方</span>
-                <span class="white_name layui-col-xs2">执白方</span>
-                <span class="current_step layui-col-xs2">手数</span>
-                <span class="game_result layui-col-xs2">结果</span>
-                <span class="view_game layui-col-xs2">旁观游戏</span>
+                <span class="black_name layui-col-xs2"><?= Yii::t('app','Black')?></span>
+                <span class="white_name layui-col-xs2"><?= Yii::t('app','White')?></span>
+                <span class="current_step layui-col-xs2"><?= Yii::t('app','Stones')?></span>
+                <span class="game_result layui-col-xs2"><?= Yii::t('app','Result')?></span>
+                <span class="view_game layui-col-xs2"><?= Yii::t('app','Observe')?></span>
             </li>
         </ul>
     </div>
@@ -19,8 +18,8 @@ $this->registerJSFile('/js/all.js?v=3');
         <div id="chat_user_list" class="grid_content">
             <ul>
                 <li class="user_title">
-                    <span class="ulist_name layui-col-xs7">昵称（点击邀请）</span>
-                    <span class="ulist_score layui-col-xs5">等级分</span>
+                    <span class="ulist_name layui-col-xs7"><?= Yii::t('app','Nickname')?></span>
+                    <span class="ulist_score layui-col-xs5"><?= Yii::t('app','Ranking')?></span>
                 </li>
             </ul>
         </div>
@@ -34,7 +33,7 @@ $this->registerJSFile('/js/all.js?v=3');
                 </span>
             </div>
             <div class="component-send">
-                <textarea id="msg" placeholder="你怎么看……" maxlength="100"></textarea><a class="send">发送</a>
+                <textarea id="msg" placeholder="你怎么看……" maxlength="100"></textarea><a class="send"><?= Yii::t('app','Send') ?></a>
             </div>
         </div>
         <div id="face_pop" class="face-pop">

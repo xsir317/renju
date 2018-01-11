@@ -25,4 +25,15 @@ class CommonService extends BaseService
         $array_data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
         return $array_data;
     }
+
+    public static function getRules($rule_name='')
+    {
+        $return = [];
+        foreach (\Yii::$app->params['rules'] as $k=>$name)
+        {
+            $return[$k] = \Yii::t('app',$k);
+        }
+
+        return $rule_name ? (isset($return[$rule_name]) ? $return[$rule_name] : $rule_name) : $return;
+    }
 }

@@ -32,12 +32,12 @@ class ChatController extends Controller
 
         if(!$this->_user())
         {
-            return $this->renderJSON([],'请先登录',-1);
+            return $this->renderJSON([],\Yii::t('app','Please Login'),-1);
         }
         //限制发言长度，检查发言重复等
         if(mb_strlen($content,'UTF-8') > 80)
         {
-            return $this->renderJSON([],'内容长度超过限制',-1);
+            return $this->renderJSON([],\Yii::t('app',"Content too long!"),-1);
         }
         //发言长度和重复检查 end
         if(!$game_id)
@@ -53,11 +53,11 @@ class ChatController extends Controller
             $speak_record = json_decode($speak_record,1);
             if($content_hash == $speak_record['content_hash'])
             {
-                return $this->renderJSON([],'请不要发布相同的内容',-1);
+                return $this->renderJSON([],\Yii::t('app',"Please don't repeat the same content."),-1);
             }
             if(abs(time() - $speak_record['time']) < 5)
             {
-                return $this->renderJSON([],'发言间隔太短，请稍后再发',-1);
+                return $this->renderJSON([],\Yii::t('app',"Speaking interval is too short,Please send again later"),-1);
             }
         }
         \Yii::$app->redis->hSet('last_speak',$this->_user()->id,json_encode([

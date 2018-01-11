@@ -9,7 +9,7 @@ let pager = {
         debug_log(_data);
         if(!userinfo)
         {
-            layer.alert("请先登录");
+            layer.alert(pager.t("Please Login"));
             return false;
         }
         let invite_form = $("#invite_form");
@@ -27,7 +27,7 @@ let pager = {
             invite_form.find("input[name=comment]").val("");
             invite_form.find("input[name=free_open]").prop("checked",false);
             invite_form.find("input[name=allow_undo]").prop("checked",true);
-            invite_btn.val("发出邀请");
+            invite_btn.val(pager.t("Send Invite"));
         }
         else// 被人邀请，弹出被邀请的窗口
         {
@@ -51,12 +51,12 @@ let pager = {
             invite_form.find("input[name=comment]").val(_data.message);
             invite_form.find("input[name=free_open]").prop("checked",(_data.free_opening == "1"));
             invite_form.find("input[name=allow_undo]").prop("checked",(_data.allow_undo == "1"));
-            invite_btn.val("接受邀请");
+            invite_btn.val(pager.t("Accept Invite"));
         }
         layer.open({
             type:1,
             content:$("#invite_box"),
-            title:"邀请对局",
+            title:pager.t("Invite"),
             shade: 0,
             cancel: function(index, layero){
                 $("#invite_box").hide();
@@ -68,7 +68,7 @@ let pager = {
         layer.prompt({
             formType: 0,
             value: '2',
-            title: '请输入打点数量'
+            title: pager.t("How many 5th would you offer")
         }, function(value, index, elem){
             $.post("/games/play/a5_number",{
                 number:value,
@@ -114,13 +114,13 @@ let pager = {
         //表情结束
         if(typeof user == "object")
         {
-            new_li.append("<span class='user_nickname'>" + user.nickname +  "</span> 说：");
+            new_li.append("<span class='user_nickname'>" + user.nickname +  "</span> " + pager.t("Says: "));
         }
         new_li.append("<span class='chat_content'>" + content + "</span>").appendTo(chat_container);
         //+board
         if(typeof board_str == 'string' && board_str != '')
         {
-            $("<a href='javascript:void(0);'>[我的分析]</a>").click(function(){board.show_analyze(board_str)}).appendTo(new_li);
+            $("<a href='javascript:void(0);'>[" + pager.t("My Analyze") + "]</a>").click(function(){board.show_analyze(board_str)}).appendTo(new_li);
         }
         //滚动。
         $("#chat_content_list").scrollTop($("#chat_content_list")[0].scrollHeight - $("#chat_content_list").height());
@@ -135,7 +135,7 @@ let pager = {
             $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].white.nickname).appendTo(new_li);
             $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].game_record.length/2).appendTo(new_li);
             $(document.createElement('span')).addClass("layui-col-xs2").text(result_defines[games[i].status]).appendTo(new_li);
-            $(document.createElement('span')).addClass("layui-col-xs2").html("<a href='/game/"+games[i].id+"'>进入</a>").appendTo(new_li);
+            $(document.createElement('span')).addClass("layui-col-xs2").html("<a href='/game/"+games[i].id+"'>" + pager.t("Enter") + "</a>").appendTo(new_li);
             new_li.appendTo($("#hall_games>ul"));
         }
     },
@@ -180,7 +180,7 @@ let pager = {
                             layer.prompt({
                                 formType: 0,
                                 value: $(this).attr("alt"),
-                                title: '编辑个人简介'
+                                title: pager.t("Edit Personal Intro"),
                             }, function(value, index, elem){
                                 $.post(
                                     "/user/edit",
@@ -212,7 +212,7 @@ let pager = {
             }
             else
             {
-                name_span.text("游客");
+                name_span.text(pager.t("guest"));
                 score_span.text('0');
             }
             name_span.addClass("layui-col-xs7 name_tag").appendTo(new_li);
@@ -224,7 +224,7 @@ let pager = {
         let content = $("#msg").val().trim();
         if(!content)
         {
-            layer.tips("请勿发布空内容",$("#chat_operate_area .send"),{tips:1,time:1000});
+            layer.tips(pager.t("Don't send empty content"),$("#chat_operate_area .send"),{tips:1,time:1000});
             return false;
         }
         $.post(
@@ -251,8 +251,12 @@ let pager = {
     },
 
     show_undo : function(undo_data){
-        layer.confirm("您的对手申请悔棋到第" + undo_data.to_step + "步",
-            {icon: 3, title:'请求悔棋'},
+        layer.confirm(pager.t("Your opponent wants to Undo to ") + undo_data.to_step + pager.t("th move"),
+            {
+                icon: 3,
+                title:pager.t("Undo Apply"),
+                btn:[pager.t("Accept"),pager.t('Reject')]
+            },
             function(index){
                 $.post('/games/undo/reply',{
                     undo_id:undo_data.id,
@@ -280,7 +284,24 @@ let pager = {
                 layer.close(index);
             }
         );
-
+    },
+    switch_language : function(language){
+        $.post("/site/switch_language",{
+            language:language,
+            "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
+        },function(_data){
+            if(_data.code != 200)
+            {
+                layer.alert(_data.msg);
+            }
+            else
+            {
+                window.location.reload();
+            }
+        },"json");
+    },
+    t : function(message){
+        return (typeof lang_map[message] == 'string') ? lang_map[message] : message;
     }
 };
 
@@ -382,7 +403,7 @@ $(document).ready(function () {
 
     //提和
     $("#draw_button").click(function(){
-        layer.confirm('您要提出和棋请求吗？',{icon:3,title:'提和'},function(index){
+        layer.confirm(pager.t('You want to offer a draw?'),{icon:3,title:pager.t("Offer draw")},function(index){
             $.post('/games/play/offer_draw',{
                 game_id:gameObj.id,
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
@@ -398,7 +419,7 @@ $(document).ready(function () {
 
     //认输
     $("#resign_button").click(function(){
-        layer.confirm('您确定要认输吗？',{icon:5,title:'认输'},function(index){
+        layer.confirm(pager.t('You sure you want resign?'),{icon:5,title:pager.t('Resign')},function(index){
             $.post('/games/play/resign',{
                 game_id:gameObj.id,
                 "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
@@ -417,7 +438,7 @@ $(document).ready(function () {
         layer.prompt({
             formType: 0,
             value: (board.get_current_board().length / 2) - 1,
-            title: '您想悔棋到第几步呢？'
+            title: pager.t('Where do you want to Undo to?')
         }, function(value, index, elem){
             $.post("/games/undo/create",{
                 to_step:value,

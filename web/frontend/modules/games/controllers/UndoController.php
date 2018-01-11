@@ -43,35 +43,35 @@ class UndoController extends Controller
 
         if(!$this->_user())
         {
-            return $this->renderJSON([],'您尚未登录',-1);
+            return $this->renderJSON([],\Yii::t('app','Please Login'),-1);
         }
         $game_info = GameService::renderGame($game_id);
         if(!$game_info)
         {
-            return $this->renderJSON([],'棋局不存在',-1);
+            return $this->renderJSON([],\Yii::t('app',"Game doesn't exist"),-1);
         }
         if($game_info['black_id'] != $this->_user()->id && $game_info['white_id'] != $this->_user()->id)
         {
-            return $this->renderJSON([],'这不是您的对局',-1);
+            return $this->renderJSON([],\Yii::t('app',"This is not your game"),-1);
         }
 
         if($game_info['status'] != GameService::PLAYING)
         {
-            return $this->renderJSON([],'棋局不是对局状态，不能进行操作。',-1);
+            return $this->renderJSON([],\Yii::t('app','This game is currently not playing'),-1);
         }
 
         if(!$game_info['allow_undo'])
         {
-            return $this->renderJSON([],'本局被设置为不允许悔棋。',-1);
+            return $this->renderJSON([],\Yii::t('app','Undo is not allowed in this game.'),-1);
         }
 
         if($to_step <= 5)
         {
-            return $this->renderJSON([],'最多只允许悔棋到第六手',-1);
+            return $this->renderJSON([],\Yii::t('app',"You can't undo to before 6th move"),-1);
         }
         if(strlen($game_info['game_record']) / 2 < $to_step)
         {
-            return $this->renderJSON([],'悔棋步数超出了当前棋局的范围',-1);
+            return $this->renderJSON([],\Yii::t('app','This undo is beyond the game itself'),-1);
         }
 
         GameUndoLog::updateAll(['status' => -1],['game_id' => $game_id,'status' => 0,]);
@@ -89,14 +89,14 @@ class UndoController extends Controller
         Gateway::sendToGroup($game_id,MsgHelper::build('game_info',[
             'game' => GameService::renderGame($game_id)
         ]));
-        return $this->renderJSON([],'悔棋申请成功');
+        return $this->renderJSON([],\Yii::t('app','Undo apply successfully sent.'));
     }
 
     public function actionReply()
     {
         if(!$this->_user())
         {
-            return $this->renderJSON([],'您尚未登录',-1);
+            return $this->renderJSON([],\Yii::t('app','Please Login'),-1);
         }
 
         $undo_id = intval($this->post('undo_id'));
@@ -105,22 +105,22 @@ class UndoController extends Controller
 
         if(!$log || $log->uid == $this->_user()->id)
         {
-            return $this->renderJSON([],'悔棋申请不存在或已经失效',-1);
+            return $this->renderJSON([],\Yii::t('app','This undo apply is not available'),-1);
         }
 
         $game_info = GameService::renderGame($log->game_id);
         if(!$game_info)
         {
-            return $this->renderJSON([],'棋局不存在',-1);
+            return $this->renderJSON([],\Yii::t('app',"Game doesn't exist"),-1);
         }
         if($game_info['black_id'] != $this->_user()->id && $game_info['white_id'] != $this->_user()->id)
         {
-            return $this->renderJSON([],'这不是您的对局',-1);
+            return $this->renderJSON([],\Yii::t('app',"This is not your game"),-1);
         }
 
         if($game_info['status'] != GameService::PLAYING)
         {
-            return $this->renderJSON([],'棋局不是对局状态，不能进行操作。',-1);
+            return $this->renderJSON([],\Yii::t('app','This game is currently not playing'),-1);
         }
 
         if($action == 'accept')
@@ -130,13 +130,13 @@ class UndoController extends Controller
             {
                 $log->status = -1;
                 $log->save(0);
-                return $this->renderJSON([],'悔棋申请已经失效，请对方重新申请',-1);
+                return $this->renderJSON([],\Yii::t('app','This undo apply is not available'),-1);
             }
             if($log->to_number <= 5 || $log->to_number > (strlen($log->current_board)/2))
             {
                 $log->status = -1;
                 $log->save(0);
-                return $this->renderJSON([],'悔棋申请数据有误，请对方重新申请',-1);
+                return $this->renderJSON([],\Yii::t('app','This undo apply is not available'),-1);
             }
             //校验数据end
             //接受悔棋，退回盘面，给当前玩家增加时间。

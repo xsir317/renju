@@ -47,7 +47,7 @@ class GamesController extends Controller
         $game_id = intval($this->post('game_id'));
         if(!$game_id)
         {
-            return $this->renderJSON([],'指定游戏不存在');
+            return $this->renderJSON([],\Yii::t('app',"Game doesn't exist"));
         }
         $cache_key = sprintf("timeout_lock_game%d",$game_id);
         $my_rand = rand(10000,99999);
@@ -67,7 +67,7 @@ class GamesController extends Controller
         $game_id = intval($this->get('id'));
         if(!$game_id)
         {
-            return $this->renderJSON([],'指定游戏不存在');
+            return $this->renderJSON([],\Yii::t('app',"Game doesn't exist"));
         }
         return $this->renderJSON(['game' => GameService::renderGame($game_id)]);
     }
