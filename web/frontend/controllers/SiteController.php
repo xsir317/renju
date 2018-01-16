@@ -93,7 +93,8 @@ class SiteController extends Controller
     public function actionLanguages()
     {
         header("Content-type: application/javascript");
-        $language = trim($this->get('language','zh-CN'));
+        $language = trim($this->get('language'));
+        $language = $language ? : 'zh-CN';
         if(isset(\Yii::$app->params['languages'][$language]))
         {
             $return = require \Yii::getAlias("@common/languages/{$language}/app.php");
