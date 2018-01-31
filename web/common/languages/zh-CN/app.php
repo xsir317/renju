@@ -107,7 +107,7 @@ return [
     'Accept' => '同意',
     'Reject' => '拒绝',
     'You want to offer a draw?' => '你想要提和吗？',
-    'Offer draw' => '提和',
+    'Offer Draw' => '提和',
     'Offers draw' => '提出和棋',
     'You already offered draw, please wait.' => '您已经提和了，请等待对方回应',
     ' Accepts the offer, it\'s a draw.' => '同意和棋，对局结束。',
