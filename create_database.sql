@@ -3,18 +3,12 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-12-12 20:09:48
+-- Generation Time: 2018-01-31 14:57:17
 -- 服务器版本： 10.1.16-MariaDB
 -- PHP Version: 7.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `renju`
@@ -52,6 +46,11 @@ CREATE TABLE `games` (
   `create_time` timestamp NOT NULL DEFAULT '2016-12-31 16:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `game_invites`
+--
 
 CREATE TABLE `game_invites` (
   `id` int(11) NOT NULL,
@@ -68,6 +67,11 @@ CREATE TABLE `game_invites` (
   `updtime` timestamp NOT NULL DEFAULT '2016-12-31 16:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `game_undo_log`
+--
 
 CREATE TABLE `game_undo_log` (
   `id` int(11) NOT NULL,
@@ -80,7 +84,11 @@ CREATE TABLE `game_undo_log` (
   `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
 
+--
+-- 表的结构 `player`
+--
 
 CREATE TABLE `player` (
   `id` int(11) NOT NULL,
@@ -94,15 +102,20 @@ CREATE TABLE `player` (
   `w_lose` int(11) NOT NULL DEFAULT '0',
   `draw` int(11) NOT NULL DEFAULT '0',
   `games` int(11) NOT NULL DEFAULT '0' COMMENT '总对局数',
-  `reg_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `reg_time` timestamp NOT NULL DEFAULT '2017-12-31 16:00:00',
   `reg_ip` varchar(15) NOT NULL DEFAULT '',
-  `last_login_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_login_time` timestamp NOT NULL DEFAULT '2017-12-31 16:00:00',
   `last_login_ip` varchar(15) NOT NULL DEFAULT '',
   `score` decimal(15,3) NOT NULL,
+  `language` varchar(8) NOT NULL DEFAULT 'zh-CN',
   `intro` varchar(128) NOT NULL DEFAULT 'hi,it''s me'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
 
+--
+-- 表的结构 `score_log`
+--
 
 CREATE TABLE `score_log` (
   `id` int(11) NOT NULL,
@@ -117,6 +130,9 @@ CREATE TABLE `score_log` (
   `logtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Indexes for dumped tables
+--
 
 --
 -- Indexes for table `games`
@@ -190,6 +206,3 @@ ALTER TABLE `player`
 --
 ALTER TABLE `score_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
