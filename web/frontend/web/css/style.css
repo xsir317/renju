@@ -103,7 +103,7 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 #chat_operate_area  .to-name{position: relative;display: inline-block;}
 #chat_operate_area>div>span{vertical-align: middle;}
 #chat_operate_area  .to-emoji{display: inline-block;}
-#chat_operate_area  .to-emoji a>i{display:block;height:24px;width:24px;background:url(http://static.live.xiguapi.tv/faces/qq_default/MRF_100000.gif) no-repeat;}
+#chat_operate_area  .to-emoji a>i{display:block;height:24px;width:24px;background:url(/images/faces/qq_default/MRF_100000.gif) no-repeat;}
 #chat_operate_area  .to-board_icon{display: inline-block;}
 #chat_operate_area  .to-board_icon a>i{display:block;height:24px;width:24px;background:url(/images/send_board_btn.png) 0 0 no-repeat;}
 #chat_operate_area  .to-board_icon a>.checked{background-position:-24px 0;}
