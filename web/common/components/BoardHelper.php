@@ -27,6 +27,7 @@ class BoardHelper
 {
     const BOARDSIZE = 15;
     const EMPTY_STONE = '.';
+    const BORDER      = '$';
     const BLACK_STONE = '*';
     const WHITE_STONE = '0';
 
@@ -51,6 +52,10 @@ class BoardHelper
     private $current = [1,1];
 
 
+    private function get_positions()
+    {
+        return array_chunk(self::$directions,2);
+    }
 
     public function __construct($init = '')
     {
@@ -73,6 +78,107 @@ class BoardHelper
             ['$','.','.','.','.','.','.','.','.','.','.','.','.','.','$',],//15
             ['$','$','$','$','$','$','$','$','$','$','$','$','$','$','$',],//board
         ];
+        $arrStones = strlen($init) > 0 ? array_unique(str_split($init,2)) : [];
+        //棋子序号
+        $nowstone = self::BLACK_STONE;
+        foreach ($arrStones as $onestone)
+        {
+            $this->board[hexdec($onestone{0})][hexdec($onestone{1})] = $nowstone;
+            $nowstone = ($nowstone == self::WHITE_STONE) ? self::BLACK_STONE : self::WHITE_STONE;
+        }
+    }
+    public function moveTo($to = [8,8])
+    {
+        if($to[0] >= 1 && $to[0] <= 15 && $to[1] >= 1 && $to[1] <= 15)
+        {
+            $this->current = $to;
+        }
+        return $this->_();
     }
 
+    public function setStone($stone = '.',$coordinate = [])
+    {
+        if(empty($coordinate))
+        {
+            $coordinate = $this->current;
+        }
+        $this->board[$coordinate[0]][$coordinate[1]] = $stone;
+    }
+
+    //跑8个方向。。。
+    public function moveDirection($direction)
+    {
+        $next = [
+            $this->current[0] + $direction[0],
+            $this->current[1] + $direction[1],
+        ];
+        $next_stone = $this->_($next);
+        if($next_stone == self::BORDER)
+        {
+            return false;
+        }
+        $this->current = $next;
+        return $next_stone;
+    }
+
+    public function _($coordinate = [])
+    {
+        if(empty($coordinate))
+        {
+            $coordinate = $this->current;
+        }
+        return $this->board[$coordinate[0]][$coordinate[1]];
+    }
+
+    public function count_stone()
+    {
+
+    }
+
+    public function isFive()
+    {
+
+    }
+
+    public function IsOverline()
+    {
+
+    }
+
+    public function IsFour()
+    {
+
+    }
+
+    public function IsOpenFour()
+    {
+
+    }
+
+    public function IsDoubleFour()
+    {
+
+    }
+
+    public function IsOpenThree()
+    {
+
+    }
+
+    public function IsDoubleThree()
+    {
+
+    }
+
+
+
+    public function checkWin($pos)
+    {
+
+    }
+
+    public function gomokuCheckWin($pos)
+    {
+
+    }
 }
