@@ -52,15 +52,37 @@ class BoardHelper
     private $current = [1,1];
 
 
-    private function get_positions()
+    /**
+     * @param null $pos
+     * @return array
+     *
+     * 8个方向，切割一下，两两返回，分别是 | -  \ / 四个方向
+     */
+    private function get_positions($pos = null)
     {
-        return array_chunk(self::$directions,2);
+        $pos_shapes = [
+            '|'  => 0,
+            '-'  => 1,
+            '\\' => 2,
+            '/'  => 3
+        ];
+        $chunk =  array_chunk(self::$directions,2);
+        if($pos && isset($pos_shapes[$pos]))
+        {
+            return $chunk[ $pos_shapes[$pos] ];
+        }
+        return $chunk;
     }
 
+    /**
+     * BoardHelper constructor.
+     * @param string $init
+     * 初始化棋盘，然后Load一下棋局
+     */
     public function __construct($init = '')
     {
         $this->board = [//初始化，也不要做什么循环了，这样干净。。。也更直观
-            ['$','$','$','$','$','$','$','$','$','$','$','$','$','$','$',],//board
+            ['$','$','$','$','$','$','$','$','$','$','$','$','$','$','$',],//border
             ['$','.','.','.','.','.','.','.','.','.','.','.','.','.','$',],//1
             ['$','.','.','.','.','.','.','.','.','.','.','.','.','.','$',],//2
             ['$','.','.','.','.','.','.','.','.','.','.','.','.','.','$',],//3
@@ -76,7 +98,7 @@ class BoardHelper
             ['$','.','.','.','.','.','.','.','.','.','.','.','.','.','$',],//13
             ['$','.','.','.','.','.','.','.','.','.','.','.','.','.','$',],//14
             ['$','.','.','.','.','.','.','.','.','.','.','.','.','.','$',],//15
-            ['$','$','$','$','$','$','$','$','$','$','$','$','$','$','$',],//board
+            ['$','$','$','$','$','$','$','$','$','$','$','$','$','$','$',],//border
         ];
         $arrStones = strlen($init) > 0 ? array_unique(str_split($init,2)) : [];
         //棋子序号
@@ -130,14 +152,20 @@ class BoardHelper
         return $this->board[$coordinate[0]][$coordinate[1]];
     }
 
-    public function count_stone()
+    /**
+     * @param $coordinate
+     * @param $shape  string   | - \ / 形状（方向）
+     * 对指定坐标点，计算指定方向的连续同色棋子数
+     * 只负责数，不负责放棋子。
+     */
+    public function count_stone($coordinate,$shape)
     {
 
     }
 
-    public function isFive()
+    public function isFive($coordinate,$color,$shape)
     {
-
+        
     }
 
     public function IsOverline()
