@@ -65,7 +65,7 @@ class RenjuBoardTool
         $stone = self::BLACK_STONE;
         foreach ($arrStones as $onestone)
         {
-            $coordinate = self::pos2coor($onestone);
+            $coordinate = self::pos2coordinate($onestone);
             $this->board[$coordinate[0]][$coordinate[1]] = $stone;
             $stone = ($stone == self::WHITE_STONE) ? self::BLACK_STONE : self::WHITE_STONE;
         }
@@ -82,7 +82,7 @@ class RenjuBoardTool
         return $return;
     }
 
-    private static function pos2coor($position)
+    private static function pos2coordinate($position)
     {
         return [
             hexdec($position{0}),
@@ -108,7 +108,14 @@ class RenjuBoardTool
         $this->board[$coordinate[0]][$coordinate[1]] = $stone;
     }
 
-    //跑8个方向。。。
+    /**
+     * @param $direction
+     * @return bool
+     * 从$this->current 开始，按照指定的向量（方向）走一格
+     * 如果走出了棋盘则返回false
+     * 否则就设置current，并且返回当前棋子。
+     * 这个方法把direction抽象出来之后，代码得到了极大简化。
+     */
     private function moveDirection($direction)
     {
         $next = [
@@ -118,12 +125,17 @@ class RenjuBoardTool
         $next_stone = $this->_($next);
         if($next_stone == self::BORDER)
         {
-            return false;
+            return false;//出棋盘了，返回false，也不保存current了。
         }
         $this->current = $next;
         return $next_stone;
     }
 
+    /**
+     * @param array $coordinate
+     * @return string  棋子
+     * 返回指定坐标的棋子。。。默认current
+     */
     private function _($coordinate = [])
     {
         if(empty($coordinate))
@@ -145,7 +157,7 @@ class RenjuBoardTool
         $color = $this->_($coordinate);
         if($color == self::BLACK_STONE || $color == self::WHITE_STONE)
         {
-            $count = 1;
+            $count = 1; // 起始位置1个，然后向两边走，边走边数。 走到头了立刻回原点，往另一头走。
             foreach (self::$directions[$shape] as $direction)
             {
                 $this->moveTo($coordinate);
@@ -175,7 +187,6 @@ class RenjuBoardTool
         }
         $this->setStone($color,$coordinate);
         $result = false;
-        $count = 0;
         if($shape)
         {
             $count = $this->count_stone($coordinate,$shape);
@@ -201,6 +212,7 @@ class RenjuBoardTool
      * @param string $shape
      * @return int
      * 判断指定坐标落子【在指定方向上】是否形成了四； 返回可能是0 1 2
+     * 【注意： 此方法仅仅用于禁手相关的判断，白棋完全没有判断四的需求，所以这里写死了黑棋。】
      */
     private function isFour($coordinate, $shape = '|')
     {
@@ -247,6 +259,7 @@ class RenjuBoardTool
      * 对于假禁手问题的针对性判断：  如果此落点形成了禁手，则直接返回false；
      * 所以判断 IsFour 的时候，会返回真； 而IsOpenFour 则返回false  因为落点是禁手点，不认为其具有攻击性。
      * 此点为禁手，则此点相关的四 是四，但不算活四。 与之相关的三 一定不是活三
+     * 【注意： 此方法仅仅用于禁手相关的判断，白棋的胜负与此无关，所以这里写死了黑棋】
      */
     private function isOpenFour($coordinate,$shape = '|')
     {
@@ -296,6 +309,8 @@ class RenjuBoardTool
      * @param $coordinate
      * @param string $shape
      * @return bool
+     * 判断是否是活三。
+     * 【注意： 此方法仅仅用于禁手相关的判断，白棋完全没有判断活三的需求，所以这里写死了黑棋。】
      */
     private function isOpenThree($coordinate,$shape = '|')
     {
@@ -331,6 +346,7 @@ class RenjuBoardTool
     /**
      * @param $coordinate
      * @return bool
+     * 【注意： 此方法仅仅用于禁手相关的判断，白棋完全没有判断活三的需求，所以这里写死了黑棋。】
      */
     private function isDoubleThree($coordinate)
     {
@@ -352,6 +368,8 @@ class RenjuBoardTool
     /**
      * @param $coordinate
      * @return bool
+     * 判断一个点是否形成了双四禁手
+     * 【注意： 此方法仅仅用于禁手相关的判断，白棋完全没有判断双四的需求，所以这里写死了黑棋。】
      */
     private function isDoubleFour($coordinate)
     {
@@ -421,7 +439,7 @@ class RenjuBoardTool
     public function checkWin($position, $color)
     {
         $stone = ($color == 'white') ? self::WHITE_STONE : self::BLACK_STONE;
-        $coordinate = self::pos2coor($position);
+        $coordinate = self::pos2coordinate($position);
         if($color == 'white')
         {
             if($this->isFive($coordinate,$stone))
@@ -450,7 +468,7 @@ class RenjuBoardTool
      */
     public function gomokuCheckWin($position, $color)
     {
-        $coordinate = self::pos2coor($position);
+        $coordinate = self::pos2coordinate($position);
         $stone = ($color == 'white') ? self::WHITE_STONE : self::BLACK_STONE;
         if($this->isFive($coordinate,$stone,'','gomoku'))
         {
