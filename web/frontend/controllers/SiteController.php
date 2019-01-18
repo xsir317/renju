@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\components\BoardHelper;
 use common\models\Player;
 use common\services\GameService;
 use common\services\UserService;
@@ -11,6 +12,7 @@ use frontend\components\Controller;
  */
 class SiteController extends Controller
 {
+    public $enableCsrfValidation = false;
     public function actions()
     {
         return [
@@ -43,6 +45,17 @@ class SiteController extends Controller
         }
     }
 
+    public function actionBoard()
+    {
+        $board = $this->post('board');
+        $target = $this->post('target');
+        $color = strlen($board) % 4 == 0 ? 'black':'white';
+        $board = new BoardHelper($board);
+        return $this->renderJSON([
+            'result' => $board->checkWin($target,$color),
+            'result_gomoku' => $board->gomokuCheckWin($target,$color)
+        ]);
+    }
 
     public function actionAbout()
     {

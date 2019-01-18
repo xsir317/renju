@@ -2,15 +2,14 @@
 namespace common\components;
 
 
+use common\services\CommonService;
+
 class BoardHelper
 {
-    const BOARDSIZE = 15;
-    const EMPTY_STONE = '.';
-    const BORDER      = '$';
-    const BLACK_STONE = '*';
-    const WHITE_STONE = '0';
-
-
+    const EMPTY_STONE = '.'; //空
+    const BORDER      = '$'; //边界
+    const BLACK_STONE = '*'; //黑棋
+    const WHITE_STONE = '0'; //白棋
     const WHITE_FIVE = 1;
     const BLACK_FIVE = 2;
     const BLACK_FORBIDDEN = 4;
@@ -72,6 +71,26 @@ class BoardHelper
             $nowstone = ($nowstone == self::WHITE_STONE) ? self::BLACK_STONE : self::WHITE_STONE;
         }
     }
+
+    private function _debug_board()
+    {
+        $return = '';
+        foreach ($this->board as $row)
+        {
+            $return .= implode('',$row);
+            $return .= "\n";
+        }
+        return $return;
+    }
+
+    private static function pos2coor($position)
+    {
+        return [
+            hexdec($position{0}),
+            hexdec($position{1}),
+        ];
+    }
+
     private function moveTo($to = [8,8])
     {
         if($to[0] >= 1 && $to[0] <= 15 && $to[1] >= 1 && $to[1] <= 15)
@@ -232,6 +251,12 @@ class BoardHelper
      */
     private function isOpenFour($coordinate,$shape = '|')
     {
+        CommonService::file_log(\Yii::$app->getRuntimePath().'/board.debug.log',[
+            'function' => 'isOpenFour',
+            'pos' => $coordinate,
+            'shape' => $shape,
+            'board' => $this->_debug_board(),
+        ]);
         if($this->_($coordinate) != self::EMPTY_STONE)
         {
             return false;
@@ -381,37 +406,13 @@ class BoardHelper
         return ($rule == 'renju') ? ($number >= 5) : ($number == 5);
     }
 
-    /**
-     * @param $coordinate
-     * @param $color
-     * @return int | bool
-     * 按照连珠规则检查是否获胜
-     */
-    public function checkWin($coordinate, $color)
-    {
-        if($color == self::WHITE_STONE)
-        {
-            if($this->isFive($coordinate,$color))
-            {
-                return self::WHITE_FIVE;
-            }
-        }
-        else
-        {
-            if($this->isFive($coordinate,$color))
-            {
-                return self::BLACK_FIVE;
-            }
-            if($this->isForbidden($coordinate))
-            {
-                return self::BLACK_FORBIDDEN;
-            }
-        }
-        return false;
-    }
-
     public function isForbidden($coordinate)
     {
+        CommonService::file_log(\Yii::$app->getRuntimePath().'/board.debug.log',[
+            'function' => 'isForbidden',
+            'pos' => $coordinate,
+            'board' => $this->_debug_board(),
+        ]);
         if($this->_($coordinate) != self::EMPTY_STONE)
         {
             return false;
@@ -424,15 +425,48 @@ class BoardHelper
     }
 
     /**
-     * @param $coordinate
-     * @param $color
+     * @param $position
+     * @param $color string  black|white
+     * @return int | bool
+     * 按照连珠规则检查是否获胜
+     */
+    public function checkWin($position, $color)
+    {
+        $stone = ($color == 'white') ? self::WHITE_STONE : self::BLACK_STONE;
+        $coordinate = self::pos2coor($position);
+        if($color == 'white')
+        {
+            if($this->isFive($coordinate,$stone))
+            {
+                return self::WHITE_FIVE;
+            }
+        }
+        else
+        {
+            if($this->isFive($coordinate,$stone))
+            {
+                return self::BLACK_FIVE;
+            }
+            if($this->isForbidden($coordinate))
+            {
+                return self::BLACK_FORBIDDEN;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param $position
+     * @param $color string  black|white
      * @return int | bool
      */
-    public function gomokuCheckWin($coordinate, $color)
+    public function gomokuCheckWin($position, $color)
     {
-        if($this->isFive($coordinate,$color,'','gomoku'))
+        $coordinate = self::pos2coor($position);
+        $stone = ($color == 'white') ? self::WHITE_STONE : self::BLACK_STONE;
+        if($this->isFive($coordinate,$stone,'','gomoku'))
         {
-            return $color == self::BLACK_STONE ? self::BLACK_FIVE : self::WHITE_FIVE;
+            return $color == 'black' ? self::BLACK_FIVE : self::WHITE_FIVE;
         }
         return false;
     }
