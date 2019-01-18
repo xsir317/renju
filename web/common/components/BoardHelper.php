@@ -31,6 +31,11 @@ class BoardHelper
     const BLACK_STONE = '*';
     const WHITE_STONE = '0';
 
+
+    const WHITE_FIVE = 1;
+    const BLACK_FIVE = 2;
+    const BLACK_FORBIDDEN = 4;
+
     /**
      * @var array 方向可能有点反直觉， 前一位是行号，最上面是1 最下面是15
      * 后一位是列。
@@ -40,6 +45,13 @@ class BoardHelper
         [0,+1],[0,-1],   //前，后
         [+1,+1],[-1,-1], //右下，左上
         [+1,-1],[-1,+1], //左下，右上
+    ];
+
+    private static $pos_shapes = [
+        '|'  => 0,
+        '-'  => 1,
+        '\\' => 2,
+        '/'  => 3
     ];
     /**
      * @var array 二维数组，保存棋盘。
@@ -51,7 +63,6 @@ class BoardHelper
      */
     private $current = [1,1];
 
-
     /**
      * @param null $pos
      * @return array
@@ -60,12 +71,7 @@ class BoardHelper
      */
     private function get_positions($pos = null)
     {
-        $pos_shapes = [
-            '|'  => 0,
-            '-'  => 1,
-            '\\' => 2,
-            '/'  => 3
-        ];
+        $pos_shapes = self::$pos_shapes;
         $chunk =  array_chunk(self::$directions,2);
         if($pos && isset($pos_shapes[$pos]))
         {
@@ -109,7 +115,7 @@ class BoardHelper
             $nowstone = ($nowstone == self::WHITE_STONE) ? self::BLACK_STONE : self::WHITE_STONE;
         }
     }
-    public function moveTo($to = [8,8])
+    private function moveTo($to = [8,8])
     {
         if($to[0] >= 1 && $to[0] <= 15 && $to[1] >= 1 && $to[1] <= 15)
         {
@@ -118,7 +124,7 @@ class BoardHelper
         return $this->_();
     }
 
-    public function setStone($stone = '.',$coordinate = [])
+    private function setStone($stone = '.',$coordinate = [])
     {
         if(empty($coordinate))
         {
@@ -128,7 +134,7 @@ class BoardHelper
     }
 
     //跑8个方向。。。
-    public function moveDirection($direction)
+    private function moveDirection($direction)
     {
         $next = [
             $this->current[0] + $direction[0],
@@ -143,7 +149,7 @@ class BoardHelper
         return $next_stone;
     }
 
-    public function _($coordinate = [])
+    private function _($coordinate = [])
     {
         if(empty($coordinate))
         {
@@ -155,58 +161,214 @@ class BoardHelper
     /**
      * @param $coordinate
      * @param $shape  string   | - \ / 形状（方向）
+     * @return int 连续棋子数量
      * 对指定坐标点，计算指定方向的连续同色棋子数
      * 只负责数，不负责放棋子。
      */
-    public function count_stone($coordinate,$shape)
+    private function count_stone($coordinate,$shape)
+    {
+        $color = $this->_($coordinate);
+        if($color == self::BLACK_STONE || $color == self::WHITE_STONE)
+        {
+            $count = 1;
+            foreach (self::get_positions($shape) as $direction)
+            {
+                $this->moveTo($coordinate);
+                while($color == $this->moveDirection($direction))
+                {
+                    $count ++;
+                }
+            }
+            return $count;
+        }
+        return 0;
+    }
+
+    /**
+     * @param $coordinate
+     * @param $color
+     * @param string $shape
+     * @param string $rule
+     * @return bool
+     * 判断指定坐标落子【在指定方向上】是否形成了连五  连5具有最高优先级。
+     */
+    private function isFive($coordinate,$color,$shape = '',$rule = 'renju')
+    {
+        if($this->_($coordinate) != self::EMPTY_STONE)
+        {
+            return false;
+        }
+        $this->setStone($color,$coordinate);
+        $result = false;
+        $count = 0;
+        if($shape)
+        {
+            $count = $this->count_stone($coordinate,$shape);
+            $result = $this->count_as_five($count,$color,$rule);
+        }
+        else
+        {
+            foreach (self::$pos_shapes as $s => $i)
+            {
+                $count = $this->count_stone($coordinate,$s);
+                if($result = $this->count_as_five($count,$color,$rule))
+                {
+                    break;
+                }
+            }
+        }
+        $this->setStone(self::EMPTY_STONE,$coordinate);
+        return $result;
+    }
+
+    /**
+     * @param $coordinate
+     * @param $color
+     * @param string $shape
+     * @return bool
+     * 判断指定坐标落子【在指定方向上】是否形成了四；
+     */
+    private function isFour($coordinate, $color, $shape = '')
+    {
+        if($this->_($coordinate) != self::EMPTY_STONE)
+        {
+            return false;
+        }
+
+    }
+
+    /**
+     * @param $coordinate
+     * @param $color
+     * @param string $shape
+     * 判断指定坐标落子【在指定方向上】是否形成了活四；
+     * 对于假禁手问题的针对性判断：  如果此落点形成了禁手，则直接返回false；
+     * 所以判断 IsFour 的时候，会返回真； 而IsOpenFour 则返回false  因为落点是禁手点，不认为其具有攻击性。
+     * 此点为禁手，则此点相关的四 是四，但不算活四。 与之相关的三 一定不是活三
+     */
+    private function isOpenFour($coordinate,$color,$shape = '')
     {
 
     }
 
-    public function isFive($coordinate,$color,$shape)
-    {
-        
-    }
-
-    public function IsOverline()
-    {
-
-    }
-
-    public function IsFour()
+    /**
+     * @param $coordinate
+     * @param $color
+     * @param string $shape
+     */
+    private function isOpenThree($coordinate,$color,$shape = '')
     {
 
     }
 
-    public function IsOpenFour()
+    /**
+     * @param $coordinate
+     */
+    private function isDoubleThree($coordinate)
     {
 
     }
 
-    public function IsDoubleFour()
+    /**
+     * @param $coordinate
+     * @return bool
+     */
+    private function isDoubleFour($coordinate)
     {
-
+        $count = 0;
+        foreach (self::$pos_shapes as $s => $i) {
+            $count += $this->isFour($coordinate,self::BLACK_STONE,$s);
+            if($count >= 2)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public function IsOpenThree()
-    {
 
+    /**
+     * @param $coordinate
+     * @return bool
+     * 在指定点是否形成了长连
+     */
+    private function isOverline($coordinate)
+    {
+        if($this->_($coordinate) != self::EMPTY_STONE)
+        {
+            return false;
+        }
+        if($this->isFive($coordinate,self::BLACK_STONE))
+        {
+            return false;
+        }
+        $this->setStone(self::BLACK_STONE,$coordinate);
+        $result = false;
+        $count = 0;
+        foreach (self::$pos_shapes as $s => $i)
+        {
+            $count = $this->count_stone($coordinate,$s);
+            if($count > 5)
+            {
+                $result = true;
+                break;
+            }
+        }
+
+        $this->setStone(self::EMPTY_STONE,$coordinate);
+        return $result;
     }
 
-    public function IsDoubleThree()
+    private function count_as_five($number,$color,$rule = 'renju')
     {
-
+        if($color == self::BLACK_STONE)
+        {
+            return $number == 5;
+        }
+        //white
+        return ($rule == 'renju') ? ($number >= 5) : ($number == 5);
     }
 
-
-
-    public function checkWin($pos)
+    /**
+     * @param $coordinate
+     * @param $color
+     * @return int | bool
+     * 按照连珠规则检查是否获胜
+     */
+    public function checkWin($coordinate, $color)
     {
-
+        if($color == self::WHITE_STONE)
+        {
+            if($this->isFive($coordinate,$color))
+            {
+                return self::WHITE_FIVE;
+            }
+        }
+        else
+        {
+            if($this->isFive($coordinate,$color))
+            {
+                return self::BLACK_FIVE;
+            }
+            if($this->isOverline($coordinate) || $this->isDoubleFour($coordinate) || $this->isDoubleThree($coordinate))
+            {
+                return self::BLACK_FORBIDDEN;
+            }
+        }
+        return false;
     }
 
-    public function gomokuCheckWin($pos)
+    /**
+     * @param $coordinate
+     * @param $color
+     * @return int | bool
+     */
+    public function gomokuCheckWin($coordinate, $color)
     {
-
+        if($this->isFive($coordinate,$color,'','gomoku'))
+        {
+            return $color == self::BLACK_STONE ? self::BLACK_FIVE : self::WHITE_FIVE;
+        }
+        return false;
     }
 }
