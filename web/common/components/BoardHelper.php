@@ -20,18 +20,12 @@ class BoardHelper
      * 后一位是列。
      */
     private static $directions = [
-        [[+1,0],[-1,0]],   //下，上
-        [[0,+1],[0,-1]],   //前，后
-        [[+1,+1],[-1,-1]], //右下，左上
-        [[+1,-1],[-1,+1]], //左下，右上
+        '|' => [[+1,0],[-1,0]],   //下，上
+        '-' => [[0,+1],[0,-1]],   //前，后
+        '\\' => [[+1,+1],[-1,-1]], //右下，左上
+        '/' => [[+1,-1],[-1,+1]], //左下，右上
     ];
 
-    private static $pos_shapes = [
-        '|'  => 0,
-        '-'  => 1,
-        '\\' => 2,
-        '/'  => 3
-    ];
     /**
      * @var array 二维数组，保存棋盘。
      *
@@ -42,21 +36,6 @@ class BoardHelper
      */
     private $current = [1,1];
 
-    /**
-     * @param null $shape
-     * @return array
-     *
-     * 8个方向，切割一下，两两返回，分别是 | -  \ / 四个方向
-     */
-    private function get_positions($shape = null)
-    {
-        $pos_shapes = self::$pos_shapes;
-        if($shape && isset($pos_shapes[$shape]))
-        {
-            return self::$directions[ $pos_shapes[$shape] ];
-        }
-        return self::$directions;
-    }
 
     /**
      * BoardHelper constructor.
@@ -149,7 +128,7 @@ class BoardHelper
         if($color == self::BLACK_STONE || $color == self::WHITE_STONE)
         {
             $count = 1;
-            foreach (self::get_positions($shape) as $direction)
+            foreach (self::$directions[$shape] as $direction)
             {
                 $this->moveTo($coordinate);
                 while($color == $this->moveDirection($direction))
@@ -186,7 +165,7 @@ class BoardHelper
         }
         else
         {
-            foreach (self::$pos_shapes as $s => $i)
+            foreach (self::$directions as $s => $i)
             {
                 $count = $this->count_stone($coordinate,$s);
                 if($result = $this->count_as_five($count,$color,$rule))
@@ -216,7 +195,7 @@ class BoardHelper
         $this->setStone(self::BLACK_STONE,$coordinate);
         //沿着每个方向去找空格，顺便数黑棋
         $count_black = 1;//刚刚手动放了一个的
-        foreach (self::get_positions($shape) as $direction)
+        foreach (self::$directions[$shape] as $direction)
         {
             $this->moveTo($coordinate);
             while(self::BLACK_STONE == $this->moveDirection($direction))
@@ -265,7 +244,7 @@ class BoardHelper
         //放棋子
         $count_black = 1;//当前点肯定是黑棋
         $this->setStone(self::BLACK_STONE,$coordinate);
-        foreach (self::get_positions($shape) as $direction)
+        foreach (self::$directions[$shape] as $direction)
         {
             $this->moveTo($coordinate);
             //沿着每个方向去找空格，顺便数黑棋
@@ -305,7 +284,7 @@ class BoardHelper
         $return = false;
         $this->setStone(self::BLACK_STONE,$coordinate);
         //沿着每个方向去找空格
-        foreach (self::get_positions($shape) as $direction)
+        foreach (self::$directions[$shape] as $direction)
         {
             $this->moveTo($coordinate);
             while(self::BLACK_STONE == $this->moveDirection($direction))
@@ -338,7 +317,7 @@ class BoardHelper
     private function isDoubleThree($coordinate)
     {
         $count = 0;
-        foreach (self::$pos_shapes as $s => $i)
+        foreach (self::$directions as $s => $i)
         {
             if($this->isOpenThree($coordinate,$s))
             {
@@ -359,7 +338,7 @@ class BoardHelper
     private function isDoubleFour($coordinate)
     {
         $count = 0;
-        foreach (self::$pos_shapes as $s => $i) {
+        foreach (self::$directions as $s => $i) {
             $count += $this->isFour($coordinate,$s);
             if($count >= 2)
             {
@@ -379,7 +358,7 @@ class BoardHelper
     {
         $this->setStone(self::BLACK_STONE,$coordinate);
         $result = false;
-        foreach (self::$pos_shapes as $s => $i)
+        foreach (self::$directions as $s => $i)
         {
             if($this->count_stone($coordinate,$s) > 5)
             {
