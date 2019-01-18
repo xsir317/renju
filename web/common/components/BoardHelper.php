@@ -261,10 +261,10 @@ class BoardHelper
         {
             return false;
         }
-        if($this->isForbidden($coordinate))
-        {
-            return false;
-        }
+//        if($this->isForbidden($coordinate))
+//        {
+//            return false;
+//        }
         $count_active = 0;
         //放棋子
         $count_black = 1;//当前点肯定是黑棋
