@@ -2,7 +2,6 @@
 namespace common\components;
 
 
-use common\services\CommonService;
 
 class BoardHelper
 {
@@ -251,20 +250,10 @@ class BoardHelper
      */
     private function isOpenFour($coordinate,$shape = '|')
     {
-        CommonService::file_log(\Yii::$app->getRuntimePath().'/board.debug.log',[
-            'function' => 'isOpenFour',
-            'pos' => $coordinate,
-            'shape' => $shape,
-            'board' => $this->_debug_board(),
-        ]);
         if($this->_($coordinate) != self::EMPTY_STONE)
         {
             return false;
         }
-//        if($this->isForbidden($coordinate))
-//        {
-//            return false;
-//        }
         $count_active = 0;
         //放棋子
         $count_black = 1;//当前点肯定是黑棋
@@ -294,6 +283,10 @@ class BoardHelper
         $this->setStone(self::EMPTY_STONE,$coordinate);
         if($count_black == 4 && $count_active == 2)
         {
+            if($this->isForbidden($coordinate))
+            {
+                return false;
+            }
             return true;
         }
         return false;
@@ -408,11 +401,6 @@ class BoardHelper
 
     public function isForbidden($coordinate)
     {
-        CommonService::file_log(\Yii::$app->getRuntimePath().'/board.debug.log',[
-            'function' => 'isForbidden',
-            'pos' => $coordinate,
-            'board' => $this->_debug_board(),
-        ]);
         if($this->_($coordinate) != self::EMPTY_STONE)
         {
             return false;
