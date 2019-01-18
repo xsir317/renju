@@ -1,7 +1,7 @@
 <?php
 namespace frontend\controllers;
 
-use common\components\BoardHelper;
+use common\components\RenjuBoardTool;
 use common\models\Player;
 use common\services\GameService;
 use common\services\UserService;
@@ -50,10 +50,9 @@ class SiteController extends Controller
         $board = $this->post('board');
         $target = $this->post('target');
         $color = strlen($board) % 4 == 0 ? 'black':'white';
-        $board = new BoardHelper($board);
+        $board = new RenjuBoardTool($board);
         return $this->renderJSON([
             'result' => $board->checkWin($target,$color),
-            'result_gomoku' => $board->gomokuCheckWin($target,$color)
         ]);
     }
 
