@@ -476,4 +476,20 @@ class RenjuBoardTool
         }
         return false;
     }
+
+    /**
+     * 遍历，获得棋盘上的所有禁手点
+     */
+    public function findForbiddenPoints()
+    {
+
+    }
+
+    /**
+     * 遍历，获得棋盘上的所有连5点
+     */
+    public function findWinPoints()
+    {
+
+    }
 }
