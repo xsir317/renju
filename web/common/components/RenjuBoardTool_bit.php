@@ -14,7 +14,7 @@ class RenjuBoardTool_bit
 {
 
     const EMPTY_STONE = '.'; //空
-    const BORDER      = '$'; //边界
+    //const BORDER      = '$'; //边界 咱们这个版本不用这个。
     const BLACK_STONE = 'b'; //黑棋
     const WHITE_STONE = 'w'; //白棋
     const WHITE_FIVE = 1;
@@ -23,7 +23,9 @@ class RenjuBoardTool_bit
 
     /**
      * @var array 方向可能有点反直觉， 前一位是行号，最上面是1 最下面是15
-     * 后一位是列。
+     * 后一位是列。 注意。。。 因为这个版本，每一行是存在int32里面的，所以并不是数组那样 1,2,3,4 这样排的，而是 [空位] 30,29,28....16[空位] 14,13,... 2,1,0 这样
+     * 如果我们用低位 0-15 表示黑， 16-31表示白，那么下面这个左右是反的。 整个形状都是左右颠倒的。
+     * 不过反正我们编码里方向都是抽象的， 这样也并没有什么错误。。。
      */
     private static $directions = [
         '|' => [[+1,0],[-1,0]],   //下，上
