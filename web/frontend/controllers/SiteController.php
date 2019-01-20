@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\components\RenjuBoardTool;
+use common\components\RenjuBoardTool_bit;
 use common\models\Player;
 use common\services\GameService;
 use common\services\UserService;
@@ -50,7 +51,8 @@ class SiteController extends Controller
         $board = $this->post('board');
         $target = $this->post('target');
         $color = strlen($board) % 4 == 0 ? 'black':'white';
-        $board = new RenjuBoardTool($board);
+        //$board = new RenjuBoardTool($board);
+        $board = new RenjuBoardTool_bit($board);
         return $this->renderJSON([
             'result' => $board->checkWin($target,$color),
         ]);
