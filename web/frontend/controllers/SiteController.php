@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use common\components\RenjuBoardTool;
+use common\components\RenjuBoardTool_bit;
 use common\models\Player;
 use common\services\GameService;
 use common\services\UserService;
@@ -11,6 +13,7 @@ use frontend\components\Controller;
  */
 class SiteController extends Controller
 {
+    public $enableCsrfValidation = false;
     public function actions()
     {
         return [
@@ -43,6 +46,17 @@ class SiteController extends Controller
         }
     }
 
+    public function actionBoard()
+    {
+        $board = $this->post('board');
+        $target = $this->post('target');
+        $color = strlen($board) % 4 == 0 ? 'black':'white';
+        //$board = new RenjuBoardTool($board);
+        $board = new RenjuBoardTool_bit($board);
+        return $this->renderJSON([
+            'result' => $board->checkWin($target,$color),
+        ]);
+    }
 
     public function actionAbout()
     {
