@@ -1,4 +1,6 @@
-这是一个基于Yii2和Workerman（Gateway-Worker）框架的简单游戏项目。
+这是一个基于Yii2和Workerman（Gateway-Worker）框架的简单游戏项目。 
+
+目前存活在这里！ http://game.ku10.com/
 
 游戏使用Yii2作为游戏后端，前端使用Js，和Gateway-Worker建立websocket连接。
 
