@@ -34,6 +34,13 @@ class GamesController extends Controller
         {
             throw new HttpException(404);
         }
+        if($game->is_private)
+        {
+            if(!$this->_user() || ($this->_user()->id != $game->black_id && $this->_user()->id != $game->white_id))
+            {
+                return $this->render('forbidden');
+            }
+        }
         return $this->render('game',[
             'game' => GameService::renderGame($game_id),
             'ws_token' => GameService::newToken($this->_user() ? $this->_user()->id : 0),

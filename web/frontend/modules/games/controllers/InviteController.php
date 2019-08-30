@@ -35,6 +35,7 @@ class InviteController extends Controller
         $comment = trim($this->post('comment'));
         $free_open = intval($this->post('free_open'));
         $allow_undo = intval($this->post('allow_undo'));
+        $is_private = intval($this->post('is_private'));
         if($minutes < 3)
         {
             return $this->renderJSON([],'时间请至少设置为3分钟',-1);
@@ -63,7 +64,7 @@ class InviteController extends Controller
             {
                 $match = false;
             }
-            elseif ($exist_invite->rule != $rule || $exist_invite->totaltime != $minutes * 60 || $exist_invite->free_opening != $free_open || $exist_invite->allow_undo != $allow_undo)//rule
+            elseif ($exist_invite->rule != $rule || $exist_invite->totaltime != $minutes * 60 || $exist_invite->free_opening != $free_open || $exist_invite->allow_undo != $allow_undo || $exist_invite->is_private != $is_private)//rule
             {
                 $match = false;
             }
@@ -83,6 +84,7 @@ class InviteController extends Controller
                 $game->rule = $rule;
                 $game->free_opening = $free_open;
                 $game->allow_undo = $allow_undo;
+                $game->is_private = $is_private;
                 $game->game_record = '';
                 $game->black_time = $minutes * 60;
                 $game->white_time = $minutes * 60;
@@ -115,6 +117,7 @@ class InviteController extends Controller
                 $exist_invite->rule = $rule;
                 $exist_invite->free_opening = $free_open;
                 $exist_invite->allow_undo = $allow_undo;
+                $exist_invite->is_private = $is_private;
                 $exist_invite->status = 0;
                 $exist_invite->game_id = 0;
                 $exist_invite->updtime = date('Y-m-d H:i:s');
@@ -150,6 +153,7 @@ class InviteController extends Controller
             $invite->rule = isset(\Yii::$app->params['rules'][$rule]) ? $rule : 'RIF';
             $invite->free_opening = $free_open;
             $invite->allow_undo = $allow_undo;
+            $invite->is_private = $is_private;
             $invite->status = 0;
             $invite->game_id = 0;
             $invite->updtime = date('Y-m-d H:i:s');

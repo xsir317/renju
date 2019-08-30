@@ -37,6 +37,7 @@ return [
     'Free Opening' => '自由开局',
     '(No limits on opening)' => '（前三手无限制）',
     'Allow Undo' => '允许申请悔棋',
+    'Private Game' => '私密对局',
     'Undo' => '悔棋',
     'Send Invite' => '发出邀请',
     'Start Time' => '开始时间',

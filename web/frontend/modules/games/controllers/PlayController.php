@@ -13,6 +13,7 @@ use common\components\BoardTool;
 use common\components\ForbiddenPointFinder;
 use common\components\Gateway;
 use common\components\MsgHelper;
+use common\components\RenjuBoardTool_bit;
 use common\models\Games;
 use common\services\GameService;
 use frontend\components\Controller;
@@ -174,8 +175,9 @@ class PlayController extends Controller
             $game_object->movetime = date('Y-m-d H:i:s');
             $game_object->save(0);
 
-            $checkwin = new ForbiddenPointFinder($old_board);
-            $result = $game_object->rule == 'Gomoku' ? $checkwin->GomokuCheckWin($coordinate) : $checkwin->CheckWin($coordinate);
+            $checkwin = new RenjuBoardTool_bit($old_board);
+            $color = (strlen($old_board) % 4 == 0) ? 'black':'white';
+            $result = $game_object->rule == 'Gomoku' ? $checkwin->gomokuCheckWin($coordinate,$color) : $checkwin->checkWin($coordinate,$color);
             if($result == BLACKFIVE)
             {
                 //黑胜
