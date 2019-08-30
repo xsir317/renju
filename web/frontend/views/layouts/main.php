@@ -100,6 +100,10 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
             <span><?= Yii::t('app','Allow Undo')?>: </span>
             <label><input name="allow_undo" value="1" type="checkbox" id="allow_undo" /> </label>
         </div>
+    <div class="field">
+        <span><?= Yii::t('app','Private Game')?>: </span>
+        <label><input name="is_private" value="1" type="checkbox" id="is_private" /> </label>
+    </div>
             <input type="submit" class="button" value="<?= Yii::t('app','Send Invite')?>" id="invite_submit_button" />
     <?= Html::endForm();?>
 </div>
