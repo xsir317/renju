@@ -40,9 +40,9 @@ class InviteController extends Controller
         {
             return $this->renderJSON([],'时间请至少设置为3分钟',-1);
         }
-        if($minutes >= 180)
+        if($minutes > 12 * 60)
         {
-            return $this->renderJSON([],'系统暂不接受3小时及以上的对局',-1);
+            return $this->renderJSON([],'系统暂不接受12小时以上的对局',-1);
         }
         if($id)
         {
