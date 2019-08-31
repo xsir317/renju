@@ -37,7 +37,7 @@ class UndoController extends Controller
     public function actionCreate()
     {
         $game_id = intval($this->post('game_id'));
-        //悔棋到第几手。 最终会保留前$to_step - 1手
+        //悔棋到第几手。 最终会保留前$to_step - 1手。 to_step 意思是悔棋成功后，应当落下哪一手， 比如to_step=8，则 悔棋之后轮到白棋落8
         $to_step = intval($this->post('to_step'));
         $comment = trim($this->post('comment'));
 
@@ -53,6 +53,21 @@ class UndoController extends Controller
         if($game_info['black_id'] != $this->_user()->id && $game_info['white_id'] != $this->_user()->id)
         {
             return $this->renderJSON([],\Yii::t('app',"This is not your game"),-1);
+        }
+        //特殊逻辑： 黑方悔棋，则保留偶数个棋子； 白方悔棋，则保留奇数个棋子。 以保证悔棋之后，轮到悔棋提出方落子。
+        if($game_info['black_id'] == $this->_user()->id)
+        {
+            if($to_step % 2 == 0) //黑方提出悔棋，是偶数 则 -1
+            {
+                $to_step -- ;
+            }
+        }
+        else
+        {
+            if($to_step % 2 == 1) //白方提出悔棋，是奇数 则 -1
+            {
+                $to_step -- ;
+            }
         }
 
         if($game_info['status'] != GameService::PLAYING)
