@@ -177,8 +177,8 @@ class PlayController extends Controller
 
             $checkwin = new RenjuBoardTool_bit($old_board);
             $color = (strlen($old_board) % 4 == 0) ? 'black':'white';
-            $result = $game_object->rule == 'Gomoku' ? $checkwin->gomokuCheckWin($coordinate,$color) : $checkwin->checkWin($coordinate,$color);
-            if($result == BLACKFIVE)
+            $result = ($game_object->rule == 'Gomoku') ? $checkwin->gomokuCheckWin($coordinate,$color) : $checkwin->checkWin($coordinate,$color);
+            if($result === RenjuBoardTool_bit::BLACK_FIVE)
             {
                 //黑胜
                 BoardTool::do_over($game_id,1,false);
@@ -186,7 +186,7 @@ class PlayController extends Controller
                     'content' => \Yii::t('app','Black wins')
                 ]));
             }
-            elseif($result == WHITEFIVE || $result == BLACKFORBIDDEN)
+            elseif($result == RenjuBoardTool_bit::BLACK_FORBIDDEN || $result == RenjuBoardTool_bit::WHITE_FIVE)
             {
                 //白胜
                 BoardTool::do_over($game_id,0,false);
