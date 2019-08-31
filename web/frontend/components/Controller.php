@@ -26,7 +26,7 @@ class Controller extends \yii\web\Controller
     protected function renderJSON($data=[], $msg ="ok", $code = 200)
     {
         header('Content-type: application/json');
-        echo json_encode([
+        \Yii::$app->response->data = json_encode([
             "code" => $code,
             "msg"   =>  $msg,
             "data"  =>  $data,
@@ -40,7 +40,7 @@ class Controller extends \yii\web\Controller
 
         $func = $this->get("jsonp","jsonp_func");
 
-        echo strip_tags($func)."(".json_encode([
+        \Yii::$app->response->data = strip_tags($func)."(".json_encode([
                 "code" => $code,
                 "msg"   =>  $msg,
                 "data"  =>  $data,
