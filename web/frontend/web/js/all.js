@@ -440,7 +440,7 @@ $(document).ready(function () {
     $("#undo_button").click(function(){
         layer.prompt({
             formType: 0,
-            value: (board.get_current_board().length / 2) - 1,
+            value: board.is_my_turn ? (board.get_current_board().length / 2) : ((board.get_current_board().length / 2) - 1),
             title: pager.t('Where do you want to Undo to?')
         }, function(value, index, elem){
             $.post("/games/undo/create",{
