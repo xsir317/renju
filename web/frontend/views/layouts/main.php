@@ -81,7 +81,7 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
             <label><input type="radio" name="use_black" value="0" id="use_white" /><img src="/images/white.png" /><span><?= Yii::t('app','I use White')?></span></label>
         </div>
         <div class="field">
-            <span><?= Yii::t('app','Time')?>: </span><label>
+            <label><span><?= Yii::t('app','Time')?>: </span></label>
             <label><input name="hours" value="" style="width: 22px;" /><?= Yii::t('app','Hours')?></label>
             <label><input name="minutes" value="" style="width: 22px;" /><?= Yii::t('app','Minutes')?></label>
         </div>
