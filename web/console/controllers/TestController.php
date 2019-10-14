@@ -14,6 +14,7 @@ use common\components\ForbiddenPointFinder;
 use common\components\Gateway;
 use common\components\MsgHelper;
 use common\components\RenjuBoardTool_bit;
+use common\models\BoardWinStatistics;
 use common\models\Games;
 use common\services\GameService;
 use common\services\UserService;
@@ -48,7 +49,7 @@ class TestController extends Controller
 
     public function actionPack()
     {
-        $board = new RenjuBoardTool_bit('122213231626');
+        $board = new RenjuBoardTool_bit('8877899b8a');
         echo $board->_debug_board();
 
         $bytes = $board->board2binary();
@@ -57,5 +58,18 @@ class TestController extends Controller
         {
             printf("%032b , %d \n",$row,$row);
         }
+
+        $record = BoardWinStatistics::find()
+            ->where(['board' => $bytes])
+            ->one();
+        echo $record ? $record->next_move : 'not found';
+
+
+        $ints = unpack('L15',$record->board);
+        foreach ($ints as $row)
+        {
+            printf("%032b , %d \n",$row,$row);
+        }
+
     }
 }
