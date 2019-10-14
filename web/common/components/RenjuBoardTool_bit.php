@@ -76,6 +76,11 @@ class RenjuBoardTool_bit
         return $return;
     }
 
+    public function board2binary()
+    {
+        return call_user_func_array("pack", array_merge(["L15"], $this->board));
+    }
+
     private static function pos2coordinate($position)
     {
         return [

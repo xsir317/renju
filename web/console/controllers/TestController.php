@@ -13,6 +13,7 @@ use common\components\BoardTool;
 use common\components\ForbiddenPointFinder;
 use common\components\Gateway;
 use common\components\MsgHelper;
+use common\components\RenjuBoardTool_bit;
 use common\models\Games;
 use common\services\GameService;
 use common\services\UserService;
@@ -43,5 +44,18 @@ class TestController extends Controller
         $board = new ForbiddenPointFinder('');
         var_dump($board->AddStone(7,7,0));
         //var_dump(BoardTool::a5_symmetry('88798a99','9a7a'));
+    }
+
+    public function actionPack()
+    {
+        $board = new RenjuBoardTool_bit('122213231626');
+        echo $board->_debug_board();
+
+        $bytes = $board->board2binary();
+        $ints = unpack('L15',$bytes);
+        foreach ($ints as $row)
+        {
+            printf("%032b , %d \n",$row,$row);
+        }
     }
 }
