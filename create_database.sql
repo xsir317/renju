@@ -130,6 +130,16 @@ CREATE TABLE `score_log` (
   `logtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `board_win_statistics` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `board` binary(60) NOT NULL COMMENT '二进制的棋盘',
+ `white_wins` int(11) NOT NULL DEFAULT '0',
+ `black_wins` int(11) NOT NULL DEFAULT '0',
+ `draws` int(11) NOT NULL DEFAULT '0',
+ `next_move` varchar(2048) NOT NULL DEFAULT '{}' COMMENT '{ "aa" :[1,2,3]} 这样的下一手走法胜率记录',
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
