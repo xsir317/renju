@@ -76,7 +76,7 @@ class RenjuBoardTool_bit
         return $return;
     }
 
-    public function board2binary()
+    public function get_binary()
     {
         //整理数组，让有棋子的行尽量靠前，没棋子的尽量靠后。
         $tmp_pack_arr = [

@@ -52,7 +52,7 @@ class TestController extends Controller
         $board = new RenjuBoardTool_bit('8877899b8a');
         echo $board->_debug_board();
 
-        $bytes = $board->board2binary();
+        $bytes = $board->get_binary();
         $ints = unpack('L15',$bytes);
         foreach ($ints as $row)
         {
