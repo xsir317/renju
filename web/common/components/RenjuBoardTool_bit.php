@@ -44,6 +44,7 @@ class RenjuBoardTool_bit
      */
     private $current = [1,1];
 
+    private $next = self::BLACK_STONE;
 
     /**
      * RenjuBoardTool constructor.
@@ -56,12 +57,12 @@ class RenjuBoardTool_bit
         $this->board = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,];
         $arrStones = strlen($init) > 0 ? array_unique(str_split($init,2)) : [];
         //棋子序号
-        $stone = self::BLACK_STONE;
+        $this->next = self::BLACK_STONE;
         foreach ($arrStones as $onestone)
         {
             $coordinate = self::pos2coordinate($onestone);
-            $this->setStone($stone,$coordinate);
-            $stone = ($stone == self::WHITE_STONE) ? self::BLACK_STONE : self::WHITE_STONE;
+            $this->setStone($this->next,$coordinate);
+            $this->next = ($this->next == self::WHITE_STONE) ? self::BLACK_STONE : self::WHITE_STONE;
         }
     }
 
@@ -138,6 +139,18 @@ class RenjuBoardTool_bit
                 break;
         }
         $this->board[$coordinate[0] -1] = $row;
+    }
+
+    public function doMove($move)
+    {
+        $coordinate = self::pos2coordinate($move);
+        if($this->_($coordinate) != self::EMPTY_STONE)
+        {
+            return false;
+        }
+        $this->setStone($this->next,$coordinate);
+        $this->next = ($this->next == self::WHITE_STONE) ? self::BLACK_STONE : self::WHITE_STONE;
+        return true;
     }
 
     /**
