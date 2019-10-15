@@ -17,6 +17,9 @@ return [
         'games' => [
             'class' => 'frontend\modules\games\Module'
         ],
+        'records' => [
+            'class' => 'frontend\modules\records\Module'
+        ],
     ],
     'components' => [
         'request' => [

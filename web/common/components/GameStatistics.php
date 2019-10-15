@@ -46,7 +46,7 @@ class GameStatistics
         //对每一步，生成棋盘， 查询棋盘，然后更新胜率以及下一手统计。
         $board_tool = new RenjuBoardTool_bit('');
         $game_len = strlen($game);
-        for($i = 0 ; $i < $game_len ; $i += 2 )
+        for($i = 0 ; $i <= $game_len ; $i += 2 )
         {
             $move = substr($game,$i,2);
             if($i > 0)
@@ -89,7 +89,10 @@ class GameStatistics
                 $stat_record->next_move = json_encode($decode_next_move);
                 $stat_record->save(0);
             }
-            $board_tool->doMove($move);
+            if($move)
+            {
+                $board_tool->doMove($move);
+            }
         }
         return $record->id;
     }
