@@ -19,7 +19,7 @@ class GameStatistics
      * 数据入库，
      * @param $game
      * @param $result  int | 0 | 2 | 1 黑棋得分，
-     * @param array $extra  额外数据，目前支持black_player white_player rule source
+     * @param array $extra  额外数据，目前支持black_player white_player rule source origin_game
      * @return int | bool
      */
     public static function do_record($game,$result,$extra = [])
@@ -39,9 +39,10 @@ class GameStatistics
         $record->black_player = isset($extra['black_player']) ? $extra['black_player'] : '';
         $record->white_player = isset($extra['white_player']) ? $extra['white_player'] : '';
         $record->game = $game;
+        $record->origin_game = isset($extra['origin_game']) ? $extra['origin_game'] : '';
         $record->rule = isset($extra['rule']) ? $extra['rule'] : '';
         $record->result = $result;
-        $result->source = isset($extra['source']) ? $extra['source'] : '';
+        $record->data_from = isset($extra['source']) ? $extra['source'] : '';
         $record->game_time = isset($extra['white_player']) ? $extra['white_player'] : '';
         $record->created_time = date('Y-m-d H:i:s');
         $record->save(0);
@@ -70,7 +71,7 @@ class GameStatistics
                 }
 
                 $decode_next_move = json_decode($stat_record->next_move,1);
-                if(!isset($decode_next_move[$move]))
+                if($move && !isset($decode_next_move[$move]))
                 {
                     $decode_next_move[$move] = [0,0,0];
                 }
@@ -78,15 +79,15 @@ class GameStatistics
                 {
                     case 2: //黑胜
                         $stat_record->black_wins ++;
-                        $decode_next_move[$move][0] ++;
+                        $move ? $decode_next_move[$move][0] ++ : null;
                         break;
                     case 1: //和
                         $stat_record->draws ++ ;
-                        $decode_next_move[$move][1] ++;
+                        $move ? $decode_next_move[$move][1] ++ : null;
                         break;
                     case 0:
                         $stat_record->white_wins ++;
-                        $decode_next_move[$move][2] ++;
+                        $move ? $decode_next_move[$move][2] ++ : null;
                         break;
                 }
                 $stat_record->next_move = json_encode($decode_next_move);
@@ -177,7 +178,7 @@ class GameStatistics
                 break;
         }
         //需要的是展示坐标的正规化，需要转成展示坐标。
-        $game = self::rotate_reverse_90($game);
+        $game = self::rotate_clock_90($game);
         return $game;
     }
 
@@ -228,7 +229,7 @@ class GameStatistics
         $return = '';
         foreach (str_split($game,2) as $stone)
         {
-            $return .= $stone{1} . dechex(16 - $stone{0}) ;
+            $return .= $stone{1} . dechex(16 - hexdec($stone{0})) ;
         }
         return $return;
     }
@@ -239,7 +240,7 @@ class GameStatistics
         $return = '';
         foreach (str_split($game,2) as $stone)
         {
-            $return .= dechex(16 - $stone{1}) . $stone{0};
+            $return .= dechex(16 - hexdec($stone{1})) . $stone{0};
         }
         return $return;
     }
