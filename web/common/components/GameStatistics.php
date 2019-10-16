@@ -113,8 +113,7 @@ class GameStatistics
         {
             return $game;
         }
-        //需要的是展示坐标的正规化，所以拿到展示坐标先 rotate_clock_90 转成实现（假定我们拿到的棋谱相对靠谱），操作之后再转回来。
-        $game = self::rotate_clock_90($game);
+        //$game = self::rotate_clock_90($game);
         $stone2 = substr($game,2,2);
         switch ($stone2)
         {
@@ -144,19 +143,39 @@ class GameStatistics
         }
         $stone2 = substr($game,2,2);
         //正规化检查到8手为止
-        $check_end = min(8,strlen($game)/2);
+        $check_end = min(8,strlen($game)/2) * 2;
         switch ($stone2) {
             case '78':
                 //直指，如果从第三手开始，有棋子不是落在 y=8 则 y<8 就 flip_by_y 结束
-
+                for($i = 4; $i < $check_end; $i += 2)
+                {
+                    if($game{$i+1} != '8')
+                    {
+                        if(intval($game{$i+1}) < 8) // 这里就不折腾了，虽然它是16进制，这里就直接int了。
+                        {
+                            $game = self::flip_by_y($game);
+                        }
+                        break;
+                    }
+                }
                 break;
             case '79':
                 //斜指，如果从第三手开始，如果从第三手开始，有棋子不是落在 x+y=16 则 x+y<16 就 flip_by_diagonal 结束
-
+                for($i = 4; $i < $check_end; $i += 2)
+                {
+                    $tmp_coord_sum = hexdec($game{$i}) + hexdec($game{$i+1});
+                    if($tmp_coord_sum != 16)
+                    {
+                        if($tmp_coord_sum < 16) // 这里就不折腾了，虽然它是16进制，这里就直接int了。
+                        {
+                            $game = self::flip_by_diagonal($game);
+                        }
+                        break;
+                    }
+                }
                 break;
         }
-
-
+        //需要的是展示坐标的正规化，需要转成展示坐标。
         $game = self::rotate_reverse_90($game);
         return $game;
     }
