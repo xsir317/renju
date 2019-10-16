@@ -50,6 +50,6 @@ class TestController extends Controller
 
     public function actionPack()
     {
-        GameStatistics::do_record('8889878698789a76979979a696a78aaaa9b89bac8b7c7b6b8d8cabbbba',2);
+        echo GameStatistics::regularize('8889aa');
     }
 }

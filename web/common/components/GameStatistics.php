@@ -153,7 +153,7 @@ class GameStatistics
                 {
                     if($game{$i+1} != '8')
                     {
-                        if(intval($game{$i+1}) < 8) // 这里就不折腾了，虽然它是16进制，这里就直接int了。
+                        if(intval(hexdec($game{$i+1})) < 8)
                         {
                             $game = self::flip_by_y($game);
                         }
