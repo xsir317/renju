@@ -16,14 +16,14 @@ use common\models\GameRecords;
 class GameStatistics
 {
     /**
+     * 数据入库，
      * @param $game
      * @param $result  int | 0 | 2 | 1 黑棋得分，
-     * @param array $extra
+     * @param array $extra  额外数据，目前支持black_player white_player rule source
      * @return int | bool
      */
     public static function do_record($game,$result,$extra = [])
     {
-        //丢弃非天元开局？
         //先正则化棋谱
         $game = self::regularize($game);
         //然后查询一下是否已经记录了
@@ -39,8 +39,9 @@ class GameStatistics
         $record->black_player = isset($extra['black_player']) ? $extra['black_player'] : '';
         $record->white_player = isset($extra['white_player']) ? $extra['white_player'] : '';
         $record->game = $game;
-        $record->rule = isset($extra['white_player']) ? $extra['white_player'] : '';
+        $record->rule = isset($extra['rule']) ? $extra['rule'] : '';
         $record->result = $result;
+        $result->source = isset($extra['source']) ? $extra['source'] : '';
         $record->game_time = isset($extra['white_player']) ? $extra['white_player'] : '';
         $record->created_time = date('Y-m-d H:i:s');
         $record->save(0);
