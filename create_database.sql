@@ -141,18 +141,21 @@ CREATE TABLE `board_win_statistics` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `game_records` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `black_player` varchar(16) NOT NULL DEFAULT '',
-  `white_player` varchar(16) NOT NULL,
-  `game` varchar(450) NOT NULL DEFAULT '',
-  `rule` enum('Yamaguchi','RIF','Soosyrv8','Renju','Gomoku') NOT NULL DEFAULT 'RIF',
-  `result` tinyint(4) NOT NULL DEFAULT '2' COMMENT '2/1/0 黑方得分，胜平负',
-  `game_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `created_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  KEY `game` (`game`(32))
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `black_player` varchar(16) NOT NULL DEFAULT '',
+ `white_player` varchar(16) NOT NULL,
+ `game` varchar(450) NOT NULL DEFAULT '',
+ `origin_game` varchar(1024) NOT NULL,
+ `rule` varchar(16) NOT NULL DEFAULT 'RIF' COMMENT '规则',
+ `result` tinyint(4) NOT NULL DEFAULT '2' COMMENT '2/1/0 黑方得分，胜平负',
+ `data_from` varchar(16) NOT NULL COMMENT '来源',
+ `rel_id` varchar(16) NOT NULL DEFAULT '',
+ `game_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ `created_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+ PRIMARY KEY (`id`),
+ KEY `game` (`game`(32)),
+ KEY `rel_id` (`rel_id`(8)) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 --
 -- Indexes for dumped tables
 --

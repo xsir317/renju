@@ -60,10 +60,10 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
 <div class="layui-footer footer footer-doc">
     <div class="layui-main">
         <p>
-            <?= Yii::t('app','Please use Chrome or Firefox.')?>
+            查询页面棋盘数字表示胜率和总对局数。颜色代表得分率（赢棋数 + 0.5 * 和棋数）/ 总对局数 ，越偏绿的颜色表示得分率越高，越红表示得分率越低。
         </p>
         <p>
-            <?= Yii::t('app','This is an open source project, project page at')?>: <a href="https://github.com/xsir317/renju" target="_blank">https://github.com/xsir317/renju</a>
+            查询页面操作有频率限制，操作不要太快了。
         </p>
     </div>
 </div>

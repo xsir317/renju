@@ -40,7 +40,7 @@ let boardObj = function()
      * @param  {boolean} play_sound 是否播放声音
      * @returns {boolean}
      */
-    _obj.place_stone = function(coordinate,play_sound){
+    _obj.place_stone = function(coordinate){
         let target_cell = board.find('.'+coordinate);
         if(!target_cell.hasClass('blank'))
         {
@@ -152,7 +152,7 @@ let boardObj = function()
             board.append(newrow);
         }
         board.find('.row div').click(function(){
-            _obj.place_stone($(this).attr('alt'),true);
+            _obj.place_stone($(this).attr('alt'));
             return true;
         });
         //生成控制按钮

@@ -15,7 +15,7 @@ use Yii;
  * @property string $rule 规则
  * @property int $result 2/1/0 黑方得分，胜平负
  * @property string $data_from 来源
- * @property int $rel_id
+ * @property string $rel_id
  * @property string $game_time
  * @property string $created_time
  */
@@ -36,9 +36,9 @@ class GameRecords extends \yii\db\ActiveRecord
     {
         return [
             [['white_player', 'origin_game', 'data_from'], 'required'],
-            [['result', 'rel_id'], 'integer'],
+            [['result'], 'integer'],
             [['game_time', 'created_time'], 'safe'],
-            [['black_player', 'white_player', 'rule', 'data_from'], 'string', 'max' => 16],
+            [['black_player', 'white_player', 'rule', 'data_from', 'rel_id'], 'string', 'max' => 16],
             [['game'], 'string', 'max' => 450],
             [['origin_game'], 'string', 'max' => 1024],
         ];

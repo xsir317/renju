@@ -50,8 +50,9 @@ class GameStatistics
 
         //对每一步，生成棋盘， 查询棋盘，然后更新胜率以及下一手统计。
         $board_tool = new RenjuBoardTool_bit('');
-        $game_len = strlen($game);
-        for($i = 0 ; $i <= $game_len ; $i += 2 )
+        //第64手之后不统计分支胜负了，意义不大
+        $stat_end = min(strlen($game),64*2);
+        for($i = 0 ; $i <= $stat_end ; $i += 2 )
         {
             $move = substr($game,$i,2);
             if($i > 0)
@@ -93,7 +94,7 @@ class GameStatistics
                 }
                 $stat_record->next_move = json_encode($decode_next_move);
                 $stat_record->save(0);
-                if($i >= 6) // 开局的局面-对局关系不要记录了 太多而且没用。
+                if($i >= 12) // 开局的局面-对局关系不要记录了 太多而且没用。
                 {
                     $rel = new BoardRecordRel();
                     $rel->board_id = $stat_record->id;

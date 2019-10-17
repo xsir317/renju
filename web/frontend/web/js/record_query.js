@@ -10,9 +10,6 @@ let boardObj = function()
 
     let _obj = this;
 
-    //整个游戏的数据结构，包括对局进程、状态、双方等等。会通过页面变量或者Websocket推过来。
-    _obj.gameData = '';
-
     //字符串，当前局面记录。
     _obj.currgame = '';
 
@@ -93,18 +90,64 @@ let boardObj = function()
             }
 
             let data = _data.data;
-            $("#gameinfo ul .total_games>ins").html( data.white_wins + data.black_wins + data.draws);
+            let board_total_games = data.white_wins + data.black_wins + data.draws;
+            let board_e_score = board_total_games ? ((data.black_wins + 0.5 * data.draws) / board_total_games) : 0;
+            $("#gameinfo ul .total_games>ins").html( board_total_games );
             $("#gameinfo ul .black_wins>ins").html( data.black_wins );
+            $("#gameinfo ul .black_score>ins").html( Math.round(board_e_score * 1000) / 1000 );
             $("#gameinfo ul .white_wins>ins").html( data.white_wins );
             $("#gameinfo ul .draws>ins").html( data.draws );
 
             //清理其他的统计点
-            board.find(".statistics").removeClass('statistics good bad').empty();
+            board.find(".statistics").removeClass('statistics good1 good2 good3 bad1 bad2 bad3 unknown').empty();
             for(let coord in data.next_move)
             {
+                let curr_color_game = _obj.curr_color == 'black' ? data.next_move[coord][0] : data.next_move[coord][2];
+                let total_game = data.next_move[coord][0] + data.next_move[coord][1] + data.next_move[coord][2]; // 黑棋胜平负
+                let e_score = total_game ? ((curr_color_game + 0.5 * data.next_move[coord][1]) / total_game) : -1;
+                let stat_color = 'unknown';//统计颜色，根据得分率给出 很好或者很不好
+                let win_rate = total_game ? ( Math.round(curr_color_game * 1000 / total_game) /10 ) : 0;//胜率
+                if(total_game == 0)
+                {
+                    stat_color = 'unknown';
+                }
+                else if(e_score > 0.8)
+                {
+                    stat_color = 'good3';
+                }
+                else if(e_score > 0.6)
+                {
+                    stat_color = 'good2';
+                }
+                else if(e_score > 0.53)
+                {
+                    stat_color = 'good1';
+                }
+                else if(e_score < 0.2)
+                {
+                    stat_color = 'bad1';
+                }
+                else if(e_score < 0.4)
+                {
+                    stat_color = 'bad2';
+                }
+                else if(e_score < 0.47)
+                {
+                    stat_color = 'bad3';
+                }
                 board.find("." + coord)
-                    .addClass('statistics')
-                    .html(data.next_move[coord][0] + '/' +data.next_move[coord][1] + '/' +data.next_move[coord][2]); // 黑棋胜平负
+                    .addClass('statistics ' + stat_color)
+                    .html("<em class='win_rate'>" + win_rate +  "</em>" + "<em class='total_game'>" + total_game +  "</em>");
+            }
+
+            $("#gameinfo ul .rel_games>span>p").empty();
+            for(let i in  data.related_games)
+            {
+                let new_link = $("<a>").attr({
+                    href: "/records/show/game?id=" + data.related_games[i]["record_id"],
+                    target: "_blank"
+                }).text(data.related_games[i]["black_player"] + ' - ' + data.related_games[i]["white_player"]);
+                $("#gameinfo ul .rel_games>span>p").append( new_link );
             }
         });
     };
@@ -144,9 +187,24 @@ let boardObj = function()
             board.append(newrow);
         }
         board.find('.row div').click(function(){
-            _obj.place_stone($(this).attr('alt'),true);
+            _obj.place_stone($(this).attr('alt'));
             return true;
         });
+
+
+        //生成控制按钮
+        let controlbar = $(document.createElement("div"));
+        controlbar.addClass('controlbar');
+        board.after(controlbar);
+        //按钮
+        $(document.createElement("button")).addClass('button').text('清空').click(function () {
+            _obj.currgame = '';
+            _obj.curr_color = 'black';
+            _obj.curr_step = 1;
+            board.find(".statistics").removeClass('statistics good1 good2 good3 bad1 bad2 bad3 unknown').empty();
+            board.find(".black, .white").removeClass('black white').addClass('blank');
+            board.find(".88").click();
+        }).appendTo(controlbar);
     };
 };
 
