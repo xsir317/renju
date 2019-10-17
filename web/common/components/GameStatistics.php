@@ -43,6 +43,7 @@ class GameStatistics
         $record->rule = isset($extra['rule']) ? $extra['rule'] : '';
         $record->result = $result;
         $record->data_from = isset($extra['source']) ? $extra['source'] : '';
+        $record->rel_id = isset($extra['rel_id']) ? $extra['rel_id'] : 0;
         $record->game_time = isset($extra['white_player']) ? $extra['white_player'] : '';
         $record->created_time = date('Y-m-d H:i:s');
         $record->save(0);
