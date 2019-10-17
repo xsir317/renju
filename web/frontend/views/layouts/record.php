@@ -75,7 +75,6 @@ layui.config({
 });
 </script>
 <script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-<script src="/js/records.js"  type="text/javascript" charset="utf-8"></script>
 <?php $this->endBody() ?>
 </body>
 </html>

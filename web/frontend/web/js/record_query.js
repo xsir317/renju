@@ -16,44 +16,35 @@ let boardObj = function()
     //字符串，当前局面记录。
     _obj.currgame = '';
 
-    //字符串，记录终局状态。
-    _obj.endgame = '';
-
     // 当前颜色，在初始化时会初始化为黑色
     _obj.curr_color = 'black';
 
     //当前手数，会被初始化为1
     _obj.curr_step = 1;
 
-
-    //load 一个游戏数据。
-    _obj.load = function( game_str ){
-        _obj.gameData = game_str;
-        _obj.show_origin();
-    };
+    _obj.in_ajax = false;
 
 
     /**
      * @description 在指定位置放置一枚棋子。当操作者是行棋一方时，会转交给make_move来处理。
      * 当操作者是玩家之一时，不可以拿棋盘来拆棋，只能按照对局记录前进后退。
      * @param  {string} coordinate 传入坐标。
-     * @param  {boolean} play_sound 是否播放声音
      * @returns {boolean}
      */
-    _obj.place_stone = function(coordinate,play_sound){
+    _obj.place_stone = function(coordinate){
+        if(_obj.in_ajax)
+        {
+            return false;
+        }
         let target_cell = board.find('.'+coordinate);
         if(!target_cell.hasClass('blank'))
         {
             return false;
         }
-        target_cell.removeClass('blank').addClass(_obj.curr_color).html(_obj.curr_step ++);
+        target_cell.removeClass('blank').addClass(_obj.curr_color);//.html(_obj.curr_step ++);
         _obj.curr_color = (_obj.curr_color == 'black' ? 'white':'black');
         _obj.currgame += coordinate;
-        if(_obj.currgame != _obj.endgame.substr(0,_obj.currgame.length))
-        {
-            _obj.endgame = _obj.currgame;
-        }
-
+        _obj.do_query();
         return true;
     };
 
@@ -66,6 +57,10 @@ let boardObj = function()
      * @returns {boolean}
      */
     _obj.move_pre = function(){
+        if(_obj.in_ajax)
+        {
+            return false;
+        }
         if(_obj.currgame)
         {
             let last_move = _obj.currgame.substr(_obj.currgame.length-2,2);
@@ -75,48 +70,27 @@ let boardObj = function()
             _obj.curr_step --;
             _obj.curr_color = (_obj.curr_color == 'black' ? 'white':'black');
             _obj.currgame = _obj.currgame.substr(0,_obj.currgame.length-2);
-
+            _obj.do_query();
             return true;
         }
         return false;
     };
 
-    /**
-     * 根据endgame，一步一步走下去，把整个棋局展示出来。
-     * @returns {boolean}
-     */
-    _obj.move_next = function(){
-        if(_obj.currgame != _obj.endgame)
+
+    _obj.do_query = function()
+    {
+        if(_obj.currgame == '')
         {
-            let nextstep = _obj.endgame.substr(_obj.currgame.length,2);
-            _obj.place_stone(nextstep);
-            return true;
+            return false;
         }
-        return false;
+        _obj.in_ajax = true;
+
+        $.getJSON('/records/ajax/query',{game:_obj.currgame},function(_data){
+            setTimeout(function(){_obj.in_ajax = false;},1000);
+            console.log(_data);
+        });
     };
 
-    /**
-     * 回退到空棋盘状态。
-     */
-    _obj.board_clean = function(){
-        while (_obj.move_pre()) {}
-    };
-
-    /**
-     * 根据目前的棋局记录一路Next到局面结束的状态。
-     */
-    _obj.board_end = function(){
-        while(_obj.move_next()) {}
-    };
-
-    /**
-     * 根据gameData 初始化棋盘的文字信息和棋盘Game信息
-     */
-    _obj.show_origin = function(){
-        _obj.board_clean();
-        _obj.endgame = _obj.gameData;
-        _obj.board_end();
-    };
     /**
      * 画棋盘和按钮。绑定右键事件。
      * 整个页面载入的时候会执行一次。仅此一次。
@@ -155,29 +129,6 @@ let boardObj = function()
             _obj.place_stone($(this).attr('alt'),true);
             return true;
         });
-        //生成控制按钮
-        let controlbar = $(document.createElement("div"));
-        controlbar.addClass('controlbar');
-        board.after(controlbar);
-        //按钮
-        $(document.createElement("button")).addClass('button').text('<')  .click(_obj.move_pre   ).appendTo(controlbar);
-        $(document.createElement("button")).addClass('button').text('>')  .click(_obj.move_next  ).appendTo(controlbar);
-        $(document.createElement("button")).addClass('button').text('|<<')  .click(_obj.board_clean).appendTo(controlbar);
-        $(document.createElement("button")).addClass('button').text('>>|').click(_obj.board_end  ).appendTo(controlbar);
-        $(document.createElement("button")).addClass('button').text('恢复')    .click(_obj.show_origin).appendTo(controlbar);
-        $(document.createElement("button")).addClass('button show').text('隐藏数字').click(function(){
-            let _btn = $(this);
-            if(_btn.hasClass("show"))
-            {
-                _btn.text('显示数字').removeClass('show');
-                $("<style>").attr("id",'hide_number').html('.row div{text-indent:-999px;overflow:hidden;}').appendTo("head");
-            }
-            else
-            {
-                _btn.text('隐藏数字').addClass('show');
-                $("#hide_number").remove();
-            }
-        }).appendTo(controlbar);
     };
 };
 
@@ -186,5 +137,4 @@ board = new boardObj();
 
 $(document).ready(function(){
     board.init_board();
-    board.load(game_str);
 });

@@ -18,7 +18,7 @@ class ShowController extends Controller
     public function actionIndex()
     {
         $this->layout = '//record';
-
+        return $this->render('index');
     }
 
     public function actionGame()
