@@ -87,7 +87,25 @@ let boardObj = function()
 
         $.getJSON('/records/ajax/query',{game:_obj.currgame},function(_data){
             setTimeout(function(){_obj.in_ajax = false;},1000);
-            console.log(_data);
+            if(_data.code != 200)
+            {
+                layer.alert(_data.msg);
+            }
+
+            let data = _data.data;
+            $("#gameinfo ul .total_games>ins").html( data.white_wins + data.black_wins + data.draws);
+            $("#gameinfo ul .black_wins>ins").html( data.black_wins );
+            $("#gameinfo ul .white_wins>ins").html( data.white_wins );
+            $("#gameinfo ul .draws>ins").html( data.draws );
+
+            //清理其他的统计点
+            board.find(".statistics").removeClass('statistics good bad').empty();
+            for(let coord in data.next_move)
+            {
+                board.find("." + coord)
+                    .addClass('statistics')
+                    .html(data.next_move[coord][0] + '/' +data.next_move[coord][1] + '/' +data.next_move[coord][2]); // 黑棋胜平负
+            }
         });
     };
 

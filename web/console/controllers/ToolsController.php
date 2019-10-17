@@ -85,6 +85,10 @@ class ToolsController extends Controller
             ];
             echo intval($g['id']),"\t{$board_str} \n";
             $record_id = GameStatistics::do_record($board_str,$result,$extra);
+            if($record_id > 20)
+            {
+                break;
+            }
         }
     }
 
