@@ -92,6 +92,12 @@ class ToolsController extends Controller
         }
     }
 
+    public function actionRead_offline()
+    {
+        //10步以内不要，15步以内和棋不要
+        //数据来源 renjuoffline
+    }
+
     private function rif_record_convert($rif_moves)
     {
         $converted  = '';
