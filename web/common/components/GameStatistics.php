@@ -45,6 +45,7 @@ class GameStatistics
             }
         }
 
+        //TODO 这里要全部重写啊，要统一处理所有局面的insert和update
         $record = new GameRecords();
         $record->black_player = isset($extra['black_player']) ? $extra['black_player'] : '';
         $record->white_player = isset($extra['white_player']) ? $extra['white_player'] : '';
@@ -72,6 +73,13 @@ class GameStatistics
                 $stat_record = BoardWinStatistics::find()
                     ->where(['board' => $board])
                     ->one();
+
+                //查询等价棋盘。
+                //如果找到了等价棋盘，则当前局面上一手那个盘面， 走当前落点的统计数据要merge等价棋盘的。
+                //例如我们先录入的是丘月
+                //然后录入了一盘斜月，走到4 盘面找到等价了
+                //此时不仅当前的获胜要向先前的等价记录累加，写 see_as ， 此点前面一手（也就是斜月局面）的下一手坐标的next_move记录也得按照等价的盘面统计修改
+                //棋盘方向要遵从等价记录
                 if(!$stat_record)
                 {
                     $stat_record = new BoardWinStatistics();
