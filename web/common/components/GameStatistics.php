@@ -34,6 +34,16 @@ class GameStatistics
         {
             return false;
         }
+        $source = isset($extra['source']) ? $extra['source'] : '';
+        $rel_id = isset($extra['rel_id']) ? $extra['rel_id'] : 0;
+        if($source && $rel_id)
+        {
+            if(GameRecords::find()->where(['data_from' => $source,'rel_id' => $rel_id])->one())
+            {
+                //TODO 这里后续可能会负责做一些数据核对和修补
+                return false;
+            }
+        }
 
         $record = new GameRecords();
         $record->black_player = isset($extra['black_player']) ? $extra['black_player'] : '';
@@ -42,9 +52,9 @@ class GameStatistics
         $record->origin_game = isset($extra['origin_game']) ? $extra['origin_game'] : '';
         $record->rule = isset($extra['rule']) ? $extra['rule'] : '';
         $record->result = $result;
-        $record->data_from = isset($extra['source']) ? $extra['source'] : '';
-        $record->rel_id = isset($extra['rel_id']) ? $extra['rel_id'] : 0;
-        $record->game_time = isset($extra['white_player']) ? $extra['white_player'] : '';
+        $record->data_from = $source;
+        $record->rel_id = $rel_id;
+        $record->game_time = isset($extra['game_time']) ? $extra['game_time'] : '';
         $record->created_time = date('Y-m-d H:i:s');
         $record->save(0);
 

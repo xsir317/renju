@@ -83,9 +83,9 @@ class ToolsController extends Controller
                 'rel_id' => $rel_id,
                 'origin_game' => $move,
             ];
-            echo intval($g['id']),"\t{$board_str} \n";
-            $record_id = GameStatistics::do_record($board_str,$result,$extra);
-            if($record_id > 20)
+            echo $rel_id,"\t{$board_str} \n";
+            GameStatistics::do_record($board_str,$result,$extra);
+            if(file_exists(\Yii::$app->getRuntimePath().'/rif.stop'))
             {
                 break;
             }
@@ -94,8 +94,57 @@ class ToolsController extends Controller
 
     public function actionRead_offline()
     {
-        //10步以内不要，15步以内和棋不要
-        //数据来源 renjuoffline
+        $source_file = 'E:\\downloads\\games.xml';
+        $obj = simplexml_load_file($source_file);
+
+        foreach ($obj->games->children() as $g)
+        {
+            $move = strval($g->board);
+            $winner = strval($g->winner);
+            $result = 1;
+
+            $result_map = [
+                'black' => 2,
+                '' => 1,
+                'unknown' => 1,
+                'white' => 0,
+            ];
+            if(isset($result_map[$winner]))
+            {
+                $result = $result_map[$winner];
+            }
+            $board_str = $this->rif_record_convert($move);//这俩一样啊
+
+            if(strlen($board_str) <= 20) //10手棋，以及15手以内和棋都没啥用。
+            {
+                continue;
+            }
+            if(strlen($board_str) <= 30 && $result == 1)
+            {
+                continue;
+            }
+            if(!BoardTool::board_correct($board_str))
+            {
+                continue;
+            }
+
+            $game_time = date('Y-m-d H:i:s',intval($g->creation_time));
+            $extra = [
+                'black_player' => strval($g->black),
+                'white_player' => strval($g->white),
+                'rule' => strval($g->rule),
+                'source' => 'renjuoffline',
+                'rel_id' => strval($g->id),
+                'game_time' =>$game_time,
+                'origin_game' => $move,
+            ];
+            echo strval($g->id),"\t{$board_str} \n";
+            GameStatistics::do_record($board_str,$result,$extra);
+            if(file_exists(\Yii::$app->getRuntimePath().'/offline.stop'))
+            {
+                break;
+            }
+        }
     }
 
     private function rif_record_convert($rif_moves)
