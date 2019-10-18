@@ -13,6 +13,8 @@ use Yii;
  * @property int $black_wins
  * @property int $draws
  * @property string $next_move { "aa" :[1,2,3]} 这样的下一手走法胜率记录
+ * @property int $see_as 比当前局面先录入的同型
+ * @property string $game_str
  */
 class BoardWinStatistics extends \yii\db\ActiveRecord
 {
@@ -31,9 +33,10 @@ class BoardWinStatistics extends \yii\db\ActiveRecord
     {
         return [
             [['board'], 'required'],
-            [['white_wins', 'black_wins', 'draws'], 'integer'],
+            [['white_wins', 'black_wins', 'draws', 'see_as'], 'integer'],
             [['board'], 'string', 'max' => 60],
             [['next_move'], 'string', 'max' => 2048],
+            [['game_str'], 'string', 'max' => 450],
         ];
     }
 
@@ -49,6 +52,8 @@ class BoardWinStatistics extends \yii\db\ActiveRecord
             'black_wins' => 'Black Wins',
             'draws' => 'Draws',
             'next_move' => 'Next Move',
+            'see_as' => 'See As',
+            'game_str' => 'Game Str',
         ];
     }
 }
