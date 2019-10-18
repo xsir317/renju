@@ -180,7 +180,7 @@ class GameStatistics
                     $tmp_coord_sum = hexdec($game{$i}) + hexdec($game{$i+1});
                     if($tmp_coord_sum != 16)
                     {
-                        if($tmp_coord_sum < 16) // 这里就不折腾了，虽然它是16进制，这里就直接int了。
+                        if($tmp_coord_sum < 16)
                         {
                             $game = self::flip_by_diagonal($game);
                         }

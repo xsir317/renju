@@ -96,8 +96,7 @@ class ToolsController extends Controller
     {
         $source_file = 'E:\\downloads\\games.xml';
         $obj = simplexml_load_file($source_file);
-
-        foreach ($obj->games->children() as $g)
+        foreach ($obj->children() as $g)
         {
             $move = strval($g->board);
             $winner = strval($g->winner);
