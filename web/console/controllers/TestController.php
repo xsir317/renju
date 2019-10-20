@@ -50,7 +50,7 @@ class TestController extends Controller
 
     public function actionRotate()
     {
-        $board = new RenjuBoardTool_bit('8878a779a6');
+        $board = new RenjuBoardTool_bit('8878a779a61ff111ff');
         echo $board->_debug_board();
         $rotate = $board->rotate_reverse_90(null);
         echo "\n";

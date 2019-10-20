@@ -112,11 +112,15 @@ class RenjuBoardTool_bit
     {
         $data = $this->board;
         $return = [];
-        do {
+        while(true){
             $return[] = $this->get_binary($data);
             $return[] = $this->get_binary( $this->flip_by_x($data) );
+            if(count($return) >= 8)
+            {
+                break;
+            }
             $data = $this->rotate_reverse_90($data);
-        } while(count($return) < 8);
+        }
         return $return;
     }
 
