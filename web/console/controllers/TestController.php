@@ -48,8 +48,17 @@ class TestController extends Controller
         //var_dump(BoardTool::a5_symmetry('88798a99','9a7a'));
     }
 
-    public function actionPack()
+    public function actionRotate()
     {
-        echo GameStatistics::regularize('8889aa');
+        $board = new RenjuBoardTool_bit('8878a779a6');
+        echo $board->_debug_board();
+        $rotate = $board->rotate_reverse_90(null);
+        echo "\n";
+        foreach ($rotate as $row)
+        {
+            echo sprintf('%032b',$row);
+            echo "\n";
+        }
+        echo "\n";
     }
 }

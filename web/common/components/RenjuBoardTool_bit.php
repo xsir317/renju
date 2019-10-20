@@ -77,27 +77,88 @@ class RenjuBoardTool_bit
         return $return;
     }
 
-    public function get_binary()
+    public function get_binary($data_arr)
     {
+        if(empty($data_arr))
+        {
+            $data_arr = $this->board;
+        }
         //整理数组，让有棋子的行尽量靠前，没棋子的尽量靠后。
         $tmp_pack_arr = [
-            $this->board[7],
-            $this->board[6],
-            $this->board[8],
-            $this->board[5],
-            $this->board[9],
-            $this->board[4],
-            $this->board[10],
-            $this->board[3],
-            $this->board[11],
-            $this->board[2],
-            $this->board[12],
-            $this->board[1],
-            $this->board[13],
-            $this->board[0],
-            $this->board[14],
+            $data_arr[7],
+            $data_arr[6],
+            $data_arr[8],
+            $data_arr[5],
+            $data_arr[9],
+            $data_arr[4],
+            $data_arr[10],
+            $data_arr[3],
+            $data_arr[11],
+            $data_arr[2],
+            $data_arr[12],
+            $data_arr[1],
+            $data_arr[13],
+            $data_arr[0],
+            $data_arr[14],
         ];
         return call_user_func_array("pack", array_merge(["L15"], $tmp_pack_arr));
+    }
+
+    /**
+     *  获取当前棋盘的8个等价形态
+     * 下标第0，2，4，6 是旋转0，90，180，270 的结果， 1，3，5，7是前一个的X轴旋转。
+     */
+    public function get_symmetries()
+    {
+        $data = $this->board;
+        $return = [];
+        do {
+            $return[] = $this->get_binary($data);
+            $return[] = $this->get_binary( $this->flip_by_x($data) );
+            $data = $this->rotate_reverse_90($data);
+        } while(count($return) < 8);
+        return $return;
+    }
+
+    public function rotate_reverse_90($data_arr)
+    {
+        if(empty($data_arr))
+        {
+            $data_arr = $this->board;
+        }
+        $return  = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,];
+        foreach ($data_arr as $k => $row)
+        {
+            for($i=0;$i<=30;$i++)
+            {
+                //$return[$i - 16][30-$k] = $row[$i];//30-k位
+                //$return[$i][14-$k] = $row[$i];//30-k位
+                if($i <= 15)
+                {
+                    $row_sub = $i;
+                    $val_pos = 14-$k;
+                }
+                else
+                {
+                    $row_sub = $i - 16;
+                    $val_pos = 30-$k;
+                }
+                if($row & (1 << $i))
+                {
+                    $return[$row_sub] |= (1 << $val_pos);
+                }
+            }
+        }
+        return $return;
+    }
+
+    private function flip_by_x($data_arr)
+    {
+        if(empty($data_arr))
+        {
+            $data_arr = $this->board;
+        }
+        return array_reverse($data_arr);
     }
 
     private static function pos2coordinate($position)
