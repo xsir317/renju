@@ -24,31 +24,33 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div class="layui-header header header-doc">
-    <ul class="layui-nav">
-        <?php if(!Yii::$app->user->isGuest):?><li class="layui-nav-item"><?= Yii::t('app','Welcome')?> ,<?php echo Html::encode(Yii::$app->user->identity->nickname);?>. </li><?php endif;?>
-        <li class="layui-nav-item ">
-            <a href="/"><?= Yii::t('app','Hall')?></a>
-        </li>
-        <li class="layui-nav-item">
-            <a href="mailto:xsir317@gmail.com"><?= Yii::t('app','Contact Us')?></a>
-        </li>
-        <li class="layui-nav-item">
-            <a href="/about.html"><?= Yii::t('app','Rules&ELO')?></a>
-        </li>
-        <li class="layui-nav-item">
-            <a href="/site/top100">TOP100</a>
-        </li>
-        <li class="layui-nav-item">
-            <!--<span class="layui-badge-dot" style="margin: -4px 3px 0;"></span>-->
-            <a href="javascript:void(0);"><?= Yii::t('app','Language')?></a>
-            <dl class="layui-nav-child">
-            <?php foreach (Yii::$app->params['languages'] as $k => $name):?>
-                <dd><a href="javascript:void(0);" onclick="pager.switch_language('<?= $k ?>');"><?= $name ?></a></dd>
-            <?php endforeach;?>
-            </dl>
-        </li>
-    </ul>
+<div class="layui-header header header-doc" style="overflow: hidden;">
+    <div>
+        <ul class="layui-nav">
+            <?php if(!Yii::$app->user->isGuest):?><li class="layui-nav-item nav-welcome"><?= Yii::t('app','Welcome')?> ,<?php echo Html::encode(Yii::$app->user->identity->nickname);?>. </li><?php endif;?>
+            <li class="layui-nav-item ">
+                <a href="/"><?= Yii::t('app','Hall')?></a>
+            </li>
+            <li class="layui-nav-item">
+                <!--<span class="layui-badge-dot" style="margin: -4px 3px 0;"></span>-->
+                <a href="javascript:void(0);"><?= Yii::t('app','Language')?></a>
+                <dl class="layui-nav-child">
+                    <?php foreach (Yii::$app->params['languages'] as $k => $name):?>
+                        <dd><a href="javascript:void(0);" onclick="pager.switch_language('<?= $k ?>');"><?= $name ?></a></dd>
+                    <?php endforeach;?>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/about.html"><?= Yii::t('app','Rules&ELO')?></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/site/top100">TOP100</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="mailto:xsir317@gmail.com"><?= Yii::t('app','Contact Us')?></a>
+            </li>
+        </ul>
+    </div>
 </div>
 <div class="layui-container" style="margin-top: 20px;">
     <div class="layui-row layui-col-space5"><?php echo $content?></div>

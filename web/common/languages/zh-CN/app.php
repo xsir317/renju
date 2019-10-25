@@ -54,7 +54,7 @@ return [
     'White' => '白方',
     'Stones' => '手数',
     'Result' => '结果',
-    'Observe' => '旁观游戏',
+    'Observe' => '旁观',
     'Ranking' => '等级分',
     'Rank' => '排名',
     'Games' => '对局数',
