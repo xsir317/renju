@@ -24,10 +24,10 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div class="layui-header header header-doc" style="overflow: hidden;">
+<div class="layui-header header header-doc">
     <div>
         <ul class="layui-nav">
-            <?php if(!Yii::$app->user->isGuest):?><li class="layui-nav-item nav-welcome"><?= Yii::t('app','Welcome')?> ,<?php echo Html::encode(Yii::$app->user->identity->nickname);?>. </li><?php endif;?>
+            <?php if(!Yii::$app->user->isGuest):?><li class="layui-nav-item layui-hide-xs"><?= Yii::t('app','Welcome')?> ,<?php echo Html::encode(Yii::$app->user->identity->nickname);?>. </li><?php endif;?>
             <li class="layui-nav-item ">
                 <a href="/"><?= Yii::t('app','Hall')?></a>
             </li>
@@ -40,13 +40,13 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
                     <?php endforeach;?>
                 </dl>
             </li>
-            <li class="layui-nav-item">
+            <li class="layui-nav-item layui-hide-xs">
                 <a href="/about.html"><?= Yii::t('app','Rules&ELO')?></a>
             </li>
             <li class="layui-nav-item">
                 <a href="/site/top100">TOP100</a>
             </li>
-            <li class="layui-nav-item">
+            <li class="layui-nav-item layui-hide-xs">
                 <a href="mailto:xsir317@gmail.com"><?= Yii::t('app','Contact Us')?></a>
             </li>
         </ul>
