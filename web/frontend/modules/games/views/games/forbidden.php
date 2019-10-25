@@ -3,7 +3,7 @@
 $this->title = Yii::t('app','Private Game');
 
 ?>
-<div class="layui-main site-inline" style="margin-top: 20px;overflow: hidden;">
+<div class="site-inline" style="margin-top: 20px;overflow: hidden;">
     <div class="wrapper" style="overflow:hidden">
         <div class="site-error">
 

@@ -4,7 +4,6 @@ body
 	font-family: "微软雅黑",Arial,Helvetica,sans-serif;
 	background-color: #EFEEF7;
 }
-.layui-main {width:1140px;margin:0 auto;}
 img{border:none;}
 h1,h2,h3{margin:0;}
 p{font-size:14px;margin:0 0 5px 0;line-height:22px;}
@@ -17,18 +16,23 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 #toolbar ul li a{color: #4C9FEB;padding-left:5px;}
 #toolbar ul li a:hover{color:#FF7D4C}
 .wrapper{width:980px;margin:0 auto;}
-#login_reg{width:320px}
 .header .layui-nav {
 }
 .grid_content {padding:10px;overflow: hidden;}
 .footer {margin:10px 0;}
 .footer p{text-align:center;}
 #cont_login,#cont_reg{height:475px;}
-#login2,#reg2{background-color: #EAEAEA;height:94px;}
-#login,#reg,#login2,#reg2{padding:10px;}
+#cont_login h3,#cont_reg h3{margin-bottom: 10px;
+	line-height: 40px;
+	padding-bottom: 10px;
+	color: #393D49;
+	font-size: 22px;
+	font-weight: 300;}
+#login2,#reg2{background-color: #EAEAEA;height:80px;margin:10px;}
 #login,#reg{height:340px;}
+#login,#reg,#login2,#reg2{padding:10px;}
 #login_reg label{display:block;}
-#login_reg li{padding:10px 0 10px 20px;}
+#login_reg li{padding:0 0 5px 0;}
 .greybox {position:relative;border:1px solid #ccc;border-color:rgba(0, 0, 0, 0.1);border-bottom-color:rgba(0, 0, 0, 0.2);border-radius:5px;background:#f7f7f7;background:-webkit-linear-gradient(top, #f7f7f7 0%, #f4f4f4 100%);background:-moz-linear-gradient(top, #f7f7f7 0%, #f4f4f4 100%);background:-o-linear-gradient(top, #f7f7f7 0%, #f4f4f4 100%);background:-ms-linear-gradient(top, #f7f7f7 0%, #f4f4f4 100%);background:linear-gradient(top, #f7f7f7 0%, #f4f4f4 100%);background-clip:padding-box;box-shadow:inset 0px 1px 0 rgba(255, 255, 255, 1);text-shadow:0 1px 0 #fff;background:#f6f6f6}
 .button{cursor:pointer;background:#59A8F3;border-color: #3990DB #3990DB #2F78B7;border-style: solid;    border-width: 1px;    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;    color: #FFFFFF;    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);border-radius: 4px 4px 4px 4px; display: inline-block;    font-size: 13px;    padding: 3px 9px;}
 .button:hover{background:#3F96E5;}
@@ -87,7 +91,8 @@ ul,li,dt,dd,ol{list-style:none;padding:0;margin:0}
 .controlbar button{margin-left:25px;}
 .field {height:37px;line-height:37px;padding: 0 15px;}
 #invite_submit_button {margin:10px auto; display: block}
-#gameinfo li{padding:5px;border-top:1px solid #D1D1D1;overflow:hidden;}
+#gameinfo{padding-left:16px;}
+#gameinfo li{padding:5px 5px 5px 0;border-top:1px solid #D1D1D1;overflow:hidden;}
 #gameinfo ul li span{min-width:70px;}
 #gameinfo span,#gameinfo ins{float:left;text-decoration:none;padding-left:10px;}
 /*聊天*/

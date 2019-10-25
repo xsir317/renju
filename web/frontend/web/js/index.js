@@ -37,13 +37,13 @@ jQuery.cookie = function(name, value, options) {
         return cookieValue;
     }
 };*/
-$("#reg2").hover(function(){$("#cont_login").hide();$("#cont_reg").show();$("#email").focus();});
-$("#login2").hover(function(){$("#cont_reg").hide();$("#cont_login").show();$("#loginfocus").focus();});
+$("#reg2").bind('click mouseenter',function(){$("#cont_login").hide();$("#cont_reg").show();$("#email").focus();});
+$("#login2").bind('click mouseenter',function(){$("#cont_reg").hide();$("#cont_login").show();$("#loginfocus").focus();});
 $("#loginsubmit,#regsubmit").click(function(){
-    var button = $(this);
-    var buttontext = button.val();
+    let button = $(this);
+    let buttontext = button.val();
     button.val('请稍候...');
-    var _form = button.parentsUntil("form").parent();
+    let _form = button.parentsUntil("form").parent();
     $.post(_form.attr("action"),_form.serialize(),function(_data){
         button.val(buttontext);
         if(_data.code == 200)

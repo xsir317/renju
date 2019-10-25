@@ -2,7 +2,7 @@
 $this->title = Yii::t('app','Hall');
 
 ?>
-    <div id="hall_games" class="layui-col-xs9">
+    <div id="hall_games" class="layui-col-md9">
         <ul class="grid_content">
             <li class="hall_game_title">
                 <span class="game_id layui-col-xs2">ID</span>
@@ -14,7 +14,7 @@ $this->title = Yii::t('app','Hall');
             </li>
         </ul>
     </div>
-    <div class="layui-col-xs3">
+    <div class="layui-col-md3">
         <div id="chat_user_list" class="grid_content">
             <ul>
                 <li class="user_title">

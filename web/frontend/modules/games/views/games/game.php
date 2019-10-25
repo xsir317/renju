@@ -4,8 +4,8 @@ use common\services\CommonService;
 $this->title = '对局';
 
 ?>
-    <div class="layui-col-xs6"><div id="board_main"></div></div>
-    <div id="gameinfo" class="layui-col-xs3" style="padding: 0 5px 0 20px;">
+    <div class="layui-col-md6"><div id="board_main"></div></div>
+    <div id="gameinfo" class="layui-col-md3">
         <ul class="greybox">
             <li class="black_name" style="border-top:none;">
                 <span><?= Yii::t('app','Black') ?>: </span><ins></ins>
@@ -53,7 +53,7 @@ $this->title = '对局';
             <li class="offer_draw_tips" style="display: none;"><span style="color:#ff3333"><?= Yii::t('app','Your opponent offers draw,press the "Draw" button if you accept it.') ?></span></li>
         </ul>
     </div>
-    <div class="chat_area layui-col-xs3" style="padding: 0 5px 0 10px;">
+    <div class="chat_area layui-col-md3">
         <div id="chat_user_list">
             <ul>
                 <li class="user_title">
