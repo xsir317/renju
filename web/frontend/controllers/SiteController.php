@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use common\components\RenjuBoardTool;
 use common\components\RenjuBoardTool_bit;
+use common\models\Liyi;
 use common\models\Player;
 use common\services\GameService;
 use common\services\UserService;
@@ -116,5 +117,15 @@ class SiteController extends Controller
         }
 
         return '';
+    }
+
+    public function actionLiyi()
+    {
+        $id = intval($this->get('id'));
+        $article = Liyi::findOne($id);
+        return $this->render('liyi',[
+            'article' => $article,
+            'articles' => Liyi::find()->all()
+        ]);
     }
 }
