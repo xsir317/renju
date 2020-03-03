@@ -191,7 +191,7 @@ class PlayController extends Controller
                 //白胜
                 BoardTool::do_over($game_id,0,false);
                 Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
-                    'content' => ($result == WHITEFIVE ? \Yii::t('app','Five') : \Yii::t('app','Black forbidden move')) . " ," . \Yii::t('app','White wins')
+                    'content' => ($result == RenjuBoardTool_bit::WHITE_FIVE ? \Yii::t('app','Five') : \Yii::t('app','Black forbidden move')) . " ," . \Yii::t('app','White wins')
                 ]));
             }
             elseif($stones == 225)
