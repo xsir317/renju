@@ -24,9 +24,19 @@ class GameController extends Queue {
             return false;
         }
         $client_list = Gateway::getClientSessionsByGroup($data['game_id']);
-        UserService::render($client_list,'uid');
+        $uniq_client_list = [];
+        $uids = [];
+        foreach ($client_list as $item)
+        {
+            if(!isset($uids[$item['uid']]))
+            {
+                $uids[$item['uid']] = 1;
+                $uniq_client_list[] = $item;
+            }
+        }
+        UserService::render($uniq_client_list,'uid');
         Gateway::sendToGroup($data['game_id'],MsgHelper::build('client_list',[
-            'client_list' => $client_list
+            'client_list' => $uniq_client_list
         ]));
         return true;
     }
