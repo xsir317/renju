@@ -30,6 +30,7 @@ let pager = {
             invite_form.find("input[name=comment]").val("");
             invite_form.find("input[name=free_open]").prop("checked",false);
             invite_form.find("input[name=allow_undo]").prop("checked",true);
+            invite_form.find("input[name=is_private]").prop("checked",false);
             invite_btn.val(pager.t("Send Invite"));
         }
         else// 被人邀请，弹出被邀请的窗口
@@ -54,6 +55,7 @@ let pager = {
             invite_form.find("input[name=comment]").val(_data.message);
             invite_form.find("input[name=free_open]").prop("checked",(_data.free_opening == "1"));
             invite_form.find("input[name=allow_undo]").prop("checked",(_data.allow_undo == "1"));
+            invite_form.find("input[name=is_private]").prop("checked",(_data.is_private == "1"));
             invite_btn.val(pager.t("Accept Invite"));
         }
         layer.open({
