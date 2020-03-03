@@ -18,7 +18,12 @@ class UserService extends BaseService
         $uid_list = array_column($data,$key);
         if(!empty($uid_list))
         {
-            $user_list = Player::find()->where(['id' => $uid_list])->indexBy('id')->all();
+            $user_list = Player::find()
+                ->select(['id','email','nickname','score','intro',])
+                ->where(['id' => $uid_list])
+                ->indexBy('id')
+                ->asArray()
+                ->all();
 
             foreach ($data as &$tmp)
             {
@@ -26,11 +31,11 @@ class UserService extends BaseService
                 if(isset($user_list[$uid]))
                 {
                     $tmp[$info_name] = [
-                        'id' => $user_list[$uid]->id,
-                        'email' => $user_list[$uid]->email,
-                        'nickname' => $user_list[$uid]->nickname,
-                        'score' => $user_list[$uid]->score,
-                        'intro' => $user_list[$uid]->intro,
+                        'id' => $user_list[$uid]['id'],
+                        'email' => $user_list[$uid]['email'],
+                        'nickname' => $user_list[$uid]['nickname'],
+                        'score' => $user_list[$uid]['score'],
+                        'intro' => $user_list[$uid]['intro'],
                     ];
                 }
             }
