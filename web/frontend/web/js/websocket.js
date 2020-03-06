@@ -157,7 +157,14 @@ let chat = function (){
     };
 
     this.actionGame_start = function(_data){
-        window.location.href = "/game/" + _data.game_id;
+        let _href = "/game/" + _data.game_id;
+        if(typeof board == 'object' && board.gameData.status == 1)
+        {
+            pager.show_msg('<span style="color: #3367d6;font-weight:bold;">您有一盘新对局，<a href="' +_href+ '" target="_blank">请点击查看</a></span>');
+        }
+        else{
+            window.location.href = _href;
+        }
     };
 
     // 用户退出 更新用户列表
