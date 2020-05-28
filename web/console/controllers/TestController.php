@@ -40,8 +40,7 @@ class TestController extends Controller
 
     public function actionA5()
     {
-        $board = new ForbiddenPointFinder('');
-        var_dump($board->AddStone(7,7,0));
         //var_dump(BoardTool::a5_symmetry('88798a99','9a7a'));
+        var_dump(BoardTool::a5_symmetry('88988789','7999'));
     }
 }
