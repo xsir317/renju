@@ -97,7 +97,7 @@ class BoardTool
 		}
 		//竖直翻转
 		$y_symmetry = ($black_and_white_x_y_symmetry && (hexdec($b[0]{0}) + hexdec($b[1]{0})) == (hexdec($w[0]{0}) + hexdec($w[1]{0})));
-		$in_y_line = ($b[0]{0} == $b[1]{0} && $b[0]{0} == $w[0]{1} && $b[0]{1} == $w[1]{0});
+		$in_y_line = ($b[0]{0} == $b[1]{0} && $b[0]{0} == $w[0]{0} && $b[0]{0} == $w[1]{0});
 		if($y_symmetry || $in_y_line)
 		{
 			$x_sum = hexdec($b[0]{0}) + hexdec($b[1]{0});
