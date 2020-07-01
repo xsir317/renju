@@ -46,8 +46,11 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
             <li class="layui-nav-item">
                 <a href="/site/top100">TOP100</a>
             </li>
-            <li class="layui-nav-item layui-hide-xs">
+            <!-- class="layui-nav-item layui-hide-xs">
                 <a href="mailto:xsir317@gmail.com"><?= Yii::t('app','Contact Us')?></a>
+            </li-->
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/site/logout"><?= Yii::t('app','Logout')?></a>
             </li>
         </ul>
     </div>

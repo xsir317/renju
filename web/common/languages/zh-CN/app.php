@@ -6,6 +6,7 @@ return [
     'Password' => '密码',
     'Repeat Password' => '确认密码',
     'Login' => '登录',
+    'Logout' => '登出',
     'Register' => '注册',
     'Nickname' => '昵称',
     'New User' => '注册新用户',
