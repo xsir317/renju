@@ -127,7 +127,7 @@ const rule_defines = (<?php echo json_encode(CommonService::getRules()) ?>);
 
 const ts_delta = (<?php echo time() ?> - Math.round(new Date().getTime()/1000));
 </script>
-<script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
 <script src="/js/all.js?v=12" type="text/javascript" charset="utf-8"></script>
 <?php $this->endBody() ?>
 </body>

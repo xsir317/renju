@@ -84,7 +84,7 @@ class SiteController extends Controller
             $players = Player::find()
                 ->select(['id','nickname','games','score','intro',])
                 ->where('games>0')
-                ->limit(100)
+                ->limit($per_page + 1)
                 ->offset($per_page * ($page - 1))
                 ->orderBy('score desc')
                 ->asArray()
