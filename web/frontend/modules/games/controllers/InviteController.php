@@ -20,6 +20,7 @@ use frontend\components\Controller;
 
 class InviteController extends Controller
 {
+    public $enableCsrfValidation = false;
     public function actionCreate()
     {
         if(!$this->_user())
