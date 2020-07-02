@@ -24,16 +24,29 @@ $this->title = Yii::t('app','Top Players') ;
     </tr>
     </thead>
     <tbody>
-    <?php
-    foreach($players as $k=>$row): ?>
-    <tr>
-        <td><?= $k+1 ?></td>
-        <td><?= $row['id'] ?></td>
-        <td><a href="/games/history/<?= $row['id'] ?>"><?= Html::encode($row['nickname']) ?></a></td>
-        <td><?= $row['games'] ?></td>
-        <td><?= $row['score'] ?></td>
-        <td><?= Html::encode($row['intro']) ?></td>
-    </tr>
-    <?php endforeach;?>
     </tbody>
-</table>
+</table><?php
+$this->registerJs("
+let counter = 1;
+layui.flow.load({
+    elem: '.layui-table tbody',
+    done: function(page, next){
+        $.getJSON('/site/players/?page=' + page,{},function(_data){
+            let list = [];
+            $.each(_data.data.players, function(index, item){
+                list.push('<tr>'
+                    + '<td>' + counter + '</td>'
+                    + '<td>' + item.id + '</td>'
+                    + '<td><a href=\"/games/history/'+ item.id +'\" target=\"_blank\">' + item.nickname + '</a></td>'
+                    + '<td>' + item.games + '</td>'
+                    + '<td>' + item.score + '</td>'
+                    + '<td>' + item.intro + '</td>'
+                + '</tr>');
+                counter ++;
+            }); 
+            next(list.join(''), _data.data.has_next); 
+        });
+    }
+});
+");
+?>
