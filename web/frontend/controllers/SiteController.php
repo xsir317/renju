@@ -70,19 +70,37 @@ class SiteController extends Controller
 
     public function actionTop100()
     {
-        $users = \Yii::$app->cache->get('top_players0');
-        if(!$users)
+        return $this->render('players');
+    }
+
+    public function actionPlayers()
+    {
+        $per_page = 100;
+        $page = intval($this->get('page',1));
+        $cache_key = "top_players_p{$page}";
+        $result = \Yii::$app->cache->get($cache_key);
+        if(empty($result))
         {
-            $users = Player::find()
+            $players = Player::find()
                 ->select(['id','nickname','games','score','intro',])
                 ->where('games>0')
-                ->orderBy('score desc')
                 ->limit(100)
+                ->offset($per_page * ($page - 1))
+                ->orderBy('score desc')
                 ->asArray()
                 ->all();
-            \Yii::$app->cache->set('top_players0',$users,60);
+            $has_next = count($players) > $per_page ;
+            if($has_next)
+            {
+                array_pop($players);
+            }
+            $result = [
+                'players' => $players,
+                'has_next' => $has_next
+            ];
+            \Yii::$app->cache->set($cache_key,$result,60);
         }
-        return $this->render('players',['players' => $users]);
+        return $this->renderJSON($result);
     }
 
     public function actionSwitch_language()
