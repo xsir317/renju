@@ -194,7 +194,7 @@ class PlayController extends Controller
                     'content' => ($result == RenjuBoardTool_bit::WHITE_FIVE ? \Yii::t('app','Five') : \Yii::t('app','Black forbidden move')) . " ," . \Yii::t('app','White wins')
                 ]));
             }
-            elseif($stones == 225)
+            elseif($stones == 224)//bugfix 这里stones 是盘面已有的棋子
             {
                 //和棋
                 BoardTool::do_over($game_id,0.5,false);
