@@ -4,7 +4,7 @@ use common\services\CommonService;
 $this->title = '对局';
 
 ?>
-    <div class="layui-col-md6 layui-col-xs12"><div id="board_main"></div></div>
+    <div class="layui-col-md6 layui-col-xs12" style="z-index: 999;"><div id="board_main"></div></div>
     <div id="gameinfo" class="layui-col-md3 layui-col-xs6">
         <ul class="greybox">
             <li class="black_name" style="border-top:none;">
