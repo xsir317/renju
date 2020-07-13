@@ -13,9 +13,11 @@ use Yii;
  * @property integer $black_id
  * @property string $message
  * @property integer $totaltime
+ * @property integer $step_add_sec
  * @property string $rule
  * @property integer $free_opening
  * @property integer $allow_undo
+ * @property integer $allow_ob_talk
  * @property integer $is_private
  * @property integer $status
  * @property integer $game_id
@@ -38,7 +40,7 @@ class GameInvites extends \yii\db\ActiveRecord
     {
         return [
             [['from', 'to', 'black_id', 'message', 'totaltime', 'free_opening'], 'required'],
-            [['from', 'to', 'black_id', 'totaltime', 'free_opening', 'allow_undo','is_private', 'status', 'game_id'], 'integer'],
+            [['from', 'to', 'black_id', 'totaltime', 'step_add_sec', 'free_opening', 'allow_undo', 'allow_ob_talk','is_private', 'status', 'game_id'], 'integer'],
             [['rule'], 'string'],
             [['updtime'], 'safe'],
             [['message'], 'string', 'max' => 64],
@@ -57,9 +59,11 @@ class GameInvites extends \yii\db\ActiveRecord
             'black_id' => 'Black ID',
             'message' => 'Message',
             'totaltime' => 'Totaltime',
+            'step_add_sec' => 'step add sec',
             'rule' => 'Rule',
             'free_opening' => 'Free Opening',
             'allow_undo' => 'Allow Undo',
+            'allow_ob_talk' => 'allow ob talk',
             'is_private' => 'is private',
             'status' => 'Status',
             'game_id' => 'Game ID',

@@ -60,6 +60,9 @@ class Controller extends \yii\web\Controller
         return \Yii::$app->request->get($key, $default);
     }
 
+    /**
+     * @return Player|null
+     */
     public function _user()
     {
         if(!$this->user && !\Yii::$app->user->isGuest)

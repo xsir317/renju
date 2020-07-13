@@ -158,7 +158,7 @@ let chat = function (){
 
     this.actionGame_start = function(_data){
         let _href = "/game/" + _data.game_id;
-        if(typeof board == 'object' && board.gameData.status == 1)
+        if(typeof board == 'object' && board != null &&  board.gameData.status == 1)
         {
             pager.show_msg('<span style="color: #3367d6;font-weight:bold;">您有一盘新对局，<a href="' +_href+ '" target="_blank">请点击查看</a></span>');
         }

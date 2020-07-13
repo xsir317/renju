@@ -15,11 +15,13 @@ use Yii;
  * @property string $rule
  * @property integer $free_opening
  * @property integer $allow_undo
+ * @property integer $allow_ob_talk
  * @property integer $is_private
  * @property string $game_record
  * @property integer $black_time
  * @property integer $white_time
  * @property integer $totaltime
+ * @property integer $step_add_sec
  * @property integer $swap
  * @property integer $soosyrv_swap
  * @property string $a5_pos
@@ -47,7 +49,7 @@ class Games extends \yii\db\ActiveRecord
     {
         return [
             [['black_id', 'white_id', 'black_time', 'white_time', 'totaltime', 'swap', 'a5_numbers', 'comment'], 'required'],
-            [['black_id', 'white_id', 'status', 'offer_draw', 'free_opening', 'allow_undo','is_private', 'black_time', 'white_time', 'totaltime', 'swap', 'soosyrv_swap', 'a5_numbers', 'tid'], 'integer'],
+            [['black_id', 'white_id', 'status', 'offer_draw', 'free_opening', 'allow_undo','allow_ob_talk','is_private', 'black_time', 'white_time', 'totaltime','step_add_sec', 'swap', 'soosyrv_swap', 'a5_numbers', 'tid'], 'integer'],
             [['rule'], 'string'],
             [['updtime', 'movetime', 'create_time'], 'safe'],
             [['game_record'], 'string', 'max' => 450],
@@ -70,11 +72,13 @@ class Games extends \yii\db\ActiveRecord
             'rule' => 'Rule',
             'free_opening' => 'Free Opening',
             'allow_undo' => 'Allow Undo',
+            'allow_ob_talk' => 'allow ob talk',
             'is_private' => 'is private',
             'game_record' => 'Game Record',
             'black_time' => 'Black Time',
             'white_time' => 'White Time',
             'totaltime' => 'Totaltime',
+            'step_add_sec' => 'step add sec',
             'swap' => 'Swap',
             'soosyrv_swap' => 'Soosyrv Swap',
             'a5_pos' => 'A5 Pos',

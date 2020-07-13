@@ -59,18 +59,21 @@ class PlayController extends Controller
 
         $stones = strlen($game_info['game_record'])/2;
         $game_object = Games::findOne($game_id);
+
         switch ($game_object->rule)
         {
             case 'Yamaguchi':
                 if($stones == 3)
                 {
                     $game_object->a5_numbers = min($number,12);
+                    $game_object->black_time += $game_object->step_add_sec;
                 }
                 break;
             case 'Soosyrv8':
                 if($stones == 4)
                 {
                     $game_object->a5_numbers = min($number,8);
+                    $game_object->white_time += $game_object->step_add_sec;
                 }
                 break;
         }
@@ -149,6 +152,11 @@ class PlayController extends Controller
                 }
                 $game_object->a5_pos = $game_object->a5_pos . $coordinate;
                 $game_object->movetime = date('Y-m-d H:i:s');
+                if($game_object->a5_numbers == strlen($game_object->a5_pos)/2)
+                {
+                    //如果落子之后没问题了，加时间。
+                    $game_object->black_time += $game_object->step_add_sec;
+                }
                 $game_object->save(0);
             }
             else
@@ -174,6 +182,21 @@ class PlayController extends Controller
             $game_object->game_record = $game_object->game_record . $coordinate;
             $game_object->movetime = date('Y-m-d H:i:s');
             $game_object->save(0);
+
+            $game_info_refresh = GameService::renderGame($game_id);
+            //正常下棋，我落子之后，轮到对方走了，就给我的时间加步时.
+            if($this->_user()->id != $game_info_refresh['whom_to_play'])
+            {
+                if($this->_user()->id == $game_object->black_id)
+                {
+                    $game_object->black_time += $game_object->step_add_sec;
+                }
+                else
+                {
+                    $game_object->white_time += $game_object->step_add_sec;
+                }
+                $game_object->save(0);
+            }
 
             $checkwin = new RenjuBoardTool_bit($old_board);
             $color = (strlen($old_board) % 4 == 0) ? 'black':'white';
@@ -271,6 +294,15 @@ class PlayController extends Controller
                 $game_object->soosyrv_swap = 1;
             }
             $game_object->movetime = date('Y-m-d H:i:s');
+
+            if($this->_user()->id == $game_object->black_id)
+            {
+                $game_object->black_time += $game_object->step_add_sec;
+            }
+            else
+            {
+                $game_object->white_time += $game_object->step_add_sec;
+            }
             $game_object->save(0);
             Gateway::sendToGroup($game_id,MsgHelper::build('game_info',[
                 'game' => GameService::renderGame($game_id)
