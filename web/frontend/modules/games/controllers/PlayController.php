@@ -195,6 +195,7 @@ class PlayController extends Controller
                 {
                     $game_object->white_time += $game_object->step_add_sec;
                 }
+                $game_object->save(0);
             }
 
             $checkwin = new RenjuBoardTool_bit($old_board);
