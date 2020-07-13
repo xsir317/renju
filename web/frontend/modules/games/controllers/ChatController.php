@@ -12,7 +12,9 @@ namespace frontend\modules\games\controllers;
 use common\components\BoardTool;
 use common\components\Gateway;
 use common\components\MsgHelper;
+use common\models\Games;
 use common\services\CommonService;
+use common\services\GameService;
 use common\services\UserService;
 use frontend\components\Controller;
 
@@ -44,6 +46,16 @@ class ChatController extends Controller
         {
             return $this->renderJSON([],'没有指定房间号',-1);
         }
+        if(intval($game_id))
+        {
+            $game = Games::findOne($game_id);
+            //检查是否允许聊天
+            if(($game && $game->status == GameService::PLAYING && !$game->allow_ob_talk) && ($this->_user()->id != $game->black_id && $this->_user()->id != $game->white_id))
+            {
+                return $this->renderJSON([],'本房间对局期间不可发言',-1);
+            }
+        }
+
 
         //发言记录
         $content_hash = md5($content);

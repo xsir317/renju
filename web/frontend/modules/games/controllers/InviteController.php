@@ -30,6 +30,7 @@ class InviteController extends Controller
         $id = intval($this->post('id'));
         $to_user_id = intval($this->post('to_user'));
         $minutes = 60 * intval($this->post('hours')) + intval($this->post('minutes'));
+        $step_add_sec = min(max(intval($this->post('step_add_sec')),0),90);
         $rule = trim($this->post('rule'));
         $rule = isset(\Yii::$app->params['rules'][$rule]) ? $rule : 'RIF';
         $use_black = intval($this->post('use_black'));
@@ -37,6 +38,7 @@ class InviteController extends Controller
         $free_open = intval($this->post('free_open'));
         $allow_undo = intval($this->post('allow_undo'));
         $is_private = intval($this->post('is_private'));
+        $allow_ob_talk = intval($this->post('allow_ob_talk'));
         if($minutes < 3)
         {
             return $this->renderJSON([],'时间请至少设置为3分钟',-1);
@@ -65,7 +67,7 @@ class InviteController extends Controller
             {
                 $match = false;
             }
-            elseif ($exist_invite->rule != $rule || $exist_invite->totaltime != $minutes * 60 || $exist_invite->free_opening != $free_open || $exist_invite->allow_undo != $allow_undo || $exist_invite->is_private != $is_private)//rule
+            elseif ($exist_invite->rule != $rule || $exist_invite->totaltime != $minutes * 60 || $exist_invite->step_add_sec != $step_add_sec || $exist_invite->free_opening != $free_open || $exist_invite->allow_undo != $allow_undo || $exist_invite->is_private != $is_private || $exist_invite->allow_ob_talk != $allow_ob_talk)//rule
             {
                 $match = false;
             }
@@ -86,10 +88,12 @@ class InviteController extends Controller
                 $game->free_opening = $free_open;
                 $game->allow_undo = $allow_undo;
                 $game->is_private = $is_private;
+                $game->allow_ob_talk = $allow_ob_talk;
                 $game->game_record = '';
                 $game->black_time = $minutes * 60;
                 $game->white_time = $minutes * 60;
                 $game->totaltime = $minutes * 60;
+                $game->step_add_sec = $step_add_sec;
                 $game->swap = 0;
                 $game->soosyrv_swap = 0;
                 $game->a5_pos = '';
@@ -115,10 +119,12 @@ class InviteController extends Controller
                 $exist_invite->black_id = $use_black ? $this->_user()->id : $invite_from;
                 $exist_invite->message = $comment;
                 $exist_invite->totaltime = $minutes * 60;
+                $exist_invite->step_add_sec = $step_add_sec;
                 $exist_invite->rule = $rule;
                 $exist_invite->free_opening = $free_open;
                 $exist_invite->allow_undo = $allow_undo;
                 $exist_invite->is_private = $is_private;
+                $exist_invite->allow_ob_talk = $allow_ob_talk;
                 $exist_invite->status = 0;
                 $exist_invite->game_id = 0;
                 $exist_invite->updtime = date('Y-m-d H:i:s');
@@ -151,9 +157,11 @@ class InviteController extends Controller
             $invite->black_id = $use_black ? $this->_user()->id : $to_user_id;
             $invite->message = $comment;
             $invite->totaltime = $minutes * 60;
+            $invite->step_add_sec = $step_add_sec;
             $invite->rule = isset(\Yii::$app->params['rules'][$rule]) ? $rule : 'RIF';
             $invite->free_opening = $free_open;
             $invite->allow_undo = $allow_undo;
+            $invite->allow_ob_talk = $allow_ob_talk;
             $invite->is_private = $is_private;
             $invite->status = 0;
             $invite->game_id = 0;
@@ -166,7 +174,6 @@ class InviteController extends Controller
         {
             return $this->renderJSON([],'参数错误，请刷新重试',-1);
         }
-        return $this->renderJSON();
     }
 
     /**

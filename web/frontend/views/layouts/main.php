@@ -84,25 +84,33 @@ unset($this->assetBundles['yii\bootstrap\BootstrapAsset']);
             <label><input name="hours" value="" style="width: 22px;" /><?= Yii::t('app','Hours')?></label>
             <label><input name="minutes" value="" style="width: 22px;" /><?= Yii::t('app','Minutes')?></label>
         </div>
-        <div class="field odd"><span><a href="/about.html"><?= Yii::t('app','Rule')?>: </a></span>
+        <div class="field odd">
+            <span><?= Yii::t('app','Add seconds after move')?>: </span>
+            <input name="step_add_sec" value="0" style="width: 33px;" />
+        </div>
+        <div class="field"><span><a href="/about.html"><?= Yii::t('app','Rule')?>: </a></span>
             <?= Html::dropDownList('rule',null,CommonService::getRules()) ?>
         </div>
-        <div class="field">
+        <div class="field odd">
             <span><?= Yii::t('app','Comment')?>: </span>
             <input name="comment" value="" />
         </div>
-        <div class="field odd">
+        <div class="field">
             <span><?= Yii::t('app','Free Opening')?>: </span>
             <label><input name="free_open" value="1" type="checkbox" id="free_open" /><?= Yii::t('app','(No limits on opening)')?></label>
         </div>
-        <div class="field">
+        <div class="field odd">
             <span><?= Yii::t('app','Allow Undo')?>: </span>
             <label><input name="allow_undo" value="1" type="checkbox" id="allow_undo" /> </label>
         </div>
-    <div class="field">
-        <span><?= Yii::t('app','Private Game')?>: </span>
-        <label><input name="is_private" value="1" type="checkbox" id="is_private" /> </label>
-    </div>
+        <div class="field">
+            <span><?= Yii::t('app','Private Game')?>: </span>
+            <label><input name="is_private" value="1" type="checkbox" id="is_private" /> </label>
+        </div>
+        <div class="field odd">
+            <span><?= Yii::t('app','Ob can talk')?>: </span>
+            <label><input name="allow_ob_talk" value="1" type="checkbox" id="allow_ob_talk" /> </label>
+        </div>
             <input type="submit" class="button" value="<?= Yii::t('app','Send Invite')?>" id="invite_submit_button" />
     <?= Html::endForm();?>
 </div>
@@ -128,7 +136,7 @@ const rule_defines = (<?php echo json_encode(CommonService::getRules()) ?>);
 const ts_delta = (<?php echo time() ?> - Math.round(new Date().getTime()/1000));
 </script>
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-<script src="/js/all.js?v=12" type="text/javascript" charset="utf-8"></script>
+<script src="/js/all.js?v=14" type="text/javascript" charset="utf-8"></script>
 <?php $this->endBody() ?>
 </body>
 </html>
