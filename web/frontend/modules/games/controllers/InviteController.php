@@ -104,6 +104,8 @@ class InviteController extends Controller
                 $game->tid = 0;
                 $game->create_time = date('Y-m-d H:i:s');
                 $game->save(0);
+                $exist_invite->game_id = $game->id;
+                $exist_invite->save(0);
                 Gateway::sendToUid($this->_user()->id,MsgHelper::build('game_start',[
                     'game_id' => $game->id,
                 ]));
