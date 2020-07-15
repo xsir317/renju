@@ -361,7 +361,7 @@ $(document).ready(function () {
             }
             if (_each.faces != null && _each.faces.length > 0) {
                 for (let j=0;j<_each.faces.length;j++) {
-                    html += '<a class="can-choose" data-id="'+_each.faces[j].txt+'" data-src="'+_face_prefix+_each.faces[j].url+'"><img title="'+_each.faces[j].title+'" alt="'+_each.faces[j].title+'" src="'+'/images/'+_each.faces[j].url+'"></a>'
+                    html += '<a class="can-choose" data-id="'+_each.faces[j].txt+'" data-src="'+_face_prefix+_each.faces[j].url+'"><img title="'+_each.faces[j].title+'" alt="'+_each.faces[j].title+'" src="'+_face_prefix+_each.faces[j].url+'"></a>'
                 }
             }
             html += '</div>';
