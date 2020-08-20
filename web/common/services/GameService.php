@@ -194,6 +194,10 @@ class GameService extends BaseService
         {
             $lastupd = strtotime($game->updtime);
             $delta = time() - $lastupd;
+            if($delta <= 0)
+            {
+                return false;
+            }
             if($turn)
             {
                 $game->black_time -= $delta;
