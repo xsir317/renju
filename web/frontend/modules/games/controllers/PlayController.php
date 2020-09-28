@@ -390,7 +390,7 @@ class PlayController extends Controller
         $game_result = $this->_user()->id == $game_info['black_id'] ? 0 : 1 ;//黑认输则白胜
         BoardTool::do_over($game_id,$game_result);
         Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
-            'content' => ($game_result ? \Yii::t('app',"Black resigns") : \Yii::t('app',"White resigns"))
+            'content' => ($game_result ? \Yii::t('app',"White resigns") : \Yii::t('app',"Black resigns"))
         ]));
         return $this->renderJSON([]);
     }
