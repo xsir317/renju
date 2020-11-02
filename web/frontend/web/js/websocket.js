@@ -129,6 +129,12 @@ let chat = function (){
                 that.agentDistribute(_data['history_msg'][i]);
             }
         }
+        //比赛特殊提示
+        if(typeof gameObj == 'undefined')
+        {
+            pager.show_msg("近期会有比赛，请持续关注！<br />请留意大厅提示！");
+        }
+        //特殊提示end
     };
 
 
