@@ -1626,7 +1626,7 @@ let chat = function (){
         //比赛特殊提示
         if(typeof gameObj == 'undefined')
         {
-            pager.show_msg("近期会有比赛，请持续关注！<br />请留意大厅提示！");
+            pager.show_msg("上海市第三届市民运动会五子棋总决赛<br />支持单位：益海嘉里金龙鱼粮油食品股份有限公司");
         }
         //特殊提示end
     };
