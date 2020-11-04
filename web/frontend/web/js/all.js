@@ -26,12 +26,12 @@ let pager = {
             invite_form.find("input[name=use_black]").eq(0).prop("checked",true);
             invite_form.find(".opponent_name").text(_data.nickname);
             invite_form.find("input[name=hours]").val(0);
-            invite_form.find("input[name=minutes]").val(30);
-            invite_form.find("select[name=rule]").val("Yamaguchi");
+            invite_form.find("input[name=minutes]").val(10);
+            invite_form.find("select[name=rule]").val("RIF");
             invite_form.find("input[name=comment]").val("");
             invite_form.find("input[name=step_add_sec]").val("0");
             invite_form.find("input[name=free_open]").prop("checked",false);
-            invite_form.find("input[name=allow_undo]").prop("checked",true);
+            invite_form.find("input[name=allow_undo]").prop("checked",false);
             invite_form.find("input[name=is_private]").prop("checked",false);
             invite_form.find("input[name=allow_ob_talk]").prop("checked",false);
             invite_btn.val(pager.t("Send Invite"));
