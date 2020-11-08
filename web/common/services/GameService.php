@@ -239,7 +239,8 @@ class GameService extends BaseService
             ->select(['id','black_id','white_id','rule','game_record','status'])
             ->where(['status' => self::PLAYING])
             ->orWhere(['>=','movetime',date('Y-m-d H:i:s',time() - 600)])
-            ->orderBy('status ASC , movetime DESC')
+            //->orderBy('status ASC , movetime DESC') 2020-11-08修改  改为按id排序， 尽量让这个列表稳定
+            ->orderBy('status ASC , id DESC')
             ->asArray()
             ->all();
         UserService::render($games_list,'black_id','black');
