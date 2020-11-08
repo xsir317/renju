@@ -20,6 +20,7 @@ use yii\web\IdentityInterface;
  * @property integer $w_lose
  * @property integer $draw
  * @property integer $games
+ * @property boolean $is_judge
  * @property string $reg_time
  * @property string $reg_ip
  * @property string $last_login_time
@@ -133,5 +134,9 @@ class Player extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return md5($password);
     }
-
+    //是不是裁判。 目前的作用，裁判可以在“不允许旁观者发言”的房间里发言。
+    public function getIs_judge()
+    {
+        return in_array($this->id,[1,23,24,],1);
+    }
 }
