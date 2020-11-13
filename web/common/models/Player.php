@@ -137,6 +137,6 @@ class Player extends \yii\db\ActiveRecord implements IdentityInterface
     //是不是裁判。 目前的作用，裁判可以在“不允许旁观者发言”的房间里发言。
     public function getIs_judge()
     {
-        return in_array($this->id,[1,23,24,],1);
+        return in_array($this->id,[1,23,24,431,423,150,477,438],1);
     }
 }
