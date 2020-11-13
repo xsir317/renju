@@ -50,7 +50,7 @@ class ChatController extends Controller
         {
             $game = Games::findOne($game_id);
             //检查是否允许聊天
-            if(($game && $game->status == GameService::PLAYING && !$game->allow_ob_talk) && ($this->_user()->id != $game->black_id && $this->_user()->id != $game->white_id))
+            if(($game && $game->status == GameService::PLAYING && !$game->allow_ob_talk) && ($this->_user()->id != $game->black_id && $this->_user()->id != $game->white_id) && !$this->_user()->is_judge)
             {
                 return $this->renderJSON([],'本房间对局期间不可发言',-1);
             }

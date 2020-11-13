@@ -33,7 +33,7 @@ let pager = {
             invite_form.find("input[name=free_open]").prop("checked",false);
             invite_form.find("input[name=allow_undo]").prop("checked",false);
             invite_form.find("input[name=is_private]").prop("checked",false);
-            invite_form.find("input[name=allow_ob_talk]").prop("checked",true);
+            invite_form.find("input[name=allow_ob_talk]").prop("checked",false);
             invite_btn.val(pager.t("Send Invite"));
         }
         else// 被人邀请，弹出被邀请的窗口
