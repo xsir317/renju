@@ -31,6 +31,9 @@ class UserController extends Controller
             //验证密码
             if($user && $user->password == Player::hash_pwd($password))
             {
+                $user->last_login_ip = CommonService::getIP();
+                $user->last_login_time = date('Y-m-d H:i:s');
+                $user->save(0);
                 \Yii::$app->user->login($user,30*86400);
                 return $this->renderJSON(['redirect' => '/']);
             }
