@@ -63,7 +63,7 @@ class ChatController extends Controller
         if($speak_record)
         {
             $speak_record = json_decode($speak_record,1);
-            if($content_hash == $speak_record['content_hash'])
+            if($content_hash == $speak_record['content_hash'] && abs(time() - $speak_record['time']) <= 60)
             {
                 return $this->renderJSON([],\Yii::t('app',"Please don't repeat the same content."),-1);
             }
