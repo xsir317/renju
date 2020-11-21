@@ -36,6 +36,10 @@ class ChatController extends Controller
         {
             return $this->renderJSON([],\Yii::t('app','Please Login'),-1);
         }
+        if(empty($content))
+        {
+            return $this->renderJSON([],\Yii::t('app','Don\'t send empty content'),-1);
+        }
         //限制发言长度，检查发言重复等
         if(mb_strlen($content,'UTF-8') > 80)
         {
