@@ -183,7 +183,15 @@ class GameService extends BaseService
 
     public static function sendGamesList()
     {
-        Gateway::sendToGroup('HALL',MsgHelper::build('games',['games' => self::getRecentGameList()]));
+        //加一个时间锁
+        $time = time();
+        $redis = \Yii::$app->redis;
+        $last_send = intval($redis->get('glb:game_list:ts'));
+        if($last_send != $time)
+        {
+            Gateway::sendToGroup('HALL',MsgHelper::build('games',['games' => self::getRecentGameList()]));
+            $redis->set('glb:game_list:ts',$time,10);
+        }
     }
 
     private static function refresh_time($game_id,$turn)
