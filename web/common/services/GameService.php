@@ -189,8 +189,8 @@ class GameService extends BaseService
         $last_send = intval($redis->get('glb:game_list:ts'));
         if($last_send != $time)
         {
-            Gateway::sendToGroup('HALL',MsgHelper::build('games',['games' => self::getRecentGameList()]));
             $redis->set('glb:game_list:ts',$time,10);
+            Gateway::sendToGroup('HALL',MsgHelper::build('games',['games' => self::getRecentGameList()]));
         }
     }
 
