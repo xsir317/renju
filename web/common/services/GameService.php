@@ -244,15 +244,17 @@ class GameService extends BaseService
     public static function getRecentGameList()
     {
         $games_list = Games::find()
-            ->select(['id','black_id','white_id','rule','game_record','status'])
+            ->select(['id','black_id','white_id','rule','game_record','is_private','status'])
             ->where(['status' => self::PLAYING])
             ->orWhere(['>=','movetime',date('Y-m-d H:i:s',time() - 600)])
             //->orderBy('status ASC , movetime DESC') 2020-11-08修改  改为按id排序， 尽量让这个列表稳定
             ->orderBy('status ASC , id DESC')
             ->asArray()
             ->all();
-        UserService::render($games_list,'black_id','black');
-        UserService::render($games_list,'white_id','white');
+        if(!empty($games_list)){
+            UserService::render($games_list,'black_id','black');
+            UserService::render($games_list,'white_id','white');
+        }
         return $games_list;
     }
 }
