@@ -24,7 +24,7 @@ layui.flow.load({
             let list = [];
             $.each(_data.data.games, function(index, item){
                 list.push('<li><a href=\"/game/'+ item.id +'\" target=\"_blank\">'
-                    + '<span class=\"layui-col-xs1\">' + item.id + (item.is_private ? ' (p)':'') '</span>'
+                    + '<span class=\"layui-col-xs1\">' + item.id + (item.is_private ? ' (p)':'') + '</span>'
                     + '<span class=\"layui-col-xs3\">' + item.black.nickname + '</span>'
                     + '<span class=\"layui-col-xs3\">' + item.white.nickname + '</span>'
                     + '<span class=\"layui-col-xs1\">' + rule_defines[item.rule] + '</span>'
