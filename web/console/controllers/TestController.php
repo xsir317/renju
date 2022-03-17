@@ -10,10 +10,8 @@ namespace console\controllers;
 
 
 use common\components\BoardTool;
-use common\components\ForbiddenPointFinder;
 use common\components\Gateway;
 use common\components\MsgHelper;
-use common\models\Games;
 use common\services\GameService;
 use common\services\UserService;
 use yii\console\Controller;

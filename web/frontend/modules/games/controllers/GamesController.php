@@ -100,7 +100,7 @@ class GamesController extends Controller
         {
             $page = intval($this->get('page',1));
             $games = Games::find()
-                ->select(['id','black_id','white_id','game_record','status','rule','comment'])
+                ->select(['id','black_id','white_id','game_record','status','is_private','rule','comment'])
                 ->where("black_id={$player_id} or white_id={$player_id}")
                 ->asArray()
                 ->limit($per_page + 1)
