@@ -192,20 +192,20 @@ class PlayController extends Controller
                     'content' => \Yii::t('app','Black wins')
                 ]));
             }
-            elseif($result == RenjuBoardTool_bit::BLACK_FORBIDDEN || $result == RenjuBoardTool_bit::WHITE_FIVE)
-            {
-                //白胜
-                BoardTool::do_over($game_id,0,false);
-                Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
-                    'content' => ($result == RenjuBoardTool_bit::WHITE_FIVE ? \Yii::t('app','Five') : \Yii::t('app','Black forbidden move')) . " ," . \Yii::t('app','White wins')
-                ]));
-            }
             elseif($stones == 224)//bugfix 这里stones 是盘面已有的棋子
             {
                 //和棋
                 BoardTool::do_over($game_id,0.5,false);
                 Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
                     'content' => \Yii::t('app','Board is full, Draw')
+                ]));
+            }
+            elseif($result == RenjuBoardTool_bit::BLACK_FORBIDDEN || $result == RenjuBoardTool_bit::WHITE_FIVE)
+            {
+                //白胜
+                BoardTool::do_over($game_id,0,false);
+                Gateway::sendToGroup($game_id,MsgHelper::build('game_over',[
+                    'content' => ($result == RenjuBoardTool_bit::WHITE_FIVE ? \Yii::t('app','Five') : \Yii::t('app','Black forbidden move')) . " ," . \Yii::t('app','White wins')
                 ]));
             }
         }
