@@ -136,6 +136,11 @@ const rule_defines = (<?php echo json_encode(CommonService::getRules()) ?>);
 const ts_delta = (<?php echo time() ?> - Math.round(new Date().getTime()/1000));
 </script>
 <script src="//libs.baidu.com/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    if (typeof jQuery == 'undefined') {
+        document.write(unescape("%3Cscript src='http://lib.sinaapp.com/js/jquery/1.12.4/jquery-1.12.4.min.js' type='text/javascript'%3E%3C/script%3E"));
+    }
+</script>
 <script src="/js/all.js?v=21" type="text/javascript" charset="utf-8"></script>
 <?php $this->endBody() ?>
 </body>
