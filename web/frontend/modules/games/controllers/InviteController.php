@@ -43,9 +43,9 @@ class InviteController extends Controller
         {
             return $this->renderJSON([],'时间请至少设置为3分钟',-1);
         }
-        if($minutes > 60 * 60)
+        if($minutes > 720 * 60)
         {
-            return $this->renderJSON([],'系统暂不接受60小时以上的对局',-1);
+            return $this->renderJSON([],'系统暂不接受720小时以上的对局',-1);
         }
         if($id)
         {
@@ -134,7 +134,6 @@ class InviteController extends Controller
                 $this->send_invite($exist_invite);
                 return $this->renderJSON([],'邀请发送成功');
             }
-
         }
         elseif ($to_user_id)//create
         {
