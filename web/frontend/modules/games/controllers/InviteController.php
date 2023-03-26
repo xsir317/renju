@@ -147,7 +147,7 @@ class InviteController extends Controller
                 return $this->renderJSON([],'您选择的玩家不存在',-1);
             }
             //正在下棋的不让邀请 1表示正在对局
-            if(Games::find()->where("status=1 and (black_id={$to_user_id} or white_id={$to_user_id})")->one())
+            if(Games::find()->where("status=1 and totaltime<=7200 and (black_id={$to_user_id} or white_id={$to_user_id})")->one())
             {
                 return $this->renderJSON([],'此玩家正在对局中，不能邀请',-1);
             }
