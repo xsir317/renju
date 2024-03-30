@@ -96,6 +96,9 @@ class GameService extends BaseService
                     $turn = 1 - ($stones%2);
                 }
                 break;
+            case 'TaraGuchi':
+
+                break;
             default:
                 $turn = 1 - ($stones%2);
                 break;
@@ -127,6 +130,20 @@ class GameService extends BaseService
         }
         //附加信息：悔棋 end
         return $return;
+    }
+
+    /**
+     * @param $stones
+     * @param $swap
+     * @return [ 0 | 1 , bool can swap ]
+     */
+    public static function taraguchi_turn($stones , $swap){
+        $turn = 0;//0 白方 1黑方
+        $can_swap = 0;//是否能点交换
+        if($stones == 0){
+            return [1,0];
+        }
+
     }
 
     private static function render_undo($game_id,$board)

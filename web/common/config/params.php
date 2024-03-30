@@ -9,6 +9,7 @@ return [
         'Soosyrv8' => '索索夫8',
         'Renju' => '有禁手',
         'Gomoku' => '无禁手',
+        'TaraGuchi' => '塔拉山口',
     ],
     'languages' => [
         'en-US' => 'English',
