@@ -414,7 +414,6 @@ let boardObj = function()
         let stones = _obj.gameData.game_record.length / 2;
         let tips = pager.t("Your turn to play") + " " + (stones + 1) + pager.t("th move");
         //按照不同规则去写提示。
-        let show_swap = false;
         switch (_obj.gameData.rule)
         {
             case 'RIF':
@@ -423,12 +422,11 @@ let boardObj = function()
                 {
                     tips = pager.t('Please play the first 3 moves.');
                 }
-                else if (stones == 3 && _obj.gameData.a5_numbers > 0 && _obj.gameData.swap == 0)
+                if (_obj.gameData.can_swap)
                 {
                     tips += pager.t(",Or swap");
-                    show_swap = true;
                 }
-                else if(stones == 4 && _obj.gameData.a5_numbers == (_obj.gameData.a5_pos.length/2))//打点摆完了，等白棋选。
+                if(stones == 4 && _obj.gameData.a5_numbers == (_obj.gameData.a5_pos.length/2))//打点摆完了，等白棋选。
                 {
                     tips = pager.t('Please choose one 5th point as the 5th move.');
                 }
@@ -442,21 +440,19 @@ let boardObj = function()
                 {
                     tips = pager.t('Please play the first 3 moves.');
                 }
-                else if (stones == 3 && _obj.gameData.swap == 0)
+                if (_obj.gameData.can_swap)
                 {
                     tips += pager.t(",Or swap");
-                    show_swap = true;
                 }
-                else if(stones == 4 && _obj.gameData.a5_numbers > 0 )
+                if(stones == 4 && _obj.gameData.a5_numbers > 0 )
                 {
                     if(_obj.gameData.a5_numbers > (_obj.gameData.a5_pos.length/2))
                     {
                         tips = pager.t('Please choose ') + _obj.gameData.a5_numbers + pager.t(' points as 5th move');
                     }
-                    if(_obj.gameData.a5_pos == '' && _obj.gameData.soosyrv_swap == 0)
+                    if(_obj.gameData.can_swap)
                     {
                         tips += pager.t(",Or swap");
-                        show_swap = true;
                     }
 
                     if(_obj.gameData.a5_numbers == (_obj.gameData.a5_pos.length/2))
@@ -465,6 +461,24 @@ let boardObj = function()
                     }
                 }
                 break;
+            case 'TaraGuchi':
+                //落下前4手
+                if(stones == 4){
+                    //棋盘上4个棋子， 此时如果黑可交换， 那么就是没交换状态， 此时：
+                    // 可选交换， 也可下打点。
+                    //如果此时不可交换， 那就是黑棋交换过了， 此时9×9方格内落下第5手棋。 然后对方可交换
+                    if (_obj.gameData.can_swap)
+                    {
+                        tips = pager.t('Please choose ') + _obj.gameData.a5_numbers + pager.t(' points as 5th move');
+                    }else{
+
+                    }
+                }
+                if (_obj.gameData.can_swap)
+                {
+                    tips += pager.t(",Or swap");
+                }
+
         }
 
         if(_obj.gameData.waiting_for_a5_number)
@@ -473,7 +487,7 @@ let boardObj = function()
             pager.ask_for_a5();
         }
         $(".turn_to_play_tips").text(tips).show();
-        if(show_swap)
+        if(_obj.gameData.can_swap)
         {
             $(".swap_button").show();
         }

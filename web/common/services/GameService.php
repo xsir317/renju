@@ -45,6 +45,7 @@ class GameService extends BaseService
         $waiting_for_a5_number = 0;
         //turn
         $turn = 0;
+        $can_swap = false;
         //分不同规则来算turn，差别较大的规则不共用逻辑，否则会把手数和规则掺合起来，导致混乱
         //分开之后便于增加新规则。
         $stones = strlen($game->game_record)/2;
@@ -61,10 +62,15 @@ class GameService extends BaseService
                     $turn = 1;//这里是要写打点而不是要落子。
                     $waiting_for_a5_number = 1;
                 }
-                elseif($stones == 4 && $game->a5_numbers == (strlen($game->a5_pos)/2))//打点摆完了，等白棋选。
+                elseif ($stones == 3 && $game->a5_numbers > 0)
                 {
-                    $turn = 0;
+                    //$turn = 0;
+                    $can_swap = $game->swap ? 0:1;
                 }
+//                elseif($stones == 4 && $game->a5_numbers == (strlen($game->a5_pos)/2))//打点摆完了，等白棋选。
+//                {
+//                    $turn = 0;
+//                }
                 else
                 {
                     $turn = 1 - ($stones%2);
@@ -97,7 +103,9 @@ class GameService extends BaseService
                 }
                 break;
             case 'TaraGuchi':
-
+                $tara_turns = static::taraguchi_turn($game->game_record , $game->swap , $game->a5_pos , $game->a5_numbers);
+                $turn = $tara_turns[0];
+                $can_swap = $tara_turns[1];
                 break;
             default:
                 $turn = 1 - ($stones%2);
@@ -122,6 +130,7 @@ class GameService extends BaseService
         $return['waiting_for_a5_number'] = $waiting_for_a5_number;
         $return['undo'] = null;
         $return['undo_log'] = self::render_undo_log($game_id);
+        $return['can_swap'] = $can_swap;
 
         //附加信息：悔棋
         if($game->status == self::PLAYING)
@@ -137,13 +146,35 @@ class GameService extends BaseService
      * @param $swap
      * @return [ 0 | 1 , bool can swap ]
      */
-    public static function taraguchi_turn($stones , $swap){
-        $turn = 0;//0 白方 1黑方
-        $can_swap = 0;//是否能点交换
+    public static function taraguchi_turn($stones , $swap , $a5_pos , $a5_number){
+        $turn = 1 - ($stones%2);//0 白方 1黑方
+        $can_swap = false;//是否能点交换
         if($stones == 0){
-            return [1,0];
+            return [1,false];
+        }
+        //swap 这里用于记录 每一手是否交换 以及是否已经交换了 ，防止换来换去。
+        //用低位 1 << $stones表示 是否已经换过了
+        if($stones < 4){
+            $can_swap = !boolval($swap & (1 << $stones));
+        }elseif($stones == 4){
+            //假黑方有两种选择。选择1：可交换， 交换后走一个5，白方可交换
+            if($a5_pos == '' && !boolval($swap & (1 << $stones))){
+                $can_swap = true;
+            }
+            //选择2： 不交换，摆打点。
+        }elseif($stones == 5){
+            //判断是不是选择1
+            if($swap & (1 << 4)){
+                $can_swap = true;
+            }
+        }
+        //第五手
+        if($stones == 4 && $a5_number == (strlen($a5_pos)/2))//打点摆完了，等白棋选。
+        {
+            $turn = 0;
         }
 
+        return [$turn , $can_swap];
     }
 
     private static function render_undo($game_id,$board)

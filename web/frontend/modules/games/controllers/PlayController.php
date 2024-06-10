@@ -265,6 +265,9 @@ class PlayController extends Controller
                     $allow_swap = true;
                 }
                 break;
+            case 'TaraGuchi':
+                $tara_turns = GameService::taraguchi_turn($game_object->game_record , $game_object->swap , $game_object->a5_pos , $game_object->a5_numbers);
+                $allow_swap = $tara_turns[1];
         }
         if($allow_swap)
         {
@@ -273,13 +276,18 @@ class PlayController extends Controller
             $game_object->white_id = $game_info['black_id'];
             $game_object->black_time = $game_info['white_time'];
             $game_object->white_time = $game_info['black_time'];
-            if($stones == 3)
-            {
-                $game_object->swap = 1;
-            }
-            else
-            {
-                $game_object->soosyrv_swap = 1;
+            if($game_object->rule == 'TaraGuchi'){
+                //标记swap
+                $game_object->swap = ($game_object->swap | (1 << $stones));
+            }else{
+                if($stones == 3)
+                {
+                    $game_object->swap = 1;
+                }
+                else
+                {
+                    $game_object->soosyrv_swap = 1;
+                }
             }
             $game_object->movetime = date('Y-m-d H:i:s');
             $game_object->save(0);
