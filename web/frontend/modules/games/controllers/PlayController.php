@@ -131,13 +131,23 @@ class PlayController extends Controller
         //提和id设置为0
         if($game_info['free_opening'] == 0)
         {
-            if(($stones == 0 && $coordinate != '88') || ($stones == 1 && (!in_array($coordinate{0},[7,8,9]) || !in_array($coordinate{1},[7,8,9])) ) || ($stones == 2 && (!in_array($coordinate{0},[6,7,8,9,'a']) || !in_array($coordinate{1},[6,7,8,9,'a']))) )
+            if(($stones == 0 && $coordinate != '88')
+                || ($stones == 1 && (!in_array($coordinate[0],[7,8,9]) || !in_array($coordinate[1],[7,8,9])) )
+                || ($stones == 2 && (!in_array($coordinate[0],[6,7,8,9,'a']) || !in_array($coordinate[1],[6,7,8,9,'a'])))
+                || ($stones == 3 && $game_object->rule == 'TaraGuchi' && (!in_array($coordinate[0],[5,6,7,8,9,'a','b']) || !in_array($coordinate[1],[5,6,7,8,9,'a','b'])))
+                //特殊情况： 1. TaraGuchi规则 情况1 黑第五手交换了，要遵守坐标 9*9 规定
+                || ($stones == 4 && $game_object->rule == 'TaraGuchi' && ($game_object->swap && (1<<4)) && (!in_array($coordinate[0],[4,5,6,7,8,9,'a','b','c']) || !in_array($coordinate[1],[4,5,6,7,8,9,'a','b','c'])))
+            )
             {
                 return $this->renderJSON([],\Yii::t('app','This is not a standard opening'),-1);
             }
         }
         $game_object->offer_draw = 0;
-        if($stones == 4 && in_array($game_object->rule,['Yamaguchi','RIF','Soosyrv8']))
+
+        if($stones == 4 && (
+            in_array($game_object->rule,['Yamaguchi','RIF','Soosyrv8'])
+            || ($game_object->rule == 'TaraGuchi' && !($game_object->swap && (1<<4))) //特殊情况  TaraGuchi 摆打点
+            ))
         {
             //第五手，有2种情况，都很特殊
             $a5_on_board = strlen($game_object->a5_pos)/2;
@@ -266,7 +276,7 @@ class PlayController extends Controller
                 }
                 break;
             case 'TaraGuchi':
-                $tara_turns = GameService::taraguchi_turn($game_object->game_record , $game_object->swap , $game_object->a5_pos , $game_object->a5_numbers);
+                $tara_turns = GameService::taraguchi_turn(strlen($game_object->game_record)/2 , $game_object->swap , $game_object->a5_pos , $game_object->a5_numbers);
                 $allow_swap = $tara_turns[1];
         }
         if($allow_swap)

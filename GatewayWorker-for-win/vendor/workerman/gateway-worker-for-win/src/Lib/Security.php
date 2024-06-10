@@ -37,7 +37,7 @@ class Security
             $encoded_secret = $redis->get(self::$_data['_token']);
             if($encoded_secret)
             {
-                $redis->setTimeout(self::$_data['_token'],600);
+                $redis->expire(self::$_data['_token'],600);
             }
             $tmp_decode = @json_decode($encoded_secret,1);
             if(!isset($tmp_decode['secret']))

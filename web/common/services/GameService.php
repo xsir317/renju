@@ -103,7 +103,7 @@ class GameService extends BaseService
                 }
                 break;
             case 'TaraGuchi':
-                $tara_turns = static::taraguchi_turn($game->game_record , $game->swap , $game->a5_pos , $game->a5_numbers);
+                $tara_turns = static::taraguchi_turn(strlen($game->game_record)/2 , $game->swap , $game->a5_pos , $game->a5_numbers);
                 $turn = $tara_turns[0];
                 $can_swap = $tara_turns[1];
                 break;

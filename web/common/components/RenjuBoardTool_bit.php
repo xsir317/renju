@@ -79,8 +79,8 @@ class RenjuBoardTool_bit
     private static function pos2coordinate($position)
     {
         return [
-            hexdec($position{0}),
-            hexdec($position{1}),
+            hexdec($position[0]),
+            hexdec($position[1]),
         ];
     }
 
