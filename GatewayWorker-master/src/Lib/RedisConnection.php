@@ -13,6 +13,7 @@ class RedisConnection
     public $timeout =  0.5;
     public $database = 1;
     public $unixSocket;
+    public $password = '';
     public $retry_interval;
     public $prefix = 'kv::';
 
@@ -66,7 +67,11 @@ class RedisConnection
         }
         if($success)
         {
-            $this->select($this->database);
+            if($this->password)
+            {
+                $this->_redisconn_instance->auth($this->password);
+            }
+            $this->_redisconn_instance->select($this->database);
             $this->initConnection();
         }
         else
@@ -114,7 +119,8 @@ class RedisConnection
         if (is_callable([$this->_redisconn_instance,$name],true)) {
             return call_user_func_array([$this->_redisconn_instance,$name],$params);
         } else {
-            return parent::__call($name, $params);
+            throw new \Exception($name);
+            //return parent::__call($name, $params);
         }
     }
 

@@ -97,7 +97,7 @@ class InviteController extends Controller
                 $game->swap = 0;
                 $game->soosyrv_swap = 0;
                 $game->a5_pos = '';
-                $game->a5_numbers = $rule == 'RIF' ? 2:0;
+                $game->a5_numbers = $rule == 'RIF' ? 2: ($rule == 'TaraGuchi' ? 10 : 0);
                 $game->updtime = date('Y-m-d H:i:s');
                 $game->movetime = date('Y-m-d H:i:s');
                 $game->comment = $comment;

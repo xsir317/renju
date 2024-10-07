@@ -409,6 +409,19 @@ $(document).ready(function () {
         },"json");
     });
 
+    //塔10
+    $("#tara_option1_button").click(function(){
+        $.post('/games/play/tara-option1',{
+            game_id:gameObj.id,
+            "_csrf-frontend":$("meta[name=csrf-token]").attr("content")
+        },function(data){
+            if(data.code != 200)
+            {
+                layer.alert(data.msg);
+            }
+        },"json");
+    });
+
     //提和
     $("#draw_button").click(function(){
         layer.confirm(pager.t('You want to offer a draw?'),{icon:3,title:pager.t("Offer draw")},function(index){

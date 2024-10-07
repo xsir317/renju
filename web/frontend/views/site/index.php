@@ -11,7 +11,7 @@ $this->registerJSFile('/js/index.js?v=1');
         </a>
     </div>
     <div id="intro_txt" class="grid_content">
-        <p><?= Yii::t('app','This is a online renju game system, based on workerman and Yii2, now supports RIF, Yamaguchi,Soosyrv8,Gomoku and free renju.')?></p>
+        <p><?= Yii::t('app','This is a online renju game system, based on workerman and Yii2, now supports RIF, Yamaguchi,Tara-Guchi,Soosyrv8,Gomoku and free renju.')?></p>
     </div>
 </div>
 <div id="login_reg" class="layui-col-md4">

@@ -55,7 +55,7 @@ class BoardTool
 			return false;
 		for ($i = 0;$i<$count;$i ++)
 		{
-			$pos = hexdec($boardstr{$i});
+			$pos = hexdec($boardstr[$i]);
 			if($pos >15 || $pos <1)
 			return false;
 		}
@@ -79,48 +79,48 @@ class BoardTool
 		$a5_pos = str_split($a5,2);
 		//计算1，2，3，4的形状，看是不是对称
 		//水平翻转  如果是，则依次计算每个a5的对称点。如果对称点是本身，跳过；如果不是本身，则看是否在$a5_pos里面。如果在，返回true
-		$black_and_white_x_y_symmetry = ($b[0]{1} == $b[1]{1} || $b[0]{0} == $b[1]{0}) && ($w[0]{1} == $w[1]{1} || $w[0]{0} == $w[1]{0});
-		$x_symmetry = ($black_and_white_x_y_symmetry && (hexdec($b[0]{1}) + hexdec($b[1]{1})) == (hexdec($w[0]{1}) + hexdec($w[1]{1})));
-		$in_x_line = ($b[0]{1} == $b[1]{1} && $b[0]{1} == $w[0]{1} && $b[0]{1} == $w[1]{1});
+		$black_and_white_x_y_symmetry = ($b[0][1] == $b[1][1] || $b[0][0] == $b[1][0]) && ($w[0][1] == $w[1][1] || $w[0][0] == $w[1][0]);
+		$x_symmetry = ($black_and_white_x_y_symmetry && (hexdec($b[0][1]) + hexdec($b[1][1])) == (hexdec($w[0][1]) + hexdec($w[1][1])));
+		$in_x_line = ($b[0][1] == $b[1][1] && $b[0][1] == $w[0][1] && $b[0][1] == $w[1][1]);
 		if($x_symmetry || $in_x_line)
 		{
-			$y_sum = hexdec($b[0]{1}) + hexdec($b[1]{1});
+			$y_sum = hexdec($b[0][1]) + hexdec($b[1][1]);
 			//对每个打点，找对称点。
 			foreach ($a5_pos as $point)
 			{
-				$symmetry_x = $point{0};
-				$symmetry_y = $y_sum - hexdec($point{1});
+				$symmetry_x = $point[0];
+				$symmetry_y = $y_sum - hexdec($point[1]);
 				$symmetry = $symmetry_x.dechex($symmetry_y);
 				if($symmetry != $point && in_array($symmetry, $a5_pos))
 				return true;
 			}
 		}
 		//竖直翻转
-		$y_symmetry = ($black_and_white_x_y_symmetry && (hexdec($b[0]{0}) + hexdec($b[1]{0})) == (hexdec($w[0]{0}) + hexdec($w[1]{0})));
-		$in_y_line = ($b[0]{0} == $b[1]{0} && $b[0]{0} == $w[0]{0} && $b[0]{0} == $w[1]{0});
+		$y_symmetry = ($black_and_white_x_y_symmetry && (hexdec($b[0][0]) + hexdec($b[1][0])) == (hexdec($w[0][0]) + hexdec($w[1][0])));
+		$in_y_line = ($b[0][0] == $b[1][0] && $b[0][0] == $w[0][0] && $b[0][0] == $w[1][0]);
 		if($y_symmetry || $in_y_line)
 		{
-			$x_sum = hexdec($b[0]{0}) + hexdec($b[1]{0});
+			$x_sum = hexdec($b[0][0]) + hexdec($b[1][0]);
 			foreach ($a5_pos as $point)
 			{
-				$symmetry_x = $x_sum - hexdec($point{0});
-				$symmetry_y = $point{1};
+				$symmetry_x = $x_sum - hexdec($point[0]);
+				$symmetry_y = $point[1];
 				$symmetry = dechex($symmetry_x).$symmetry_y;
 				if($symmetry != $point && in_array($symmetry, $a5_pos))
 				return true;
 			}
 		}
 		//水平+竖直翻转，坐标特征：黑棋的x坐标和等于白棋x坐标和。黑棋y坐标和等于白棋y坐标和
-		$x_distance_semmetry = (hexdec($b[0]{0}) + hexdec($b[1]{0})) == (hexdec($w[0]{0}) + hexdec($w[1]{0}));
-		$y_distance_semmetry = (hexdec($b[0]{1}) + hexdec($b[1]{1})) == (hexdec($w[0]{1}) + hexdec($w[1]{1}));
+		$x_distance_semmetry = (hexdec($b[0][0]) + hexdec($b[1][0])) == (hexdec($w[0][0]) + hexdec($w[1][0]));
+		$y_distance_semmetry = (hexdec($b[0][1]) + hexdec($b[1][1])) == (hexdec($w[0][1]) + hexdec($w[1][1]));
 		if($x_distance_semmetry && $y_distance_semmetry)
 		{
-			$x_sum = hexdec($b[0]{0}) + hexdec($b[1]{0});
-			$y_sum = hexdec($b[0]{1}) + hexdec($b[1]{1});
+			$x_sum = hexdec($b[0][0]) + hexdec($b[1][0]);
+			$y_sum = hexdec($b[0][1]) + hexdec($b[1][1]);
 			foreach ($a5_pos as $point)
 			{
-				$symmetry_x = $x_sum - hexdec($point{0});
-				$symmetry_y = $y_sum - hexdec($point{1});
+				$symmetry_x = $x_sum - hexdec($point[0]);
+				$symmetry_y = $y_sum - hexdec($point[1]);
 				$symmetry = dechex($symmetry_x).dechex($symmetry_y);
 				if($symmetry != $point && in_array($symmetry, $a5_pos))
 				return true;
@@ -128,32 +128,32 @@ class BoardTool
 		}
 		//斜线翻转
 		//反斜线翻转
-		$black_diagonal = (hexdec($b[0]{0}) - hexdec($b[0]{1}) == hexdec($b[1]{0}) - hexdec($b[1]{1}));
-		$black_rev_diagonal = (hexdec($b[0]{0}) + hexdec($b[0]{1}) == hexdec($b[1]{0}) + hexdec($b[1]{1}));
-		$white_diagonal = (hexdec($w[0]{0}) - hexdec($w[0]{1}) == hexdec($w[1]{0}) - hexdec($w[1]{1}));
-		$white_rev_diagonal = (hexdec($w[0]{0}) + hexdec($w[0]{1}) == hexdec($w[1]{0}) + hexdec($w[1]{1}));
+		$black_diagonal = (hexdec($b[0][0]) - hexdec($b[0][1]) == hexdec($b[1][0]) - hexdec($b[1][1]));
+		$black_rev_diagonal = (hexdec($b[0][0]) + hexdec($b[0][1]) == hexdec($b[1][0]) + hexdec($b[1][1]));
+		$white_diagonal = (hexdec($w[0][0]) - hexdec($w[0][1]) == hexdec($w[1][0]) - hexdec($w[1][1]));
+		$white_rev_diagonal = (hexdec($w[0][0]) + hexdec($w[0][1]) == hexdec($w[1][0]) + hexdec($w[1][1]));
 		if(($black_diagonal || $black_rev_diagonal) && ($white_diagonal || $white_rev_diagonal))
 		{
 			if($black_diagonal)
 			{
-				$black_delta = hexdec($b[0]{0}) - hexdec($b[0]{1});
-				$black_sum = (hexdec($b[0]{0}) + hexdec($b[0]{1}) + hexdec($b[1]{0}) + hexdec($b[1]{1})) / 2;
+				$black_delta = hexdec($b[0][0]) - hexdec($b[0][1]);
+				$black_sum = (hexdec($b[0][0]) + hexdec($b[0][1]) + hexdec($b[1][0]) + hexdec($b[1][1])) / 2;
 			}
 			else 
 			{
-				$black_delta = (hexdec($b[0]{0}) + hexdec($b[1]{0}) - hexdec($b[0]{1}) - hexdec($b[1]{1}))/2;
-				$black_sum = hexdec($b[0]{0}) + hexdec($b[0]{1});
+				$black_delta = (hexdec($b[0][0]) + hexdec($b[1][0]) - hexdec($b[0][1]) - hexdec($b[1][1]))/2;
+				$black_sum = hexdec($b[0][0]) + hexdec($b[0][1]);
 			}
 			
 			if($white_diagonal)
 			{
-				$white_delta = hexdec($w[0]{0}) - hexdec($w[0]{1});
-				$white_sum = (hexdec($w[0]{0}) + hexdec($w[0]{1}) + hexdec($w[1]{0}) + hexdec($w[1]{1})) / 2;
+				$white_delta = hexdec($w[0][0]) - hexdec($w[0][1]);
+				$white_sum = (hexdec($w[0][0]) + hexdec($w[0][1]) + hexdec($w[1][0]) + hexdec($w[1][1])) / 2;
 			}
 			else 
 			{
-				$white_delta = (hexdec($w[0]{0}) + hexdec($w[1]{0}) - hexdec($w[0]{1}) - hexdec($w[1]{1}))/2;
-				$white_sum = hexdec($w[0]{0}) + hexdec($w[0]{1});
+				$white_delta = (hexdec($w[0][0]) + hexdec($w[1][0]) - hexdec($w[0][1]) - hexdec($w[1][1]))/2;
+				$white_sum = hexdec($w[0][0]) + hexdec($w[0][1]);
 			}
 			
 			
@@ -161,8 +161,8 @@ class BoardTool
 			{
 				foreach ($a5_pos as $point)
 				{
-					$symmetry_x = $black_delta + hexdec($point{1});
-					$symmetry_y = hexdec($point{0}) - $black_delta;
+					$symmetry_x = $black_delta + hexdec($point[1]);
+					$symmetry_y = hexdec($point[0]) - $black_delta;
 					$symmetry = dechex($symmetry_x).dechex($symmetry_y);
 					if($symmetry != $point && in_array($symmetry, $a5_pos))
 					return true;
@@ -172,8 +172,8 @@ class BoardTool
 			{
 				foreach ($a5_pos as $point)
 				{
-					$symmetry_x = $black_sum - hexdec($point{1});
-					$symmetry_y = $black_sum - hexdec($point{0});
+					$symmetry_x = $black_sum - hexdec($point[1]);
+					$symmetry_y = $black_sum - hexdec($point[0]);
 					$symmetry = dechex($symmetry_x).dechex($symmetry_y);
 					if($symmetry != $point && in_array($symmetry, $a5_pos))
 					return true;
@@ -310,42 +310,42 @@ class BoardTool
 		if($stones[0] != '88')
 		{
 			//平移
-			$delta_row = 8 - hexdec($stones[0]{0});
-			$delta_col = 8 - hexdec($stones[0]{1});
+			$delta_row = 8 - hexdec($stones[0][0]);
+			$delta_col = 8 - hexdec($stones[0][1]);
 			foreach ($stones as $key => $value) {
-				$stones[$key]{0} = dechex(hexdec($stones[$key]{0}) + $delta_row);
-				$stones[$key]{1} = dechex(hexdec($stones[$key]{1}) + $delta_col);
+				$stones[$key][0] = dechex(hexdec($stones[$key][0]) + $delta_row);
+				$stones[$key][1] = dechex(hexdec($stones[$key][1]) + $delta_col);
 			}
 		}
 		//print_r($stones);
-		if(!in_array($stones[1]{0}, array('7','8','9')) || !in_array($stones[1]{1}, array('7','8','9')) || !in_array($stones[2]{0}, array('6','7','8','9','a')) || !in_array($stones[2]{1}, array('6','7','8','9','a')))
+		if(!in_array($stones[1][0], array('7','8','9')) || !in_array($stones[1][1], array('7','8','9')) || !in_array($stones[2][0], array('6','7','8','9','a')) || !in_array($stones[2][1], array('6','7','8','9','a')))
 			return '未知';
-		if(hexdec($stones[1]{0}) > 8)
+		if(hexdec($stones[1][0]) > 8)
 		{
-			$stones[1]{0} = dechex(16 - hexdec($stones[1]{0}));
-			$stones[2]{0} = dechex(16 - hexdec($stones[2]{0}));
+			$stones[1][0] = dechex(16 - hexdec($stones[1][0]));
+			$stones[2][0] = dechex(16 - hexdec($stones[2][0]));
 		}
 		if(hexdec($stones[1][1]) < 8)
 		{
-			$stones[1]{1} = dechex(16 - hexdec($stones[1]{1}));
-			$stones[2]{1} = dechex(16 - hexdec($stones[2]{1}));
+			$stones[1][1] = dechex(16 - hexdec($stones[1][1]));
+			$stones[2][1] = dechex(16 - hexdec($stones[2][1]));
 		}
 		if($stones[1] == '89')
 		{
 			$stones[1] = '78';
-			$b_3_row = $stones[2]{0};
-			$stones[2]{0} = dechex(16 - hexdec($stones[2]{1}));
-			$stones[2]{1} = dechex(16 - hexdec($b_3_row));
+			$b_3_row = $stones[2][0];
+			$stones[2][0] = dechex(16 - hexdec($stones[2][1]));
+			$stones[2][1] = dechex(16 - hexdec($b_3_row));
 		}
-		if($stones[1] == '78' && hexdec($stones[2]{1}) < 8)
+		if($stones[1] == '78' && hexdec($stones[2][1]) < 8)
 		{
-			$stones[2]{1} = dechex(16 - hexdec($stones[2]{1}));
+			$stones[2][1] = dechex(16 - hexdec($stones[2][1]));
 		}
-		else if($stones[1] == '79' && (hexdec($stones[2]{0})+hexdec($stones[2]{1}) < 17))
+		else if($stones[1] == '79' && (hexdec($stones[2][0])+hexdec($stones[2][1]) < 17))
 		{
-			$b_3_row = $stones[2]{0};
-			$stones[2]{0} = dechex(16 - hexdec($stones[2]{1}));
-			$stones[2]{1} = dechex(16 - hexdec($b_3_row));
+			$b_3_row = $stones[2][0];
+			$stones[2][0] = dechex(16 - hexdec($stones[2][1]));
+			$stones[2][1] = dechex(16 - hexdec($b_3_row));
 		}
 		$formatted_open = implode('', $stones);
 		return self::$openings[$formatted_open];

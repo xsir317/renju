@@ -48,6 +48,7 @@ $this->title = '对局';
             </li>
             <li class="draw_button" style="display: none;"><span><?= Yii::t('app','Offer Draw') ?>: </span><input type="button" value="<?= Yii::t('app','Draw') ?>" class="button" id="draw_button" /></li>
             <li class="swap_button" style="display: none;"><span><?= Yii::t('app','Swap') ?>: </span><input type="button" value="<?= Yii::t('app','Swap') ?>" class="button" id="swap_button" /></li>
+            <li class="tara_option1_button" style="display: none;"><span><?= Yii::t('app','TaraGuchi option 1') ?>: </span><input type="button" value="<?= Yii::t('app','ONE 5th move & white can swap') ?>" class="button" id="tara_option1_button" /></li>
             <li class="resign_button" style="display: none;"><span><?= Yii::t('app','Resign') ?>: </span><input type="button" value="<?= Yii::t('app','Resign') ?>" class="button" id="resign_button" /></li>
             <li class="undo_button" style="display: none;"><span><?= Yii::t('app','Undo') ?>: </span><input type="button" value="<?= Yii::t('app','Undo') ?>" class="button" id="undo_button" /></li>
             <li class="offer_draw_tips" style="display: none;"><span style="color:#ff3333"><?= Yii::t('app','Your opponent offers draw,press the "Draw" button if you accept it.') ?></span></li>

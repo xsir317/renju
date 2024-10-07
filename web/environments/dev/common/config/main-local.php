@@ -13,6 +13,7 @@ return [
             'database' => 1,
             'host' => '127.0.0.1',
             'port' => 6379,
+            'password' => '1234',
             'prefix' => 'kv::',
         ],
         'queue' => [
@@ -20,6 +21,7 @@ return [
             'database' => 1,
             'host' => '127.0.0.1',
             'port' => 6379,
+            'password' => '1234',
             'prefix' => 'kv::',
         ],
         'cache' => [
@@ -28,6 +30,7 @@ return [
                 'database' => 0,
                 'host' => '127.0.0.1',
                 'port' => 6379,
+                'password' => '1234',
                 'prefix' => 'cache::',
             ]
         ],

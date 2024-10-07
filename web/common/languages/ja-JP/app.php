@@ -1,7 +1,7 @@
 <?php
 return [
     //首页（注册登录）
-    'This is a online renju game system, based on workerman and Yii2, now supports RIF, Yamaguchi,Soosyrv8,Gomoku and free renju.' => 'これは、連珠のオンラインゲームウェブサイトで、現在RIF、山口、五目、連珠とソーソロフ８ルールをサポートしています',
+    'This is a online renju game system, based on workerman and Yii2, now supports RIF, Yamaguchi,Tara-Guchi,Soosyrv8,Gomoku and free renju.' => 'これは、連珠のオンラインゲームウェブサイトで、現在RIF、山口、五目、連珠とソーソロフ８ルールをサポートしています',
     'User Login' => 'サインイン',
     'Password' => 'パスワード',
     'Repeat Password' => 'もう一度パスワードを入力してください',

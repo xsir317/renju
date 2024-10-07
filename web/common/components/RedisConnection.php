@@ -14,6 +14,7 @@ class RedisConnection extends \yii\base\Component
     public $timeout =  0.5;
     public $database = 0;
     public $unixSocket;
+    public $password = '';
     public $retry_interval;
     public $prefix = 'REDIS_CACHE_RRR_';
 
@@ -56,6 +57,10 @@ class RedisConnection extends \yii\base\Component
         }
         if($success)
         {
+            if($this->password)
+            {
+                $this->auth($this->password);
+            }
             $this->select($this->database);
             $this->initConnection();
         }

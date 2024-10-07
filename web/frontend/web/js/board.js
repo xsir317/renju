@@ -328,9 +328,15 @@ let boardObj = function()
             $(".a5_numbers>ins").html(_obj.gameData.a5_numbers);
             $(".is_swap>ins").html(_obj.gameData.swap ? pager.t('Yes'):pager.t('No'));
             $(".game_result>ins>strong").html(pager.t(result_defines[_obj.gameData.status]));
+            $(".tara_option1_button").hide()
             if(_obj.is_my_turn)
             {
                 _obj.playing_tips();
+                let stones = _obj.gameData.game_record.length / 2;
+                //tara_option1_button
+                if(_obj.gameData.rule == 'TaraGuchi' && stones == 4 && _obj.gameData.a5_numbers > 1 && _obj.gameData.a5_pos.length == 0){
+                    $(".tara_option1_button").show()
+                }
             }
             else
             {
@@ -414,7 +420,6 @@ let boardObj = function()
         let stones = _obj.gameData.game_record.length / 2;
         let tips = pager.t("Your turn to play") + " " + (stones + 1) + pager.t("th move");
         //按照不同规则去写提示。
-        let show_swap = false;
         switch (_obj.gameData.rule)
         {
             case 'RIF':
@@ -423,12 +428,11 @@ let boardObj = function()
                 {
                     tips = pager.t('Please play the first 3 moves.');
                 }
-                else if (stones == 3 && _obj.gameData.a5_numbers > 0 && _obj.gameData.swap == 0)
+                if (_obj.gameData.can_swap)
                 {
                     tips += pager.t(",Or swap");
-                    show_swap = true;
                 }
-                else if(stones == 4 && _obj.gameData.a5_numbers == (_obj.gameData.a5_pos.length/2))//打点摆完了，等白棋选。
+                if(stones == 4 && _obj.gameData.a5_numbers == (_obj.gameData.a5_pos.length/2))//打点摆完了，等白棋选。
                 {
                     tips = pager.t('Please choose one 5th point as the 5th move.');
                 }
@@ -442,21 +446,19 @@ let boardObj = function()
                 {
                     tips = pager.t('Please play the first 3 moves.');
                 }
-                else if (stones == 3 && _obj.gameData.swap == 0)
+                if (_obj.gameData.can_swap)
                 {
                     tips += pager.t(",Or swap");
-                    show_swap = true;
                 }
-                else if(stones == 4 && _obj.gameData.a5_numbers > 0 )
+                if(stones == 4 && _obj.gameData.a5_numbers > 0 )
                 {
                     if(_obj.gameData.a5_numbers > (_obj.gameData.a5_pos.length/2))
                     {
                         tips = pager.t('Please choose ') + _obj.gameData.a5_numbers + pager.t(' points as 5th move');
                     }
-                    if(_obj.gameData.a5_pos == '' && _obj.gameData.soosyrv_swap == 0)
+                    if(_obj.gameData.can_swap)
                     {
                         tips += pager.t(",Or swap");
-                        show_swap = true;
                     }
 
                     if(_obj.gameData.a5_numbers == (_obj.gameData.a5_pos.length/2))
@@ -465,6 +467,25 @@ let boardObj = function()
                     }
                 }
                 break;
+            case 'TaraGuchi':
+                //落下前4手
+                if(stones == 4){
+                    //棋盘上4个棋子， 此时如果黑可交换， 那么就是没交换状态， 此时：
+                    // 可选交换， 也可下打点。
+                    //如果此时不可交换， 那就是黑棋交换过了， 此时9×9方格内落下第5手棋。 然后对方可交换
+                    if(_obj.gameData.a5_numbers > (_obj.gameData.a5_pos.length/2))
+                    {
+                        tips = pager.t('Please choose ') + _obj.gameData.a5_numbers + pager.t(' points as 5th move');
+                    }
+                    if(_obj.gameData.a5_numbers > 1 && _obj.gameData.a5_pos == ''){
+                        tips += pager.t(",Or press the Option1 button, then black may choose ONE 5th move,and opponent can swap");
+                    }
+                }
+                if (_obj.gameData.can_swap)
+                {
+                    tips += pager.t(",Or swap");
+                }
+
         }
 
         if(_obj.gameData.waiting_for_a5_number)
@@ -473,7 +494,7 @@ let boardObj = function()
             pager.ask_for_a5();
         }
         $(".turn_to_play_tips").text(tips).show();
-        if(show_swap)
+        if(_obj.gameData.can_swap)
         {
             $(".swap_button").show();
         }
@@ -507,7 +528,8 @@ let boardObj = function()
             RIF:"RIF规则：<br /><p>1.先手方下3个棋子（黑1，白2，黑3）；</p> <p>2.后手方可以选择执白或者执黑。</p> <p>3.白方下第四手；</p> <p>4.黑方放上2个棋子，白方指定其中的一个为实战的第五手，然后白方下第六手；</p> <p>5.双方轮流行棋。</p> <p>注意：先手方的开局仅限26种开局。</p>",
             Soosyrv8:"索索夫8规则：<br /><p>1.先手方下3个棋子（黑1，白2，黑3，26种开局）；</p> <p>2.后手方可以选择执白或者执黑。</p> <p>3.白方下第四手，同时指定第五手的打点数量N（N<=8）；</p> <p>4.黑方可以选择交换，或者按照约定的五手打点数量放上N个棋子，白方指定其中的一个为实战的第五手，然后白方下第六手；</p> <p>5.双方轮流行棋。</p>",
             Renju:"有禁手规则：<br />黑白双方轮流落子，先5为胜，黑方不得双3，双4，长连，白方长连视为五连。",
-            Gomoku:"无禁手规则：<br />双方轮流行棋。黑白双方均无限制，先5为胜，超过6个不产生胜负。"
+            Gomoku:"无禁手规则：<br />双方轮流行棋。黑白双方均无限制，先5为胜，超过6个不产生胜负。",
+            TaraGuchi:"塔拉-山口规则：<br /><p>1.前4手落子后都可以交换</p><p>2.第5手有2个选项， 选项1：打点数为1，白可交换；</p> <p>选项2：打点数为10，白不可交换；</p><p>后续类似山口规则</p> <p>3.双方轮流行棋。</p> <p>注意：先手方的开局仅限26种开局。",
         };
         if(typeof rule_description[gameObj.rule] != "undefined")
         {
