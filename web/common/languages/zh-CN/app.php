@@ -1,7 +1,7 @@
 <?php
 return [
     //首页（注册登录）
-    'This is a online renju game system, based on workerman and Yii2, now supports RIF, Yamaguchi,Tara-Guchi,Soosyrv8,Gomoku and free renju.' => '本系统是一个基于workerman和Yii2的Web五子棋系统，目前支持山口、RIF、无禁、有禁和索索夫8 五种规则。',
+    'This is a online renju game system, based on workerman and Yii2, now supports RIF, Yamaguchi,Tara-Guchi,Soosyrv8,Gomoku and free renju.' => '本系统是一个基于workerman和Yii2的Web五子棋系统，目前支持山口、RIF、无禁、有禁、塔拉-山口10 和索索夫8。',
     'User Login' => '用户登录',
     'Password' => '密码',
     'Repeat Password' => '确认密码',
