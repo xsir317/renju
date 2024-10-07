@@ -147,6 +147,9 @@ return [
     'Please use Chrome or Firefox.' => '请使用Chrome或Firefox访问。',
     'This is an open source project, project page at' => '这是一个开源项目。项目代码地址',
     'System error, please contact the administrator.' => '发生错误，请联系管理员',
+    ',Or press the Option1 button, then black may choose ONE 5th move,and opponent can swap' => '，或者点击“选项1”按钮，则黑下一个黑5，白可交换',
+    'TaraGuchi option 1' => '塔10规则选项1',
+    'ONE 5th move & white can swap' => '黑5一个打点，白可交换',
 
     //规则、文字说明以及其他
 ];

@@ -67,10 +67,10 @@ class GameService extends BaseService
                     //$turn = 0;
                     $can_swap = $game->swap ? 0:1;
                 }
-//                elseif($stones == 4 && $game->a5_numbers == (strlen($game->a5_pos)/2))//打点摆完了，等白棋选。
-//                {
-//                    $turn = 0;
-//                }
+                elseif($stones == 4 && $game->a5_numbers == (strlen($game->a5_pos)/2))//打点摆完了，等白棋选。
+                {
+                    $turn = 0;
+                }
                 else
                 {
                     $turn = 1 - ($stones%2);
@@ -157,15 +157,16 @@ class GameService extends BaseService
         if($stones < 4){
             $can_swap = !boolval($swap & (1 << $stones));
         }elseif($stones == 4){
-            //假黑方有两种选择。选择1：可交换， 交换后走一个5，白方可交换
-            if($a5_pos == '' && !boolval($swap & (1 << $stones))){
+            if($a5_number == 10 && $a5_pos == ''){
                 $can_swap = true;
             }
             //选择2： 不交换，摆打点。
         }elseif($stones == 5){
             //判断是不是选择1
-            if($swap & (1 << 4)){
-                $can_swap = true;
+            if($a5_number == 1){
+                $can_swap = !boolval($swap & (1 << $stones));
+            }else{
+                $can_swap = false;
             }
         }
         //第五手

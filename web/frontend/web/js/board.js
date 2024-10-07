@@ -328,9 +328,15 @@ let boardObj = function()
             $(".a5_numbers>ins").html(_obj.gameData.a5_numbers);
             $(".is_swap>ins").html(_obj.gameData.swap ? pager.t('Yes'):pager.t('No'));
             $(".game_result>ins>strong").html(pager.t(result_defines[_obj.gameData.status]));
+            $(".tara_option1_button").hide()
             if(_obj.is_my_turn)
             {
                 _obj.playing_tips();
+                let stones = _obj.gameData.game_record.length / 2;
+                //tara_option1_button
+                if(_obj.gameData.rule == 'TaraGuchi' && stones == 4 && _obj.gameData.a5_numbers > 1 && _obj.gameData.a5_pos.length == 0){
+                    $(".tara_option1_button").show()
+                }
             }
             else
             {
@@ -467,11 +473,12 @@ let boardObj = function()
                     //棋盘上4个棋子， 此时如果黑可交换， 那么就是没交换状态， 此时：
                     // 可选交换， 也可下打点。
                     //如果此时不可交换， 那就是黑棋交换过了， 此时9×9方格内落下第5手棋。 然后对方可交换
-                    if (_obj.gameData.can_swap)
+                    if(_obj.gameData.a5_numbers > (_obj.gameData.a5_pos.length/2))
                     {
                         tips = pager.t('Please choose ') + _obj.gameData.a5_numbers + pager.t(' points as 5th move');
-                    }else{
-
+                    }
+                    if(_obj.gameData.a5_numbers > 1 && _obj.gameData.a5_pos == ''){
+                        tips += pager.t(",Or press the Option1 button, then black may choose ONE 5th move,and opponent can swap");
                     }
                 }
                 if (_obj.gameData.can_swap)

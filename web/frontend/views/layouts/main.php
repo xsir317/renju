@@ -141,7 +141,7 @@ if (typeof jQuery == 'undefined') {
     document.write(unescape("%3Cscript src='http://lib.sinaapp.com/js/jquery/1.12.4/jquery-1.12.4.min.js' type='text/javascript'%3E%3C/script%3E"));
 }
 </script>
-<script src="/js/all.js?v=23" type="text/javascript" charset="utf-8"></script>
+<script src="/js/all.js?v=24" type="text/javascript" charset="utf-8"></script>
 <?php $this->endBody() ?>
 </body>
 </html>

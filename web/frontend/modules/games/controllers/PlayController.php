@@ -136,7 +136,7 @@ class PlayController extends Controller
                 || ($stones == 2 && (!in_array($coordinate[0],[6,7,8,9,'a']) || !in_array($coordinate[1],[6,7,8,9,'a'])))
                 || ($stones == 3 && $game_object->rule == 'TaraGuchi' && (!in_array($coordinate[0],[5,6,7,8,9,'a','b']) || !in_array($coordinate[1],[5,6,7,8,9,'a','b'])))
                 //特殊情况： 1. TaraGuchi规则 情况1 黑第五手交换了，要遵守坐标 9*9 规定
-                || ($stones == 4 && $game_object->rule == 'TaraGuchi' && ($game_object->swap && (1<<4)) && (!in_array($coordinate[0],[4,5,6,7,8,9,'a','b','c']) || !in_array($coordinate[1],[4,5,6,7,8,9,'a','b','c'])))
+                || ($stones == 4 && $game_object->rule == 'TaraGuchi' && $game_object->a5_numbers == 1 && (!in_array($coordinate[0],[4,5,6,7,8,9,'a','b','c']) || !in_array($coordinate[1],[4,5,6,7,8,9,'a','b','c'])))
             )
             {
                 return $this->renderJSON([],\Yii::t('app','This is not a standard opening'),-1);
@@ -146,7 +146,7 @@ class PlayController extends Controller
 
         if($stones == 4 && (
             in_array($game_object->rule,['Yamaguchi','RIF','Soosyrv8'])
-            || ($game_object->rule == 'TaraGuchi' && !($game_object->swap && (1<<4))) //特殊情况  TaraGuchi 摆打点
+            || ($game_object->rule == 'TaraGuchi' && $game_object->a5_numbers > 1) //特殊情况  TaraGuchi 摆打点
             ))
         {
             //第五手，有2种情况，都很特殊
@@ -318,6 +318,53 @@ class PlayController extends Controller
         {
             return $this->renderJSON([],'当前不允许交换',-1);
         }
+    }
+
+    /**
+     * 交换
+     */
+    public function actionTaraOption1()
+    {
+        $game_id = intval($this->post('game_id'));
+
+        if(!$this->_user())
+        {
+            return $this->renderJSON([],\Yii::t('app','Please Login'),-1);
+        }
+        $game_info = GameService::renderGame($game_id);
+        if(!$game_info)
+        {
+            return $this->renderJSON([],\Yii::t('app',"Game doesn't exist"),-1);
+        }
+        if($game_info['whom_to_play'] != $this->_user()->id)
+        {
+            return $this->renderJSON([],\Yii::t('app','Not your turn to play'),-1);
+        }
+
+        $stones = strlen($game_info['game_record'])/2;
+        $game_object = Games::findOne($game_id);
+        if($game_object->rule == 'TaraGuchi'
+            && $stones == 4
+            && $game_object->a5_numbers > 1
+            && $game_object->a5_pos == '')
+        {
+            $game_object->a5_numbers = 1;
+            $game_object->movetime = date('Y-m-d H:i:s');
+            $game_object->save(0);
+
+            if($game_object->step_add_sec)
+            {
+                $this->add_step_time($game_id,$this->_user()->id);
+            }
+            Gateway::sendToGroup($game_id,MsgHelper::build('game_info',[
+                'game' => GameService::renderGame($game_id)
+            ]));
+            Gateway::sendToGroup($game_id,MsgHelper::build('notice',[
+                'content' => \Yii::t('app','Black and white has swapped.')
+            ]));
+            return $this->renderJSON([]);
+        }
+        return $this->renderJSON([],\Yii::t('app','Wrong operation'),-1);
     }
 
     /**
