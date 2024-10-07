@@ -158,7 +158,7 @@ class GameService extends BaseService
             $can_swap = !boolval($swap & (1 << $stones));
         }elseif($stones == 4){
             if($a5_number == 10 && $a5_pos == ''){
-                $can_swap = true;
+                $can_swap = !boolval($swap & (1 << $stones));
             }
             //选择2： 不交换，摆打点。
         }elseif($stones == 5){
