@@ -135,10 +135,10 @@ const rule_defines = (<?php echo json_encode(CommonService::getRules()) ?>);
 
 const ts_delta = (<?php echo time() ?> - Math.round(new Date().getTime()/1000));
 </script>
-<script src="//cdn.bootcdn.net/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://lib.sinaapp.com/js/jquery/1.12.4/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 if (typeof jQuery == 'undefined') {
-    document.write(unescape("%3Cscript src='http://lib.sinaapp.com/js/jquery/1.12.4/jquery-1.12.4.min.js' type='text/javascript'%3E%3C/script%3E"));
+    document.write(unescape("%3Cscript src='https://cdn.bootcdn.net/ajax/libs/jquery/1.12.4/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
 }
 </script>
 <script src="/js/all.js?v=24" type="text/javascript" charset="utf-8"></script>
