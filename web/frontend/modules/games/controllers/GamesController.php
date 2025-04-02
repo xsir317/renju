@@ -41,6 +41,12 @@ class GamesController extends Controller
                 return $this->render('forbidden');
             }
         }
+        if($game->vip){
+            if(!$this->_user() || (!$this->_user()->vip))
+            {
+                return $this->render('forbidden');
+            }
+        }
         return $this->render('game',[
             'game' => GameService::renderGame($game_id),
             'ws_token' => GameService::newToken($this->_user() ? $this->_user()->id : 0),

@@ -290,12 +290,15 @@ class GameService extends BaseService
         }
     }
 
-    public static function getRecentGameList()
+    public static function getRecentGameList($player = null)
     {
-        $games_list = Games::find()
-            ->select(['id','black_id','white_id','rule','game_record','is_private','status'])
-            ->where(['status' => self::PLAYING])
-            ->orWhere(['>=','movetime',date('Y-m-d H:i:s',time() - 600)])
+        $q = Games::find()
+            ->select(['id','black_id','white_id','rule','game_record','is_private','status']);
+        if($player && !$player->vip){
+            $q->where(['vip' => 0]);
+        }
+        $games_list = $q
+            ->andWhere(['OR' , ['status' => self::PLAYING] ,['>=','movetime',date('Y-m-d H:i:s',time() - 600)]])
             //->orderBy('status ASC , movetime DESC') 2020-11-08修改  改为按id排序， 尽量让这个列表稳定
             ->orderBy('status ASC , id DESC')
             ->asArray()

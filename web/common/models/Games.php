@@ -30,6 +30,7 @@ use Yii;
  * @property string $movetime
  * @property string $comment
  * @property integer $tid
+ * @property integer $vip
  * @property string $create_time
  */
 class Games extends \yii\db\ActiveRecord

@@ -55,6 +55,7 @@ class InviteController extends Controller
                 return $this->renderJSON([],'此邀请不存在',-1);
             }
             $invite_from = $exist_invite->from;
+            $from_player = Player::findOne($invite_from);
             //核对，一切都符合则进入游戏； 不符合则进入协商，修改invite发给对面。
             $match = true;
             //发出15秒后没有应答，则进入二次协商。
@@ -102,6 +103,7 @@ class InviteController extends Controller
                 $game->movetime = date('Y-m-d H:i:s');
                 $game->comment = $comment;
                 $game->tid = 0;
+                $game->vip = ($from_player->vip && $this->_user()->vip && $game->totaltime >= 86400 * 10) ? 1 : 0;
                 $game->create_time = date('Y-m-d H:i:s');
                 $game->save(0);
                 $exist_invite->game_id = $game->id;
