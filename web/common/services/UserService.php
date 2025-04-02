@@ -53,6 +53,7 @@ class UserService extends BaseService
             'nickname' => $user->nickname,
             'score' => $user->score,
             'intro' => $user->intro,
+            'vip' => $user->vip,
         ] : null;
     }
 }

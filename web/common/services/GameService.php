@@ -293,7 +293,7 @@ class GameService extends BaseService
     public static function getRecentGameList($player = null)
     {
         $q = Games::find()
-            ->select(['id','black_id','white_id','rule','game_record','is_private','status']);
+            ->select(['id','black_id','white_id','rule','game_record','is_private','status','vip']);
         if($player && !$player->vip){
             $q->where(['vip' => 0]);
         }

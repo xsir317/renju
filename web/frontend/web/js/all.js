@@ -140,6 +140,9 @@ let pager = {
         $("#hall_games>ul").find("li:not(:first)").remove();
         for(let i in games)
         {
+            if(userinfo.vip !== 1 && games[i].vip){
+                continue;
+            }
             let new_li = $(document.createElement("li"));
             $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].id + ( games[i].is_private == '1' ? ' (p)' : '' )).appendTo(new_li);
             $(document.createElement('span')).addClass("layui-col-xs2").text(games[i].black.nickname).appendTo(new_li);
