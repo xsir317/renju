@@ -289,6 +289,9 @@ class PlayController extends Controller
             if($game_object->rule == 'TaraGuchi'){
                 //标记swap
                 $game_object->swap = ($game_object->swap | (1 << $stones));
+                if($stones == 4){
+                    $game_object->a5_numbers = 1;
+                }
             }else{
                 if($stones == 3)
                 {
