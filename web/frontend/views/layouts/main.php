@@ -141,7 +141,7 @@ if (typeof jQuery == 'undefined') {
     document.write(unescape("%3Cscript src='https://cdn.bootcdn.net/ajax/libs/jquery/1.12.4/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
 }
 </script>
-<script src="/js/all.js?v=24" type="text/javascript" charset="utf-8"></script>
+<script src="/js/all.js?v=26" type="text/javascript" charset="utf-8"></script>
 <?php $this->endBody() ?>
 </body>
 </html>
