@@ -140,7 +140,7 @@ let pager = {
         $("#hall_games>ul").find("li:not(:first)").remove();
         for(let i in games)
         {
-            if(userinfo.vip !== 1 && games[i].vip){
+            if(userinfo.vip !== 1 && games[i].vip == '1'){
                 continue;
             }
             let new_li = $(document.createElement("li"));
