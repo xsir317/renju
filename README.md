@@ -1,3 +1,5 @@
+
+
 这是一个基于Yii2和Workerman（Gateway-Worker）框架的简单游戏项目。 
 
 目前存活在这里！ http://game.ku10.com/
@@ -67,7 +69,7 @@
     php start_register.php start -d
     php start_gateway.php start -d
     php start_businessworker.php start -d
-   * 去 web/console/runtime 目录下，建立目录 console/runtime/logs/queue/。 然后去 web/console/bin 目录下执行 `nohup /bin/bash/ QueueManager.sh start &`。 如有需求可以将输出重定向到日志文件，方便查阅。
+   * 去 web/console/runtime 目录下，建立目录 console/runtime/logs/queue/。 然后去 web/console/bin 目录下执行 `nohup /bin/bash QueueManager.sh start &`。 如有需求可以将输出重定向到日志文件，方便查阅。
 
 
 ## Windows 安装
@@ -169,4 +171,3 @@ Websocket基本只承担了服务器端发生事件之后，主动通知客户�
   * 悔棋和悔棋记录的保存、展示；
   * 聊天区域发送和展示棋盘分析；
   * 实时聊天以及聊天的表情。
-
